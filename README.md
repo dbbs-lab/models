@@ -1,2 +1,2 @@
 # dbbs-models
-DBBS collection of neuron models for the NEURON simulator.
+Collection of neuron models for the NEURON simulator.

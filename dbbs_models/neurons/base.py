@@ -56,22 +56,22 @@ class NeuronModel:
             cls.imported_morphologies.append(imported_morphology)
 
     def apply_labels(self):
-        self.soma[0].dbbs_label = "soma"
+        self.soma[0].label = "soma"
         for section in self.dendrites:
-            section.dbbs_label = "dendrites"
+            section.label = "dendrites"
         for section in self.axon:
-            section.dbbs_label = "axon"
+            section.label = "axon"
         # Apply special labels
         if hasattr(self.__class__, "labels"):
             for label, category in self.__class__.labels.items():
                 targets = self.__dict__[category["from"]]
                 for id, target in enumerate(targets):
                     if category["id"](id):
-                        target.dbbs_label = label
+                        target.label = label
 
     def init_section(self, section):
         section.nseg = 1 + (2 * int(section.L / 40))
-        definition = self.__class__.section_types[section.dbbs_label]
+        definition = self.__class__.section_types[section.label]
         for mechanism in definition["mechanisms"]:
             section.insert(mechanism)
         for attribute, value in definition["attributes"].items():

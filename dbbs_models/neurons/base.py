@@ -26,6 +26,9 @@ class DbbsModel:
         for section in self.sections:
             self.init_section(section)
 
+        # Call boot method so that child classes can easily do stuff after init.
+        self.boot()
+
     @classmethod
     def imported_morphologies(cls):
         cls.imported_morphologies = []
@@ -59,3 +62,6 @@ class DbbsModel:
             section.__dict__[attribute] = value
         section.push()
         h.pop_section()
+
+    def boot(self):
+        pass

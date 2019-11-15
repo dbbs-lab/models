@@ -1,7 +1,7 @@
 from neuron import h
 from .base import DbbsModel
 
-class Golgi(DbbsModel):
+class GolgiCell(DbbsModel):
     morphologies = ['pair-140514-C2-1_split_1.asc']
 
     section_types = {

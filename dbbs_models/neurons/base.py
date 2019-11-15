@@ -6,21 +6,24 @@ h.load_file('import3d.hoc')
 
 class DbbsModel:
 
-    def __init__(self, morphology):
+    def __init__(self, morphology_id=0):
         # Check if morphologies were specified
         if not hasattr(self.__class__, "morphologies"):
             raise ModelClassError("All DbbsModel classes should specify an array of morphology files")
         # Import the morphologies if they haven't been imported yet
         if not hasattr(self.__class__, "imported_morphologies"):
-            self.__class__.imported_morphologies()
+            self.__class__.import_morphologies()
 
         # Use the imported morphologies to instantiate this cell.
-        self.__class__.imported_morphologies[morphology].instantiate(self)
+        self.__class__.imported_morphologies[morphology_id].instantiate(self)
         # Alias `dend` to the full name
         self.dendrites = self.dend
+        self.sections = self.dend + self.axon + self.soma
 
         # Do labelling of sections into special sections
         self.apply_labels()
+
+        print(dir(self))
 
         # Initialize the labelled sections
         for section in self.sections:
@@ -30,7 +33,7 @@ class DbbsModel:
         self.boot()
 
     @classmethod
-    def imported_morphologies(cls):
+    def import_morphologies(cls):
         cls.imported_morphologies = []
         for morphology in cls.morphologies:
             file = os.path.join(os.path.dirname(__file__), "../morphologies", morphology)
@@ -40,20 +43,21 @@ class DbbsModel:
             cls.imported_morphologies.append(imported_morphology)
 
     def apply_labels(self):
-        self.soma[0].dbbs_label = "soma"
-        for section in dendrites:
-            section.dbbs_label = "dendrites"
-        for section in axon:
-            section.dbbs_label = "axon"
+        self.soma[0].__dict__["dbbs_label"] = "soma"
+        for section in self.dendrites:
+            section.__dict__["dbbs_label"] = "dendrites"
+        for section in self.axon:
+            section.__dict__["dbbs_label"] = "axon"
         # Apply special labels
         if hasattr(self.__class__, "labels"):
             for label, category in self.__class__.labels.items():
                 targets = self.__dict__[category["from"]]
                 for id, target in enumerate(targets):
                     if category["id"](id):
-                        target.dbbs_label = label
+                        target.__dict__["dbbs_label"] = label
 
     def init_section(self, section):
+        print("init section")
         section.nseg = 1 + (2 * int(section.L / 40))
         definition = self.__class__.section_types[section.dbbs_label]
         for mechanism in definition["mechanisms"]:

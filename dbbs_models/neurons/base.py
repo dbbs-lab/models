@@ -4,12 +4,12 @@ from .exceptions import ModelClassError
 h.load_file('stdlib.hoc')
 h.load_file('import3d.hoc')
 
-class DbbsModel:
+class NeuronModel:
 
     def __init__(self, morphology_id=0):
         # Check if morphologies were specified
         if not hasattr(self.__class__, "morphologies"):
-            raise ModelClassError("All DbbsModel classes should specify an array of morphology files")
+            raise ModelClassError("All NeuronModel classes should specify an array of morphology files")
         # Import the morphologies if they haven't been imported yet
         if not hasattr(self.__class__, "imported_morphologies"):
             self.__class__.import_morphologies()

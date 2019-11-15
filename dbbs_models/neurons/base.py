@@ -4,6 +4,15 @@ from .exceptions import ModelClassError
 h.load_file('stdlib.hoc')
 h.load_file('import3d.hoc')
 
+class Section:
+
+    def __init__(self, section):
+        self.__section = section
+
+    def __getattr__(self, attr):
+        return getattr(self.__section, attr)
+
+
 class NeuronModel:
 
     def __init__(self, morphology_id=0):
@@ -16,9 +25,13 @@ class NeuronModel:
 
         # Use the imported morphologies to instantiate this cell.
         self.__class__.imported_morphologies[morphology_id].instantiate(self)
-        # Alias `dend` to the full name
-        self.dendrites = self.dend
+        # Wrap the neuron sections in our own Section
+        self.soma = list(map(lambda s: Section(s), self.soma))
+        self.dend = list(map(lambda s: Section(s), self.dend))
+        self.axon = list(map(lambda s: Section(s), self.axon))
         self.sections = self.dend + self.axon + self.soma
+        self.dendrites = self.dend
+
 
         # Do labelling of sections into special sections
         self.apply_labels()
@@ -43,27 +56,26 @@ class NeuronModel:
             cls.imported_morphologies.append(imported_morphology)
 
     def apply_labels(self):
-        self.soma[0].__dict__["dbbs_label"] = "soma"
+        self.soma[0].dbbs_label = "soma"
         for section in self.dendrites:
-            section.__dict__["dbbs_label"] = "dendrites"
+            section.dbbs_label = "dendrites"
         for section in self.axon:
-            section.__dict__["dbbs_label"] = "axon"
+            section.dbbs_label = "axon"
         # Apply special labels
         if hasattr(self.__class__, "labels"):
             for label, category in self.__class__.labels.items():
                 targets = self.__dict__[category["from"]]
                 for id, target in enumerate(targets):
                     if category["id"](id):
-                        target.__dict__["dbbs_label"] = label
+                        target.dbbs_label = label
 
     def init_section(self, section):
-        print("init section")
         section.nseg = 1 + (2 * int(section.L / 40))
         definition = self.__class__.section_types[section.dbbs_label]
         for mechanism in definition["mechanisms"]:
             section.insert(mechanism)
         for attribute, value in definition["attributes"].items():
-            section.__dict__[attribute] = value
+            section.__section.__dict__[attribute] = value
         section.push()
         h.pop_section()
 

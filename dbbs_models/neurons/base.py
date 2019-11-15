@@ -52,7 +52,7 @@ class DbbsModel:
 
     def init_section(self, section):
         section.nseg = 1 + (2 * int(section.L / 40))
-        definition = self.__class__.sections[section.dbbs_label]
+        definition = self.__class__.section_types[section.dbbs_label]
         for mechanism in definition["mechanisms"]:
             section.insert(mechanism)
         for attribute, value in definition["attributes"].items():

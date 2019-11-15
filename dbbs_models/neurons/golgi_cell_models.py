@@ -4,7 +4,7 @@ from .base import DbbsModel
 class Golgi(DbbsModel):
     morphologies = ['pair-140514-C2-1_split_1.asc']
 
-    sections = {
+    section_types = {
         "soma": {
             "mechanisms": ['Leak', 'Nav1_6', 'Kv1_1', 'Kv3_4', 'Kv4_3', 'Kca1_1', 'Kca2_2', 'Cav2_2', 'Cav3_1', 'cdp5StCmod'],
             "attributes": {

@@ -22,7 +22,7 @@ class DbbsModel:
         # Do labelling of sections into special sections
         self.apply_labels()
 
-        # Initialize the sections
+        # Initialize the labelled sections
         for section in self.sections:
             self.init_section(section)
 
@@ -43,8 +43,8 @@ class DbbsModel:
         for section in axon:
             section.dbbs_label = "axon"
         # Apply special labels
-        if hasattr(self, "labels"):
-            for label, category in self.labels.items():
+        if hasattr(self.__class__, "labels"):
+            for label, category in self.__class__.labels.items():
                 targets = self.__dict__[category["from"]]
                 for id, target in enumerate(targets):
                     if category["id"](id):
@@ -52,7 +52,7 @@ class DbbsModel:
 
     def init_section(self, section):
         section.nseg = 1 + (2 * int(section.L / 40))
-        definition = self.sections[section.dbbs_label]
+        definition = self.__class__.sections[section.dbbs_label]
         for mechanism in definition["mechanisms"]:
             section.insert(mechanism)
         for attribute, value in definition["attributes"].items():

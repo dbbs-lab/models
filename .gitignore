@@ -102,3 +102,7 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# neuron files
+i686cygwin/
+nrnmech.dll

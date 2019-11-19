@@ -7,10 +7,10 @@ h.load_file('import3d.hoc')
 class Section:
 
     def __init__(self, section):
-        self.__section = section
+        self.neuron_section = section
 
     def __getattr__(self, attr):
-        return getattr(self.__section, attr)
+        return getattr(self.neuron_section, attr)
 
 
 class NeuronModel:
@@ -32,11 +32,8 @@ class NeuronModel:
         self.sections = self.dend + self.axon + self.soma
         self.dendrites = self.dend
 
-
         # Do labelling of sections into special sections
         self.apply_labels()
-
-        print(dir(self))
 
         # Initialize the labelled sections
         for section in self.sections:
@@ -75,7 +72,7 @@ class NeuronModel:
         for mechanism in definition["mechanisms"]:
             section.insert(mechanism)
         for attribute, value in definition["attributes"].items():
-            section.__section.__dict__[attribute] = value
+            section.neuron_section.__dict__[attribute] = value
         section.push()
         h.pop_section()
 

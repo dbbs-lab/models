@@ -29,7 +29,7 @@ class NeuronModel:
         self.soma = list(map(lambda s: Section(s), self.soma))
         self.dend = list(map(lambda s: Section(s), self.dend))
         self.axon = list(map(lambda s: Section(s), self.axon))
-        self.sections = self.dend + self.axon + self.soma
+        self.sections = self.soma + self.dend + self.axon
         self.dendrites = self.dend
 
         # Do labelling of sections into special sections

@@ -13,11 +13,19 @@ def is_sequence(obj):
 class Section:
 
     def __init__(self, section):
-        self.neuron_section = section
+        self.__dict__["neuron_section"] = section
 
     def __getattr__(self, attr):
         return getattr(self.neuron_section, attr)
 
+    def __setattr__(self, attr, value):
+        try:
+            setattr(self.neuron_section, attr, value)
+        except AttributeError as _:
+            self.__dict__[attr] = value
+
+    def __call__(self):
+        return self.neuron_section
 class Builder:
     def __init__(self, builder):
         self.builder = builder

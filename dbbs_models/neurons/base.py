@@ -50,6 +50,11 @@ class Section:
             h.pt3dadd(*point, diameter)
         h.pop_section()
 
+    def connect(self, target, *args, **kwargs):
+        if isinstance(target, Section):
+            target = target()
+        self().connect(target, *args, **kwargs)
+
 class Builder:
     def __init__(self, builder):
         self.builder = builder

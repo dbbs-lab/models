@@ -23,20 +23,25 @@ class Builder:
 
 class NeuronModel:
 
-    def __init__(self, morphology_id=0):
+    def __init__(self, position=None, morphology_id=0):
         # Check if morphologies were specified
-        if not hasattr(self.__class__, "morphologies"):
-            raise ModelClassError("All NeuronModel classes should specify an array of morphology files")
+        if not hasattr(self.__class__, "morphologies") or len(self.__class__.morphologies) == 0:
+            raise ModelClassError("All NeuronModel classes should specify a non-empty array of morphologies")
         # Import the morphologies if they haven't been imported yet
         if not hasattr(self.__class__, "imported_morphologies"):
             self.__class__.import_morphologies()
 
-        # Use the imported morphologies to instantiate this cell.
-        self.__class__.imported_morphologies[morphology_id].instantiate(self)
-        # Wrap the neuron sections in our own Section
-        self.soma = list(map(lambda s: Section(s), self.soma))
-        self.dend = list(map(lambda s: Section(s), self.dend))
-        self.axon = list(map(lambda s: Section(s), self.axon))
+        # Initialize variables
+        self.position = np.array(position if not position is None else [0., 0., 0.])
+
+        morphology_loader = self.__class__.imported_morphologies[morphology_id]
+        # Use the Import3D/Builder to instantiate this cell.
+        morphology_loader.instantiate(self)
+
+        # Wrap the neuron sections in our own Section, if not done by the Builder
+        self.soma = list(map(lambda s: s if isinstance(s, Section) else Section(s), self.soma))
+        self.dend = list(map(lambda s: s if isinstance(s, Section) else Section(s), self.dend))
+        self.axon = list(map(lambda s: s if isinstance(s, Section) else Section(s), self.axon))
         self.sections = self.soma + self.dend + self.axon
         self.dendrites = self.dend
 

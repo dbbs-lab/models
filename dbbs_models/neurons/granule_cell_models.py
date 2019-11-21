@@ -5,6 +5,7 @@ import numpy as np
 from neuron import h
 from ..synapses import Synapse
 from .base import NeuronModel, Section
+from math import floor
 
 class GranuleCell(NeuronModel):
     @staticmethod
@@ -155,70 +156,15 @@ class GranuleCell(NeuronModel):
         for id, section in enumerate(self.parallel_fiber):
             section.label = "parallel_fiber"
             section.set_dimensions(length=self.fiber_section_length, diameter=0.3)
-            sign = -1
-            z = 0
+            sign = 1 - (id % 2) * 2
+            z = floor(id / 2) * section_length
             section.add_3d([
-                self.position + [0., y, center + z],
-                self.position + [0., y, center + section_length]
+                self.position + [0., y, center + sign * z],
+                self.position + [0., y, center + sign * (z + section_length)]
             ])
             if id < 2:
                 section.connect(self.ascending_axon[-1]())
             else:
                 section.connect(self.parallel_fiber[id - 2]())
-            if id > 10:
-                break
             z += section_length
         self.axon.extend(self.parallel_fiber)
-
-
-class RegularGranuleCell:
-    def __init__(self, x, y, z_coord, record_all = 1, Dt = 0.1):
-
-
-        h.pop_section()
-
-
-
-
-        len_ini = len_ini + len_end
-
-#parallel fiber
-        self.HD_pf1 = [h.Section(name='HD_pf_'+str(x)) for x in range(secnumber_pf)]
-
-        for i in self.HD_pf1:
-
-
-
-            len_ini = 142.62232
-            len_end = 7
-
-            # h.pt3dadd(len_ini, len_ini , 0.0, i.diam)
-            # h.pt3dadd(len_ini + len_end, len_ini , 0.0, i.diam)
-            h.pt3dadd((x + len_ini), (y + len_ini), z_coord, i.diam)
-            h.pt3dadd((x + len_ini + len_end), (y + len_ini), z_coord, i.diam)
-            h.pop_section()
-
-            len_ini = len_ini + len_end
-
-#Connections
-
-        self.hill.connect(self.soma,0,0)
-        self.ais.connect(self.hill,1,0)
-
-
-#AA
-        for j in range(secnumber_aa-1):
-            l = j+1
-            #print(j,l  )
-            self.HD_aa[l].connect(self.HD_aa[j],1,0)
-#PF
-        for i in range(secnumber_pf-1):
-            l = i+1
-            #print(i,l  )
-            self.HD_pf1[l].connect(self.HD_pf1[i],1,0)
-            self.HD_pf2[l].connect(self.HD_pf2[i],1,0)
-
-            self.HD_pf1[0].connect(self.HD_aa[secnumber_aa-1],1,0)
-            self.HD_pf2[0].connect(self.HD_aa[secnumber_aa-1],1,0)
-
-            self.HD_aa[0].connect(self.ais,1,0)

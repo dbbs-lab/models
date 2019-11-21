@@ -109,7 +109,7 @@ class GranuleCell(NeuronModel):
         for dendrite in self.dend:
             dendrite.set_dimensions(length=15, diameter=0.75)
             dendrite.add_3d([self.position, self.position - [0., dendrite.L, 0.]])
-            dendrite.connect(self.soma[0](),0)
+            dendrite.connect(self.soma[0],0)
 
     def build_hillock(self):
         hillock = Section.create(name="axon_hillock")
@@ -117,14 +117,14 @@ class GranuleCell(NeuronModel):
         hillock.set_segments(1)
         hillock.add_3d([self.position + [ 0., 5.62232, 0.], self.position + [0., 6.62232, 0.]])
         hillock.label = "axon_hillock"
-        hillock.connect(self.soma[0](), 0)
+        hillock.connect(self.soma[0], 0)
 
         ais = Section.create(name="axon_initial_segment")
         ais.label = "axon_initial_segment"
         ais.set_dimensions(length=10,diameter=0.7)
         ais.set_segments(1)
         ais.add_3d([self.position + [ 0., 6.62232, 0.], self.position + [0., 16.62232, 0.]])
-        ais.connect(hillock(), 1)
+        ais.connect(hillock, 1)
 
         self.axon = [hillock, ais]
 
@@ -163,8 +163,8 @@ class GranuleCell(NeuronModel):
                 self.position + [0., y, center + sign * (z + section_length)]
             ])
             if id < 2:
-                section.connect(self.ascending_axon[-1]())
+                section.connect(self.ascending_axon[-1])
             else:
-                section.connect(self.parallel_fiber[id - 2]())
+                section.connect(self.parallel_fiber[id - 2])
             z += section_length
         self.axon.extend(self.parallel_fiber)

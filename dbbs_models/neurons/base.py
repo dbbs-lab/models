@@ -31,6 +31,25 @@ class Section:
     def create(cls, *args, **kwargs):
         s = h.Section(*args, **kwargs)
         return cls(s)
+
+    def set_dimensions(self, length, diameter):
+        self.L = length
+        self.diam = diameter
+
+    def set_segments(self, segments):
+        self.nseg = segments
+
+    def add_3d(self, points, diameters=None):
+        points = np.array(points)
+        if diameters is None:
+            diameters = [self.diam for _ in range(points.shape[0])]
+        if not is_sequence(diameters):
+            diameters = [diameter for _ in range(points.shape[0])]
+        self.neuron_section.push()
+        for point, diameter in zip(points, diameters):
+            h.pt3dadd(*point, diameter)
+        h.pop_section()
+
 class Builder:
     def __init__(self, builder):
         self.builder = builder

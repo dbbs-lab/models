@@ -13,6 +13,13 @@ class Section:
     def __getattr__(self, attr):
         return getattr(self.neuron_section, attr)
 
+class Builder:
+    def __init__(self, builder):
+        self.builder = builder
+
+    def instantiate(self, model, *args, **kwargs):
+        self.builder(model, *args, **kwargs)
+
 
 class NeuronModel:
 

@@ -2,8 +2,13 @@ import os, sys
 from contextlib import contextmanager
 from neuron import h
 from .exceptions import ModelClassError
+import numpy as np
 h.load_file('stdlib.hoc')
 h.load_file('import3d.hoc')
+
+def is_sequence(obj):
+    t = type(obj)
+    return hasattr(t, '__len__') and hasattr(t, '__getitem__')
 
 class Section:
 

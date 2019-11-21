@@ -1,4 +1,5 @@
 import os, sys
+from contextlib import contextmanager
 from neuron import h
 from .exceptions import ModelClassError
 h.load_file('stdlib.hoc')
@@ -48,7 +49,8 @@ class NeuronModel:
         for morphology in cls.morphologies:
             file = os.path.join(os.path.dirname(__file__), "../morphologies", morphology)
             loader = h.Import3d_Neurolucida3()
-            loader.input(file)
+            with suppress_stdout():
+                loader.input(file)
             imported_morphology = h.Import3d_GUI(loader, 0)
             cls.imported_morphologies.append(imported_morphology)
 
@@ -78,3 +80,13 @@ class NeuronModel:
 
     def boot(self):
         pass
+
+@contextmanager
+def suppress_stdout():
+    with open(os.devnull, "w") as devnull:
+        old_stdout = sys.stdout
+        sys.stdout = devnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout

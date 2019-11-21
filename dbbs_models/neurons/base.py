@@ -57,9 +57,11 @@ class NeuronModel:
     def apply_labels(self):
         self.soma[0].label = "soma"
         for section in self.dendrites:
-            section.label = "dendrites"
+            if not hasattr(section, "label"):
+                section.label = "dendrites"
         for section in self.axon:
-            section.label = "axon"
+            if not hasattr(section, "label"):
+                section.label = "axon"
         # Apply special labels
         if hasattr(self.__class__, "labels"):
             for label, category in self.__class__.labels.items():

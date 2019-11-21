@@ -134,11 +134,10 @@ class NeuronModel:
             section.insert(mechanism)
         for attribute, value in definition["attributes"].items():
             section.neuron_section.__dict__[attribute] = value
-        section.push()
-        h.pop_section()
 
     def boot(self):
         pass
+
 
 @contextmanager
 def suppress_stdout():

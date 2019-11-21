@@ -26,6 +26,11 @@ class Section:
 
     def __call__(self):
         return self.neuron_section
+
+    @classmethod
+    def create(cls, *args, **kwargs):
+        s = h.Section(*args, **kwargs)
+        return cls(s)
 class Builder:
     def __init__(self, builder):
         self.builder = builder

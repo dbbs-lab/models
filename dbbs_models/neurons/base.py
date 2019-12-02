@@ -3,6 +3,7 @@ from contextlib import contextmanager
 from neuron import h
 from .exceptions import ModelClassError
 import numpy as np
+import glia
 h.load_file('stdlib.hoc')
 h.load_file('import3d.hoc')
 
@@ -136,7 +137,7 @@ class NeuronModel:
         section.nseg = 1 + (2 * int(section.L / 40))
         definition = self.__class__.section_types[section.label]
         for mechanism in definition["mechanisms"]:
-            section.insert(mechanism)
+            glia.insert(section, mechanism)
         for attribute, value in definition["attributes"].items():
             section.neuron_section.__dict__[attribute] = value
 

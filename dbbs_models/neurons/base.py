@@ -143,6 +143,12 @@ class NeuronModel:
     def boot(self):
         pass
 
+    def set_reference_id(self, id):
+        '''
+            Add an id that can be used as reference for outside software.
+        '''
+        self.ref_id = id
+
 
 @contextmanager
 def suppress_stdout():

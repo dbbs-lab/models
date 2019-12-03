@@ -137,7 +137,12 @@ class NeuronModel:
         section.nseg = 1 + (2 * int(section.L / 40))
         definition = self.__class__.section_types[section.label]
         for mechanism in definition["mechanisms"]:
-            glia.insert(section, mechanism)
+            if isinstance(mechanism, tuple):
+                mechanism_name = mechanism[0]
+                mechanism_variant = mechanism[1]
+                glia.insert(section, mechanism_name, pkg="dbbs_mod_collection", variant=mechanism_variant)
+            else:
+                glia.insert(section, mechanism, pkg="dbbs_mod_collection")
         for attribute, value in definition["attributes"].items():
             section.neuron_section.__dict__[attribute] = value
 

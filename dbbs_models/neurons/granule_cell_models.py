@@ -23,7 +23,7 @@ class GranuleCell(NeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak', 'Kv3_4', 'Kv4_3', 'Kir2_3', 'GRC_CA', 'Kv1_1', 'Kv1_5', 'Kv2_2_0010', 'cdp5_CR'],
+            "mechanisms": ['Leak', 'Kv3_4', 'Kv4_3', 'Kir2_3', 'Ca', 'Kv1_1', 'Kv1_5', 'Kv2_2', ('cdp5', 'CR')],
             "attributes": {
                 "Ra": 100, "cm": 2,
                 "e_Leak": -60, "ek": -88, "eca": 137.5,
@@ -31,19 +31,19 @@ class GranuleCell(NeuronModel):
                 "gkbar_Kv3_4": 0.00076192450951999995,
                 "gkbar_Kv4_3": 0.0028149683906099998,
                 "gkbar_Kir2_3": 0.00074725514701999996,
-                "gcabar_GRC_CA": 0.00060938071783999998,
+                "gcabar_Ca": 0.00060938071783999998,
                 "gbar_Kv1_1":  0.0056973826455499997,
                 "gKur_Kv1_5":  0.00083407556713999999,
-                "gKv2_2bar_Kv2_2_0010": 1.203410852e-05
+                "gKv2_2bar_Kv2_2": 1.203410852e-05
             }
         },
         "dendrites": {
-            "mechanisms": ['Leak', 'GRC_CA', 'Kca1_1', 'Kv1_1', 'cdp5_CR'],
+            "mechanisms": ['Leak', 'Ca', 'Kca1_1', 'Kv1_1', ('cdp5', 'CR')],
             "attributes": {
                 "Ra": 100, "cm": 2.5,
                 "e_Leak":  -60, "ek": -88, "eca": 137.5,
                 "gmax_Leak": 0.00025029700736999997,
-                "gcabar_GRC_CA": 0.0050012800845900002,
+                "gcabar_Ca": 0.0050012800845900002,
                 "gbar_Kca1_1": 0.010018074546510001,
                 "gbar_Kv1_1": 0.00381819207934
             }
@@ -52,48 +52,48 @@ class GranuleCell(NeuronModel):
             "mechanisms": [], "attributes": {}
         },
         "ascending_axon": {
-            "mechanisms": ['GRC_NA', 'Kv3_4', 'Leak', 'GRC_CA', 'cdp5_CR'],
+            "mechanisms": [('Na', 'granule_cell'), 'Kv3_4', 'Leak', 'Ca', ('cdp5', 'CR')],
             "attributes": {
                 "Ra": 100, "cm": 1,
                 "ena": 87.39, "ek": -88, "e_Leak":  -60, "eca": 137.5,
                 "gnabar_GRC_NA": 0.026301636815019999,
                 "gkbar_Kv3_4": 0.00237386061632,
                 "gmax_Leak":  9.3640921249999996e-05,
-                "gcabar_GRC_CA": 0.00068197420273000001,
+                "gcabar_Ca": 0.00068197420273000001,
             }
         },
         "parallel_fiber": {
-            "mechanisms": ['GRC_NA', 'Kv3_4', 'Leak', 'GRC_CA', 'cdp5_CR'],
+            "mechanisms": [('Na', 'granule_cell'), 'Kv3_4', 'Leak', 'Ca', ('cdp5', 'CR')],
             "attributes": {
             "L": 7, "diam": 0.15, "Ra": 100, "cm": 1,
             "ena": 87.39, "ek": -88, "e_Leak":  -60, "eca": 137.5,
             "gnabar_GRC_NA": 0.017718484492610001,
             "gkbar_Kv3_4": 0.0081756804703699993,
             "gmax_Leak": 3.5301616000000001e-07,
-            "gcabar_GRC_CA": 0.00020856833529999999
+            "gcabar_Ca": 0.00020856833529999999
             }
         },
         "axon_initial_segment": {
-            "mechanisms": ['GRC_NA_FHF', 'Kv3_4', 'Leak', 'GRC_CA', 'GRC_KM', 'cdp5_CR'],
+            "mechanisms": [('Na', 'granule_cell_FHF'), 'Kv3_4', 'Leak', 'Ca', 'Km', ('cdp5', 'CR')],
             "attributes": {
                 "Ra": 100, "cm": 1,
                 "ena": 87.39, "ek": -88, "eca": 137.5, "e_Leak":  -60,
                 "gnabar_GRC_NA_FHF": 1.28725006737226,
                 "gkbar_Kv3_4": 0.0064959534065400001,
                 "gmax_Leak": 0.00029276697557000002,
-                "gcabar_GRC_CA":  0.00031198539471999999,
-                "gkbar_GRC_KM":  0.00056671971737000002
+                "gcabar_Ca":  0.00031198539471999999,
+                "gkbar_Km":  0.00056671971737000002
             }
         },
         "axon_hillock": {
-            "mechanisms": ['Leak', 'GRC_NA_FHF', 'Kv3_4', 'GRC_CA', 'cdp5_CR'],
+            "mechanisms": ['Leak', ('Na', 'granule_cell_FHF'), 'Kv3_4', 'Ca', ('cdp5', 'CR')],
             "attributes": {
                 "Ra": 100, "cm": 2,
                 "e_Leak":  -60, "ena": 87.39, "ek": -88, "eca": 137.5,
                 "gmax_Leak": 0.00036958189720000001,
                 "gnabar_GRC_NA_FHF": 0.0092880585146199995,
                 "gkbar_Kv3_4": 0.020373463109149999,
-                "gcabar_GRC_CA": 0.00057726155447
+                "gcabar_Ca": 0.00057726155447
             }
         }
     }

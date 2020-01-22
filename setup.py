@@ -19,7 +19,8 @@ setuptools.setup(
          "Operating System :: OS Independent",
      ],
      install_requires=[
-        "nrn-glia",
-        "dbbs-mod-collection"
+        "nrn-glia>=0.1.7",
+        "dbbs-mod-collection>=0.0.1",
+        "nrn-patch>=0.0.2"
      ]
  )

@@ -1,1 +1,1 @@
-from .legacy_synapse import Synapse
+from .base import Synapse

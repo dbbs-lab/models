@@ -53,6 +53,10 @@ class NeuronModel:
         # Call boot method so that child classes can easily do stuff after init.
         self.boot()
 
+    def __getattr__(self, attribute):
+        if attribute == "Vm":
+            raise NotRecordingError("Trying to read Vm of a cell that is not recording." + " Use `.record_soma()` to enable recording of the soma.")
+
     @classmethod
     def _import_morphologies(cls):
         cls.imported_morphologies = []
@@ -190,6 +194,10 @@ class NeuronModel:
         to_section.synapses.append(synapse)
         from_section.connect_points(synapse._point_process)
         return synapse
+
+    def record_soma(self):
+        self.Vm = self.soma[0].record()
+        return self.Vm
 
 
 @contextmanager

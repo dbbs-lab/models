@@ -88,9 +88,17 @@ class NeuronModel:
         if hasattr(self.__class__, "labels"):
             for label, category in self.__class__.labels.items():
                 targets = self.__dict__[category["from"]]
-                for id, target in enumerate(targets):
-                    if category["id"](id):
-                        target.label = label
+                if "id" in category:
+                    l = category["id"]
+                    for id, target in enumerate(targets):
+                        if l(id):
+                            target.label = label
+                elif "diam" in category:
+                    l = category["diam"]
+                    for id, target in enumerate(targets):
+                        if l(target.diam):
+                            target.label = label
+
 
     def _init_section(self, section):
         section.cell = self

@@ -1,12 +1,13 @@
 import setuptools
+import dbbs_models
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
      name='dbbs-models',
-     version='0.1.1',
-     author="Robin De Schepper, Alice Geminiani, Elisa Marenzi, Stefano Casali, Alberto Antonietti, Claudia Casselato, Egidio D'Angelo",
+     version=dbbs_models.__version__,
+     author="Martina Rizza, Stefano Masoli, Robin De Schepper, Egidio D'Angelo",
      author_email="robingilbert.deschepper@unipv.it",
      description="Collection of neuron models for the NEURON simulator",
      long_description=long_description,
@@ -21,6 +22,7 @@ setuptools.setup(
      install_requires=[
         "nrn-glia>=0.1.7",
         "dbbs-mod-collection>=0.0.1",
-        "nrn-patch>=0.0.2"
+        "nrn-patch>=0.0.2",
+        "dbbs_protocols>=0.0.1"
      ]
  )

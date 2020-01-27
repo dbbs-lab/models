@@ -142,6 +142,11 @@ class NeuronModel:
             else:
                 # `attribute` is an attribute of the section and is defined as string
                 attribute_name = attribute
+            # Check whether the value is callable, if so, pass it the section diameter
+            # and update the local variable to the return value. This allows parameters to
+            # depend on the diameter of the section.
+            if callable(value):
+                value = value(section.diam)
             # Use setattr to set the obtained attribute information. __dict__
             # does not work as NEURON's Python interface is incomplete.
             setattr(section.__neuron__(), attribute_name, value)

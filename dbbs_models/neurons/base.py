@@ -74,13 +74,15 @@ class NeuronModel:
             cls.imported_morphologies.append(builder)
 
     def _apply_labels(self):
-        self.soma[0].label = "soma"
+        self.soma[0].labels = ["soma"]
+        for section in self.sections:
+            if not hasattr(section, "labels"):
+                section.labels = []
         for section in self.dendrites:
-            if not hasattr(section, "label"):
-                section.label = "dendrites"
+            section.labels.append("dendrites")
         for section in self.axon:
-            if not hasattr(section, "label"):
-                section.label = "axon"
+            section.labels.append("axon")
+
         # Apply special labels
         if hasattr(self.__class__, "labels"):
             for label, category in self.__class__.labels.items():
@@ -89,20 +91,25 @@ class NeuronModel:
                     l = category["id"]
                     for id, target in enumerate(targets):
                         if l(id):
-                            target.label = label
+                            target.labels.append(label)
                 elif "diam" in category:
                     l = category["diam"]
                     for id, target in enumerate(targets):
                         if l(target.diam):
-                            target.label = label
+                            target.labels.append(label)
 
 
     def _init_section(self, section):
         section.cell = self
         # Set the amount of sections to some standard odd amount
         section.nseg = 1 + (2 * int(section.L / 40))
-        definition = self.__class__.section_types[section.label]
-        self._resolved_mechanisms = {}
+        for label in section.labels:
+            self._init_section_label(section, label)
+
+    def _init_section_label(self, section, label):
+        # Store a map of mechanisms to full mod_names for the attribute setter
+        resolved_mechanisms = {}
+        definition = self.__class__.section_types[label]
         # Insert the mechanisms
         for mechanism in definition["mechanisms"]:
             # Use Glia to resolve the mechanism selection.
@@ -114,8 +121,8 @@ class NeuronModel:
             else:
                 # Mechanism defined as string
                 mod_name = g.resolve(mechanism, pkg="dbbs_mod_collection")
-            # Store a map of mechanisms to full mod_names for the attribute setter
-            self._resolved_mechanisms[mechanism] = mod_name
+            # Map the mechanism to the mod name
+            resolved_mechanisms[mechanism] = mod_name
             # Use Glia to insert the resolved mod.
             g.insert(section, mod_name)
 
@@ -128,9 +135,9 @@ class NeuronModel:
                 # `attribute_mechanism` instead of having to iterate over all
                 # the segments and setting `mechanism.attribute` for each
                 mechanism = attribute[1]
-                if not mechanism in self._resolved_mechanisms:
+                if not mechanism in resolved_mechanisms:
                     raise MechanismAttributeError("The attribute " + repr(attribute) + " specifies a mechanism '{}' that was not inserted in this section.".format(mechanism))
-                mechanism_mod = self._resolved_mechanisms[mechanism]
+                mechanism_mod = resolved_mechanisms[mechanism]
                 attribute_name = attribute[0] + "_" + mechanism_mod
             else:
                 # `attribute` is an attribute of the section and is defined as string
@@ -141,7 +148,9 @@ class NeuronModel:
 
         # Copy the synapse definitions to this section
         if "synapses" in definition:
-            section.available_synapse_types = definition["synapses"].copy()
+            if not hasattr(section, "available_synapse_types"):
+                section.available_synapse_types = []
+            section.available_synapse_types.extend(definition["synapses"].copy())
 
     def boot(self):
         pass
@@ -168,12 +177,13 @@ class NeuronModel:
             :param synapse_type: The name of the synapse type.
             :type synapse_type: string
         '''
-        label = to_section.label
+        labels = to_section.labels
+        labels_name = ",".join(labels)
         if not hasattr(self.__class__, "synapse_types"):
             raise ModelClassError("Can't connect to a NeuronModel that does not specify any `synapse_types` on its class.")
         synapse_types = self.__class__.synapse_types
         if not hasattr(to_section, "available_synapse_types") or not to_section.available_synapse_types:
-            raise ConnectionError("Can't connect to '{}' section without available synapse types.".format(to_section.label))
+            raise ConnectionError("Can't connect to '{}' labelled section without available synapse types.".format(labels_name))
         section_synapses = to_section.available_synapse_types
 
         if synapse_type is None:
@@ -183,9 +193,9 @@ class NeuronModel:
                 synapse_definition = synapse_types[section_synapses[0]]
         else:
             if not synapse_type in section_synapses:
-                raise SynapseNotPresentError("The synapse type '{}' is not present on '{}'".format(synapse_type, to_section.label))
+                raise SynapseNotPresentError("The synapse type '{}' is not present on '{}' labelled section.".format(synapse_type, labels_name))
             elif not synapse_type in synapse_types:
-                raise SynapseNotDefinedError("The synapse type '{}' is used on '{}' but not defined in the model.".format(synapse_type, to_section.label))
+                raise SynapseNotDefinedError("The synapse type '{}' is used on '{}' labelled section but not defined in the model.".format(synapse_type, labels_name))
             else:
                 synapse_definition = synapse_types[synapse_type]
 

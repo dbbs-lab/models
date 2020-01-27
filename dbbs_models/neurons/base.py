@@ -16,6 +16,15 @@ class Builder:
     def instantiate(self, model, *args, **kwargs):
         self.builder(model, *args, **kwargs)
 
+class ComboBuilder(Builder):
+    def __init__(self, *pipeline):
+        def outer_builder(model, *args, **kwargs):
+            for part in pipeline:
+                # Apply all builders in the pipeline sequence in order.
+                builder = make_builder(part)
+                builder.instantiate(model, *args, **kwargs)
+
+        self.builder = outer_builder
 
 class NeuronModel:
 
@@ -61,20 +70,8 @@ class NeuronModel:
     def _import_morphologies(cls):
         cls.imported_morphologies = []
         for morphology in cls.morphologies:
-            if callable(morphology):
-                # If a function is given as morphology, treat it as a builder function
-                cls.imported_morphologies.append(Builder(morphology))
-            elif isinstance(morphology, staticmethod):
-                # If a static method is given as morphology, treat it as a builder function
-                cls.imported_morphologies.append(Builder(morphology.__func__))
-            else:
-                # If a string is given, treat it as a path for Import3d
-                file = os.path.join(os.path.dirname(__file__), "../morphologies", morphology)
-                loader = p.Import3d_Neurolucida3()
-                with suppress_stdout():
-                    loader.input(file)
-                imported_morphology = p.Import3d_GUI(loader, 0)
-                cls.imported_morphologies.append(imported_morphology)
+            builder = make_builder(morphology)
+            cls.imported_morphologies.append(builder)
 
     def _apply_labels(self):
         self.soma[0].label = "soma"
@@ -217,3 +214,38 @@ def suppress_stdout():
             yield
         finally:
             sys.stdout = old_stdout
+
+
+def _import3d_load(morphology):
+    file = os.path.join(os.path.dirname(__file__), "../morphologies", morphology)
+    loader = p.Import3d_Neurolucida3()
+    with suppress_stdout():
+        loader.input(file)
+    loaded_morphology = p.Import3d_GUI(loader, 0)
+    return loaded_morphology
+
+
+def import3d(file, model):
+    loaded_morphology = NeuronModel._import3d_load(file)
+    loaded_morphology.instantiate(model)
+
+
+def make_builder(morphology):
+    if type(morphology) is str:
+        # Use Import3D as builder.
+        return _import3d_load(morphology)
+    if callable(morphology):
+        # If a function is given as morphology, treat it as a builder function
+        return Builder(morphology)
+    elif isinstance(morphology, staticmethod):
+        # If a static method is given as morphology, treat it as a builder function
+        return Builder(morphology.__func__)
+    elif (
+        hasattr(type(morphology), "__len__")
+        and hasattr(type(morphology), "__getitem__")
+    ):
+        # If it is a sequence, construct a ComboBuilder that sequentially applies the builders.
+        print("combo building:", morphology[0], morphology[1])
+        return ComboBuilder(*morphology)
+    else:
+        raise MorphologyBuilderException("Invalid morphology data: provide a builder function or a path string to a morphology file.")

@@ -4,6 +4,9 @@ class DbbsModelError(Exception):
 class ModelClassError(DbbsModelError):
     pass
 
+class MorphologyBuilderError(DbbsModelError):
+    pass
+
 class ConnectionError(DbbsModelError):
     pass
 

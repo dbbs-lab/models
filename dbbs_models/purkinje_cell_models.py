@@ -16,7 +16,7 @@ class PurkinjeCell(NeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak', 'Nav1_6', 'Kv1_1', 'Kv3_4', 'Kir2_3', 'Cav2_1', 'Cav3_1', 'Cav3_2', 'Cav3_3' , 'Kca1_1', 'Kca2_2', 'Kca3_1', 'HCN1', ('cdp5', 'CAM')],
+            "mechanisms": ['Leak', 'Nav1_6', 'Kv1_1', 'Kv3_4', 'Kir2_3', 'Cav2_1', 'Cav3_1', 'Cav3_2', 'Cav3_3' , 'Kca1_1', 'Kca2_2', 'Kca3_1', ('HCN1', 'purkinje'), ('cdp5', 'CAM')],
             "attributes": {
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -84, "eh":-34.4, "eca":  137.52625 ,
                 ("e", "Leak"): -61,
@@ -38,7 +38,7 @@ class PurkinjeCell(NeuronModel):
         },
         "dendrites": {
             "synapses": ['AMPA_PF'],
-            "mechanisms": ['Leak','Kv1_1','Kv1_5','Kv3_3','Kv4_3','Cav2_1','Cav3_3', 'Kca1_1','HCN1', ('cdp5', 'CAM')],
+            "mechanisms": ['Leak','Kv1_1','Kv1_5','Kv3_3','Kv4_3','Cav2_1','Cav3_3', 'Kca1_1',('HCN1', 'purkinje'), ('cdp5', 'CAM')],
             "attributes": {
                 "cm": lambda d: (11.510294 * math.exp( - 1.376463 * d) + 2.120503),
                 "Ra": 122, "ena": 60, "ek": -88, "eh":-34.4, "eca": 137.52625,

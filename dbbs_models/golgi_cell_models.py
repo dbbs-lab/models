@@ -1,4 +1,4 @@
-from .base import NeuronModel
+from arborize import NeuronModel
 
 class GolgiCell(NeuronModel):
     morphologies = ['pair-140514-C2-1_split_1.asc']

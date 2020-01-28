@@ -1,7 +1,6 @@
 import numpy as np
 from patch import p
-from ..synapses import Synapse
-from .base import NeuronModel
+from arborize import NeuronModel
 from math import floor
 
 class GranuleCell(NeuronModel):

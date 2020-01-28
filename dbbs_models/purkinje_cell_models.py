@@ -1,5 +1,6 @@
 from arborize import NeuronModel
 from patch import p
+import math
 
 class PurkinjeCell(NeuronModel):
     @staticmethod
@@ -57,10 +58,11 @@ class PurkinjeCell(NeuronModel):
         },
         "basal_dendrites": {
             "synapses": ['AMPA_PF'],
-            "mechanisms": ['Kir2_3', 'Cav3_1', 'Cav3_2', 'Kca2_2', 'Kca3_1'],
+            "mechanisms": ['Leak', 'Kir2_3', 'Cav3_1', 'Cav3_2', 'Kca2_2', 'Kca3_1'],
             "attributes":  {
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -88, "eca": 137,
                 ("e", "Leak"): -61,
+                ("gmax", "Leak"): 0.0003,
                 ("gkbar", "Kir2_3"): 1.138398964E-05,
                 ("pcabar", "Cav3_1"): 4.19951376E-06,
                 ("gcabar", "Cav3_2"): 0.00190242680205,
@@ -87,6 +89,10 @@ class PurkinjeCell(NeuronModel):
                 ("pcabar", "Cav3_1"): 9.01784953E-06,
                 ("TotalPump", "cdp5"): 2e-8,
             }
+        },
+        "axon": {
+            "mechanisms": [],
+            "attributes": {}
         },
         "axon_K": {
             "mechanisms": ['Leak', 'Kv1_1'],

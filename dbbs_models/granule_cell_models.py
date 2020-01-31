@@ -142,11 +142,11 @@ class GranuleCell(NeuronModel):
         hillock.set_dimensions(length=1,diameter=1.5)
         hillock.set_segments(1)
         hillock.add_3d([self.position + [ 0., 5.62232, 0.], self.position + [0., 6.62232, 0.]])
-        hillock.label = "axon_hillock"
+        hillock.labels = ["axon_hillock"]
         hillock.connect(self.soma[0], 0)
 
         ais = p.Section(name="axon_initial_segment")
-        ais.label = "axon_initial_segment"
+        ais.labels = ["axon_initial_segment"]
         ais.set_dimensions(length=10,diameter=0.7)
         ais.set_segments(1)
         ais.add_3d([self.position + [ 0., 6.62232, 0.], self.position + [0., 16.62232, 0.]])
@@ -163,7 +163,7 @@ class GranuleCell(NeuronModel):
         y = 16.62232
         previous_section = self.axon_initial_segment
         for section in self.ascending_axon:
-            section.label = "ascending_axon"
+            section.labels = ["ascending_axon"]
             section.set_dimensions(length=self.fiber_section_length, diameter=0.3)
             section.add_3d([
                 self.position + [0., y, 0.],
@@ -185,7 +185,7 @@ class GranuleCell(NeuronModel):
         y = self.y_pf
         center = self.position[2]
         for id, section in enumerate(self.parallel_fiber):
-            section.label = "parallel_fiber"
+            section.labels = ["parallel_fiber"]
             section.set_dimensions(length=self.fiber_section_length, diameter=0.3)
             sign = 1 - (id % 2) * 2
             z = floor(id / 2) * section_length

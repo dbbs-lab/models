@@ -6,7 +6,11 @@ from math import floor
 class SimpleCell(NeuronModel):
     @staticmethod
     def builder(model):
-        model.soma.append(p.Section())
+        soma = p.Section()
+        soma.diam = 0.125
+        soma.L = 5.
+        soma.add_3d([[0., 0., 0.], [5., 0., 0.]])
+        model.soma.append(soma)
 
     morphologies = [builder]
 

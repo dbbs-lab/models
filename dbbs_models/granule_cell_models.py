@@ -166,6 +166,7 @@ class GranuleCell(NeuronModel):
         self.ascending_axon.L = self.ascending_axon_length
         self.ascending_axon.diam = 0.3
         previous_section = self.axon_initial_segment
+        self.axon.append(self.ascending_axon)
         self.ascending_axon.connect(previous_section)
 
         y = 16.62232
@@ -177,7 +178,7 @@ class GranuleCell(NeuronModel):
 
         # Store the last used y position as the start for the parallel fiber
         self.y_pf = y + (seg_length * n)
-        
+
     def build_parallel_fiber(self):
         section_length = 20 #self.fiber_section_length
         n = int(self.parallel_fiber_length / section_length)

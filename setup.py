@@ -13,6 +13,11 @@ setuptools.setup(
      long_description=long_description,
      long_description_content_type="text/markdown",
      url="https://github.com/dbbs-lab/models",
+     include_package_data=True,
+     package_data={
+         # If any package contains *.txt or *.rst files, include them:
+         "": ["morphologies/*.asc", "morphologies/*.swc"],
+     },
      license='GPLv3',
      packages=setuptools.find_packages(),
      classifiers=[

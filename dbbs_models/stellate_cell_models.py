@@ -4,7 +4,7 @@ from arborize import NeuronModel
 from math import floor
 
 class StellateCell(NeuronModel):
-    morphologies = ['stellate.ASC']
+    morphologies = ['stellate.asc']
 
     synapse_types = {
         "AMPA": {

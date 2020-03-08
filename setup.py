@@ -1,3 +1,5 @@
+import os
+os.environ["SETUPTOOLS_INSTALL"] = "TRUE"
 import setuptools
 import dbbs_models
 

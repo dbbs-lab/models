@@ -5,7 +5,7 @@ class BasketCell(NeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','CaL13','Kir2_3','Kv3_4','Kca1_1','Cav2_1','HCN1','cdp5StCmod'],
+            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','CaL13','Kir2_3','Kv3_4','Kca1_1','Cav2_1','HCN1','cdp5'],
             "attributes": {
               "Ra": 122, "cm": 1, "ena": 60, "ek": -80, "eca": 137.5, "eh": -34,
               ("e", "Leak"): -60,

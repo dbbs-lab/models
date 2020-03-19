@@ -115,11 +115,13 @@ class GranuleCell(NeuronModel):
         }
     }
 
+    # ATTENTION: NEURON's Import3D loads coordinates in a very funky YXZ way.
+
     def build_soma(self):
         self.soma = [p.Section()]
         self.soma[0].set_dimensions(length=5.62232, diameter=5.8)
         self.soma[0].set_segments(1)
-        self.soma[0].add_3d([self.position, self.position + [0., 5.62232, 0.]])
+        self.soma[0].add_3d([self.position, self.position + [-5.62232, 0., 0.]])
 
     def build_dendrites(self):
         self.dend = []
@@ -135,14 +137,14 @@ class GranuleCell(NeuronModel):
                 pt = dendrite_position.copy()
                 pt[1] += dendrite.L * j / 10
                 points.append(pt)
-            dendrite.add_3d(points)
+            dendrite.add_3d([[-p[1], p[0], p[2]] for p in points])
             dendrite.connect(self.soma[0],0)
 
     def build_hillock(self):
         hillock = p.Section()
         hillock.set_dimensions(length=1,diameter=1.5)
         hillock.set_segments(1)
-        hillock.add_3d([self.position + [ 0., 5.62232, 0.], self.position + [0., 6.62232, 0.]])
+        hillock.add_3d([self.position + [-5.62232,  0., 0.], self.position + [-6.62232, 0., 0.]])
         hillock.labels = ["axon_hillock"]
         hillock.connect(self.soma[0], 0)
 
@@ -150,7 +152,7 @@ class GranuleCell(NeuronModel):
         ais.labels = ["axon_initial_segment"]
         ais.set_dimensions(length=10,diameter=0.7)
         ais.set_segments(1)
-        ais.add_3d([self.position + [ 0., 6.62232, 0.], self.position + [0., 16.62232, 0.]])
+        ais.add_3d([self.position + [-6.62232, 0., 0.], self.position + [-16.62232, 0., 0.]])
         ais.connect(hillock, 1)
 
         self.axon = [hillock, ais]
@@ -172,14 +174,15 @@ class GranuleCell(NeuronModel):
         y = 16.62232
 
         self.ascending_axon.add_3d([
-            self.position + [0., y, 0.],
-            self.position + [0., y + self.ascending_axon_length, 0.]
+            self.position + [-y, 0., 0.],
+            self.position + [-(y + self.ascending_axon_length), 0., 0.]
         ])
 
         # Store the last used y position as the start for the parallel fiber
         self.y_pf = y + (seg_length * n)
 
     def build_parallel_fiber(self):
+        print("building swapped")
         section_length = 20 #self.fiber_section_length
         n = int(self.parallel_fiber_length / section_length)
         self.parallel_fiber = [p.Section(name='parellel_fiber_'+str(x)) for x in range(n)]
@@ -192,8 +195,8 @@ class GranuleCell(NeuronModel):
             sign = 1 - (id % 2) * 2
             z = floor(id / 2) * section_length
             section.add_3d([
-                self.position + [0., y, center + sign * z],
-                self.position + [0., y, center + sign * (z + section_length)]
+                self.position + [-y, 0., center + sign * z],
+                self.position + [-y, 0., center + sign * (z + section_length)]
             ])
             if id < 2:
                 section.connect(self.ascending_axon)

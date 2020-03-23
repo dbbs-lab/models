@@ -164,6 +164,7 @@ class GranuleCell(NeuronModel):
         n = int(self.ascending_axon_length / seg_length)
 
         self.ascending_axon = p.Section()
+        self.ascending_axon.labels = ["ascending_axon"]
         self.ascending_axon.nseg = int(n)
         self.ascending_axon.L = self.ascending_axon_length
         self.ascending_axon.diam = 0.3
@@ -182,7 +183,6 @@ class GranuleCell(NeuronModel):
         self.y_pf = y + (seg_length * n)
 
     def build_parallel_fiber(self):
-        print("building swapped")
         section_length = 20 #self.fiber_section_length
         n = int(self.parallel_fiber_length / section_length)
         self.parallel_fiber = [p.Section(name='parellel_fiber_'+str(x)) for x in range(n)]

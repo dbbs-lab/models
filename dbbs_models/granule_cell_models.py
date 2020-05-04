@@ -174,10 +174,12 @@ class GranuleCell(NeuronModel):
 
         y = 16.62232
 
-        self.ascending_axon.add_3d([
-            self.position + [-y, 0., 0.],
-            self.position + [-(y + self.ascending_axon_length), 0., 0.]
-        ])
+        # Extract a set of intermediate points between start and end of ascending_axon to improve voxelization in scaffold
+        fraction = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+
+        points = [self.position + [-(y + f*self.ascending_axon_length), 0., 0.] for f in fraction]
+        
+        self.ascending_axon.add_3d(points)
 
         # Store the last used y position as the start for the parallel fiber
         self.y_pf = y + (seg_length * n)

@@ -27,7 +27,7 @@ setuptools.setup(
          "Operating System :: OS Independent",
      ],
      install_requires=[
-        "arborize>=1.0.1",
+        "arborize>=1.1.0",
         "nrn-glia>=0.1.7",
         "dbbs-mod-collection>=0.0.6",
         "nrn-patch>=1.4.0",

@@ -1,4 +1,5 @@
 from arborize import NeuronModel
+from arborize.builders import rotate
 from patch import p
 import math
 
@@ -7,7 +8,7 @@ class PurkinjeCell(NeuronModel):
     def builder(model):
         model.build_AIS()
 
-    morphologies = [('soma_10c.asc', builder)]
+    morphologies = [('soma_10c.asc', rotate([-1, 0, 0], [0, 1, 0]), builder)]
 
     synapse_types = {
         "AMPA_PF": {

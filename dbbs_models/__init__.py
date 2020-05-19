@@ -1,4 +1,4 @@
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 import os, sys
 
 if not os.getenv("SETUPTOOLS_INSTALL"):

@@ -1,7 +1,8 @@
 from arborize import NeuronModel
+from arborize.builders import rotate
 
 class GolgiCell(NeuronModel):
-    morphologies = ['pair-140514-C2-1_split_1.asc']
+    morphologies = [('pair-140514-C2-1_split_1.asc', rotate([0., 1., 0.], [1., 0., 0.]))]
 
     synapse_types = {
         "AMPA": {

@@ -6,7 +6,7 @@ from math import floor
 class GranuleCell(NeuronModel):
     @staticmethod
     def builder(model):
-        model.fiber_section_length = 7          # µm
+        model.fiber_section_length = 20          # µm (parallel fiber section length)
         model.fiber_segment_length = 7
         model.ascending_axon_length = 126       # µm
         model.parallel_fiber_length = 2000      # µm
@@ -82,7 +82,7 @@ class GranuleCell(NeuronModel):
         "parallel_fiber": {
             "mechanisms": [('Na', 'granule_cell'), 'Kv3_4', 'Leak', 'Ca', ('cdp5', 'CR')],
             "attributes": {
-            "L": 7, "diam": 0.15, "Ra": 100, "cm": 1,
+            "L": 20, "diam": 0.15, "Ra": 100, "cm": 1,
             "ena": 87.39, "ek": -88, ("e","Leak"):  -60, "eca": 137.5,
             ("gnabar", "Na"): 0.017718484492610001,
             ("gkbar", "Kv3_4"): 0.0081756804703699993,
@@ -189,7 +189,7 @@ class GranuleCell(NeuronModel):
         self.y_pf = y + (seg_length * n)
 
     def build_parallel_fiber(self):
-        section_length = 20.
+        section_length = self.fiber_section_length
         n = int(self.parallel_fiber_length / section_length)
         self.parallel_fiber = [p.Section(name='parellel_fiber_'+str(x)) for x in range(n)]
         # Use the last AA y as Y for the PF
@@ -197,7 +197,7 @@ class GranuleCell(NeuronModel):
         center = self.position[2]
         for id, section in enumerate(self.parallel_fiber):
             section.labels = ["parallel_fiber"]
-            section.set_dimensions(length=self.fiber_section_length, diameter=0.3)
+            section.set_dimensions(length=section_length, diameter=0.3)
             sign = 1 - (id % 2) * 2
             z = floor(id / 2) * section_length
             section.add_3d([

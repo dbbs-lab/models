@@ -28,7 +28,7 @@ setuptools.setup(
      ],
      install_requires=[
         "arborize>=1.1.0",
-        "nrn-glia>=0.1.7",
+        "nrn-glia>=0.3.1",
         "dbbs-mod-collection>=0.0.6",
         "nrn-patch>=1.4.0",
      ]

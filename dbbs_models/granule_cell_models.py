@@ -130,12 +130,12 @@ class GranuleCell(NeuronModel):
             self.dend.append(dendrite)
             dendrite_position = self.position.copy()
             # Shift the dendrites a little bit for voxelization
-            dendrite_position[0] += i
+            dendrite_position[0] += (i - 1.5) * 2
             dendrite.set_dimensions(length=15, diameter=0.75)
             points = []
             for j in range(10):
                 pt = dendrite_position.copy()
-                pt[1] += dendrite.L * j / 10
+                pt[1] -= dendrite.L * j / 10
                 points.append(pt)
             dendrite.add_3d([[p[0], p[1], p[2]] for p in points])
             dendrite.connect(self.soma[0],0)

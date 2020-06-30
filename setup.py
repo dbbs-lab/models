@@ -1,7 +1,11 @@
 import os
-os.environ["SETUPTOOLS_INSTALL"] = "TRUE"
 import setuptools
-import dbbs_models
+
+with open(os.path.join(os.path.dirname(__file__), "dbbs_models", "__init__.py"), "r") as f:
+    for line in f:
+        if "__version__ = " in line:
+            exec(line.strip())
+            break
 
 with open("README.md", "r") as fh:
     long_description = fh.read()

@@ -1,0 +1,22 @@
+language: python
+dist: bionic
+cache:
+  pip: true
+  directories:
+    - $HOME/.cache/pre-commit
+jobs:
+  include:
+      python: 3.6
+      before_install:
+        - wget https://neuron.yale.edu/ftp/neuron/versions/v7.7/nrn-7.7.x86_64-linux.deb
+        - sudo dpkg -i nrn-7.7.x86_64-linux.deb
+        - export PYTHONPATH=/usr/local/nrn/lib/python:$PYTHONPATH
+install:
+  - sudo apt-get install -y python3-rtree build-essential cmake cython libgsl-dev libltdl-dev libncurses-dev libreadline-dev openmpi-bin libopenmpi-dev
+  - pip3 install --upgrade pip
+  - pip3 install -r requirements.txt
+  - pip3 install coverage
+script:
+  - coverage run -m unittest discover -v -s ./tests
+after_success:
+  - bash <(curl -s https://codecov.io/bash)

@@ -1,17 +1,9 @@
-import unittest, types
-import dbbs_protocols.granule_cell as granule_protocols
-import dbbs_models.neurons
+import unittest, efel
+from runner import run_protocol
+from protocols._helpers import ezfel
 
 class TestGranule(unittest.TestCase):
 
-    @classmethod
-    def setupClass(cls):
-        cls.instance = dbbs_models.neurons.GranuleCell()
-        cls.main_current_time, cls.main_current_voltage = granule_protocols.main_current()
-        cls.spontaneous_time, cls.spontaneous_voltage = granule_protocols.spontaneous()
-
-    def test_main_current(self):
-        pass
-
-    def test_spontaneous_frequency(self):
-        pass
+    def test_soma_current(self):
+        results = run_protocol("GranuleCell", "soma_current_injection", amplitude=0.01)
+        self.assertEquals(results.Spikecount[0], 9, "Incorrect spike count.")

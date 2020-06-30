@@ -1,0 +1,11 @@
+import os, sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
+import dbbs_models
+import protocols
+
+cell = dbbs_models.__dict__[sys.argv[1]]()
+protocol_name = sys.argv[2]
+kwargs = {a.split('=')[0]: eval(a.split('=')[1]) for a in sys.argv[3:]}
+
+mod = __import__('protocols.' + protocol_name, globals(), locals(), ["run_protocol"], 0)
+sys.stdout.write(repr(mod.run_protocol(cell, **kwargs)))

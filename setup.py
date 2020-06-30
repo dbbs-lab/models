@@ -31,9 +31,12 @@ setuptools.setup(
          "Operating System :: OS Independent",
      ],
      install_requires=[
-        "arborize>=1.1.0",
-        "nrn-glia>=0.3.1",
-        "dbbs-mod-collection>=0.0.6",
-        "nrn-patch>=1.4.0",
-     ]
+        "arborize>=1.1.1",
+        "nrn-glia>=0.3.5",
+        "dbbs-mod-collection>=0.0.8",
+        "nrn-patch>=2.1.1",
+     ],
+     extras_require={
+        'dev': ['efel']
+     }
  )

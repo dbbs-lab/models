@@ -12,7 +12,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='dbbs-models',
-     version=dbbs_models.__version__,
+     version=__version__,
      author="Martina Rizza, Stefano Masoli, Robin De Schepper, Egidio D'Angelo",
      author_email="robingilbert.deschepper@unipv.it",
      description="Collection of neuron models for the NEURON simulator",

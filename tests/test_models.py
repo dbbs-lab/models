@@ -12,4 +12,4 @@ class TestPurkinje(unittest.TestCase):
 
     def test_autorhythm(self):
         results = run_protocol("PurkinjeCell", "autorhythm")
-        self.assertEqual(results.Spikecount[0], 4, "Incorrect spike count.")
+        self.assertEqual(results.Spikecount[0], 3, "Incorrect spike count.")

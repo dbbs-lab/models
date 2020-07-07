@@ -11,7 +11,7 @@ class BasketCell(NeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','CaL13','Kir2_3','Kv3_4','Kca1_1','Cav2_1','HCN1','cdp5'],
+            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','CaL13','Kir2_3','Kv3_4','Kca1_1','Cav2_1',('HCN1', 'golgi'), 'cdp5'],
             "attributes": {
               "Ra": 122, "cm": 1, "ena": 60, "ek": -80, "eca": 137.5,
               ("e", "Leak"): -60,
@@ -52,7 +52,7 @@ class BasketCell(NeuronModel):
             }
         },
         "axon_initial_segment": {
-            "mechanisms": ['Leak', 'HCN1', 'Nav1_6', 'Kv1_1', 'Kv3_4', 'cdp5'],
+            "mechanisms": ['Leak', ('HCN1', 'golgi'), 'Nav1_6', 'Kv1_1', 'Kv3_4', 'cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -80,
                 ("e", "Leak"): -60,

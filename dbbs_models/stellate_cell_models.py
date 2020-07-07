@@ -8,7 +8,7 @@ class StellateCell(NeuronModel):
 
     synapse_types = {
         "AMPA": {
-            "point_process": ('AMPA', 'stellate'),
+            "point_process": 'AMPA',
             "attributes": {
                 "tau_facil": 10.8, "tau_rec": 35.1, "tau_1": 10, "gmax": 2300, "U": 0.15
             }
@@ -23,7 +23,7 @@ class StellateCell(NeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','Kir2_3','Kv1_1','Kv3_4','Kv4_3','Kca1_1','Kca2_2','Cav2_1',('HCN1', 'stellate'),'cdp5'],
+            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','Kir2_3','Kv1_1','Kv3_4','Kv4_3','Kca1_1','Kca2_2','Cav2_1', 'HCN1','cdp5'],
             "attributes": {
               "Ra": 110, "cm": 1, "ena": 60, "ek": -84, "eca": 137.5, "eh": -34,
               ("e", "Leak"): -48,
@@ -77,7 +77,7 @@ class StellateCell(NeuronModel):
             }
         },
         "axon": {
-            "mechanisms": ['Leak', 'Kv1_1', 'Nav1_6', 'Kv3_4', ('HCN1', 'stellate'), 'cdp5'],
+            "mechanisms": ['Leak', 'Kv1_1', 'Nav1_6', 'Kv3_4', 'HCN1', 'cdp5'],
             "attributes": {
                 "Ra": 110, "cm": 1, "ena": 60, "ek": -84, "eh": -34,
                 ("e", "Leak"): -48,
@@ -89,7 +89,7 @@ class StellateCell(NeuronModel):
             }
         },
         "axon_initial_segment": {
-            "mechanisms": ['Leak', ('HCN1', 'stellate'), 'Nav1_6', 'Kv1_1', 'Kv3_4', 'Km', 'cdp5'],
+            "mechanisms": ['Leak', 'HCN1', 'Nav1_6', 'Kv1_1', 'Kv3_4', 'Km', 'cdp5'],
             "attributes": {
                 "Ra": 110, "cm": 1, "ena": 60, "ek": -84, "eh": -34,
                 ("e", "Leak"): -48,

@@ -1,4 +1,4 @@
-__version__ = "0.4.5"
+__version__ = "1.0.0"
 import os, sys
 
 from .granule_cell_models import GranuleCell

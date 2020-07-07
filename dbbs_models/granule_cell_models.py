@@ -20,19 +20,19 @@ class GranuleCell(NeuronModel):
 
     synapse_types = {
         "AMPA": {
-            "point_process": ('AMPA', 'granule_cell_deterministic'),
+            "point_process": ('AMPA', 'granule'),
             "attributes": {
                 "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 1200, "U": 0.43
             }
         },
         "NMDA": {
-            "point_process": ('NMDA', 'granule_cell_deterministic'),
+            "point_process": ('NMDA', 'granule'),
             "attributes": {
                 "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 18800, "U": 0.43
             }
         },
         "GABA": {
-            "point_process": 'GABA',
+            "point_process": ('GABA', 'granule'),
             "attributes": {"U": 0.35}
         }
     }

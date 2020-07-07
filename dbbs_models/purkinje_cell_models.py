@@ -13,13 +13,22 @@ class PurkinjeCell(NeuronModel):
 
     synapse_types = {
         "AMPA_PF": {
-            "point_process": ('AMPA', 'golgi_cell_deterministic'),
+            "point_process": 'AMPA',
+            "attributes": {
+                "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": 0.13
+            }
+        },
+        "GABA": {
+            "point_process": 'GABA',
+            "attributes": {
+                "tau_facil": 4, "tau_rec": 15, "tau_1": 1, "Erev": -70, "gmax": 2600, "U": 0.35
+            }
         }
     }
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak', 'Nav1_6', 'Kv1_1', 'Kv3_4', 'Kir2_3', 'Cav2_1', 'Cav3_1', 'Cav3_2', 'Cav3_3' , 'Kca1_1', 'Kca2_2', 'Kca3_1', ('HCN1', 'purkinje'), ('cdp5', 'CAM')],
+            "mechanisms": ['Leak', 'Nav1_6', 'Kv1_1', 'Kv3_4', 'Kir2_3', 'Cav2_1', 'Cav3_1', 'Cav3_2', 'Cav3_3' , 'Kca1_1', 'Kca2_2', 'Kca3_1', 'HCN1', ('cdp5', 'CAM')],
             "attributes": {
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -88, "eh":-34.4, "eca":  137.52625 ,
                 ("e", "Leak"): -61,
@@ -40,8 +49,8 @@ class PurkinjeCell(NeuronModel):
             }
         },
         "dendrites": {
-            "synapses": ['AMPA_PF'],
-            "mechanisms": ['Leak','Kv1_1','Kv1_5','Kv3_3','Kv4_3','Cav2_1','Cav3_3', 'Kca1_1',('HCN1', 'purkinje'), ('cdp5', 'CAM')],
+            "synapses": ['AMPA_PF', 'GABA'],
+            "mechanisms": ['Leak','Kv1_1','Kv1_5','Kv3_3','Kv4_3','Cav2_1','Cav3_3', 'Kca1_1', 'HCN1', ('cdp5', 'CAM')],
             "attributes": {
                 "cm": lambda d: (11.510294 * math.exp( - 1.376463 * d) + 2.120503),
                 "Ra": 122, "ena": 60, "ek": -88, "eh":-34.4, "eca": 137.52625,

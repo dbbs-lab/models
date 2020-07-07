@@ -3,6 +3,12 @@ from arborize import NeuronModel
 class BasketCell(NeuronModel):
     morphologies = ['01bc.asc']
 
+    synapse_types = {
+        "AMPA": {
+            "point_process": 'AMPA',
+        }
+    }
+
     section_types = {
         "soma": {
             "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','CaL13','Kir2_3','Kv3_4','Kca1_1','Cav2_1','HCN1','cdp5'],
@@ -22,6 +28,7 @@ class BasketCell(NeuronModel):
             }
         },
         "dendrites": {
+            "synapses": ["AMPA"],
             "mechanisms": ['Leak','Cav2_1','Kca1_1','Kv1_1','cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 1, "ek": -80,

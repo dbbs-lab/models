@@ -6,7 +6,13 @@ class GolgiCell(NeuronModel):
 
     synapse_types = {
         "AMPA": {
-            "point_process": ('AMPA', 'golgi_cell_deterministic'),
+            "point_process": 'AMPA',
+        },
+        "AMPA_MF": {
+            "point_process": ('AMPA', 'granule'),
+        },
+        "NMDA": {
+            "point_process": ('NMDA', 'granule')
         }
     }
 
@@ -32,7 +38,7 @@ class GolgiCell(NeuronModel):
             "mechanisms": [], "attributes": {}
         },
         "basal_dendrites": {
-            "synapses": ['AMPA'],
+            "synapses": ['AMPA', 'NMDA'],
             "mechanisms": ['Leak','Nav1_6','Kv1_1','Kca1_1','Kca2_2','Cav2_2','cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 3, "ena": 60, "ek": -80, "eca": 137,
@@ -47,7 +53,7 @@ class GolgiCell(NeuronModel):
             }
         },
         "apical_dendrites": {
-            "synapses": ['AMPA'],
+            "synapses": ['AMPA', 'NMDA'],
             "mechanisms": ['Leak', 'Nav1_6', 'Kv1_1', 'Kca1_1', 'Kca2_2', 'Cav2_3', 'Cav3_1', 'cdp5'],
             "attributes":  {
                 "Ra": 122, "cm": 3, "ena": 60, "ek": -80, "eca": 137,
@@ -75,7 +81,7 @@ class GolgiCell(NeuronModel):
             }
         },
         "axon_initial_segment": {
-            "mechanisms": ['Leak', 'HCN1', 'HCN2', 'Nav1_6', 'Kv3_4', 'Km', 'cdp5'],
+            "mechanisms": ['Leak', ('HCN1', 'golgi'), 'HCN2', 'Nav1_6', 'Kv3_4', 'Km', 'cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -80, "eca": 137,
                 ("e", "Leak"): -59,

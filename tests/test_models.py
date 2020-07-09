@@ -17,5 +17,5 @@ class TestPurkinje(unittest.TestCase):
 class TestBasket(unittest.TestCase):
 
     def test_autorhythm(self):
-        results = run_protocol("BasketCell", "autorhythm")
-        self.assertEqual(results.Spikecount[0], 10, "Incorrect spike count.")
+        results = run_protocol("BasketCell", "autorhythm", duration=300)
+        self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")

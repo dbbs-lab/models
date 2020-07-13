@@ -19,3 +19,9 @@ class TestBasket(unittest.TestCase):
     def test_autorhythm(self):
         results = run_protocol("BasketCell", "autorhythm", duration=300)
         self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
+
+class TestGolgi(unittest.TestCase):
+
+    def test_autorhythm(self):
+        results = run_protocol("GolgiCell", "autorhythm", duration=300)
+        self.assertEqual(results.Spikecount[0], 5, "Incorrect spike count.")

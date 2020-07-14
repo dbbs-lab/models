@@ -19,7 +19,7 @@ class BasketCell(NeuronModel):
               ("gbar", "Nav1_1"): 0.10946415489712,
               ("gcabar", "Cav3_2"): 0.0006295539,
               ("pcabar", "Cav3_3"): 0.0007543986,
-              ("pmax", "CaL13"): 0.0002593795,
+              ("pcaLbar", "CaL13"): 0.0002593795,
               ("gbar", "Kca1_1"): 0.0044251081,
               ("pcabar", "Cav2_1"): 0.000846789,
               ("gbar", "HCN1"): 0.0006902196,

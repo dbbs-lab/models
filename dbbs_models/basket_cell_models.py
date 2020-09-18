@@ -2,10 +2,19 @@ from arborize import NeuronModel
 
 class BasketCell(NeuronModel):
     morphologies = ['01bc.asc']
-
-    synapse_types = {
+    
+      synapse_types = {
         "AMPA": {
             "point_process": 'AMPA',
+            "attributes": {
+                "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": 0.4
+            }
+        },
+        "NMDA": {
+            "point_process": ('NMDA', 'stellate'),
+            "attributes": {
+                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 5000, "U": 0.15
+            }
         }
     }
 
@@ -20,6 +29,8 @@ class BasketCell(NeuronModel):
               ("gcabar", "Cav3_2"): 0.0006295539,
               ("pcabar", "Cav3_3"): 0.0007543986,
               ("pcaLbar", "CaL13"): 0.0002593795,
+              ("gkbar", "Kir2_3"): 0.0012770833,
+              ("gkbar", "Kv3_4"): 0.0277114781,
               ("gbar", "Kca1_1"): 0.0044251081,
               ("pcabar", "Cav2_1"): 0.000846789,
               ("gbar", "HCN1"): 0.0006902196,
@@ -27,7 +38,7 @@ class BasketCell(NeuronModel):
             }
         },
         "dendrites": {
-            "synapses": ["AMPA"],
+            "synapses": ["AMPA", "NMDA"],
             "mechanisms": ['Leak','Cav2_1','Kca1_1','Kv1_1','cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 1, "ek": -80,

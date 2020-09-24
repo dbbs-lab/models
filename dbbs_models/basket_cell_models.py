@@ -3,7 +3,7 @@ from arborize import NeuronModel
 class BasketCell(NeuronModel):
     morphologies = ['01bc.asc']
     
-      synapse_types = {
+    synapse_types = {
         "AMPA": {
             "point_process": 'AMPA',
             "attributes": {

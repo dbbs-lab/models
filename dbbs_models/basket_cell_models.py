@@ -19,8 +19,7 @@ class BasketCell(NeuronModel):
               ("gbar", "Nav1_1"): 0.10946415489712,
               ("gcabar", "Cav3_2"): 0.0006295539,
               ("pcabar", "Cav3_3"): 0.0007543986,
-              ("gkbar", "Kir2_3"): 0.0012770833,
-              ("gkbar", "Kv3_4"): 0.0277114781,
+              ("pcaLbar", "CaL13"): 0.0002593795,
               ("gbar", "Kca1_1"): 0.0044251081,
               ("pcabar", "Cav2_1"): 0.000846789,
               ("gbar", "HCN1"): 0.0006902196,
@@ -37,6 +36,7 @@ class BasketCell(NeuronModel):
                 ("pcabar", "Cav2_1"): 0.0004965596,
                 ("gbar", "Kca1_1"): 0.0020575902,
                 ("gbar", "Kv1_1"): 0.0285137286,
+                ("TotalPump", "cdp5"): 1e-9,
             }
         },
 

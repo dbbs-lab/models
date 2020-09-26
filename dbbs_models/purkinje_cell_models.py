@@ -1,9 +1,9 @@
-from arborize import NeuronModel
+from ._shared import DbbsNeuronModel
 from arborize.builders import rotate
 from patch import p
 import math
 
-class PurkinjeCell(NeuronModel):
+class PurkinjeCell(DbbsNeuronModel):
     @staticmethod
     def builder(model):
         model.build_AIS()

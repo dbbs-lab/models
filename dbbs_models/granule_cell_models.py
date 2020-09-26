@@ -1,9 +1,9 @@
 import numpy as np
 from patch import p
-from arborize import NeuronModel
+from ._shared import DbbsNeuronModel
 from math import floor
 
-class GranuleCell(NeuronModel):
+class GranuleCell(DbbsNeuronModel):
     @staticmethod
     def builder(model):
         model.fiber_section_length = 20          # µm (parallel fiber section length)

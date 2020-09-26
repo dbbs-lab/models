@@ -1,9 +1,9 @@
 import numpy as np
 from patch import p
-from arborize import NeuronModel
+from ._shared import DbbsNeuronModel
 from math import floor
 
-class StellateCell(NeuronModel):
+class StellateCell(DbbsNeuronModel):
     morphologies = ['stellate.asc']
 
     synapse_types = {

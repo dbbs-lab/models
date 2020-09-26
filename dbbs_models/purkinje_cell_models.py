@@ -153,55 +153,55 @@ class PurkinjeCell(NeuronModel):
         ais = p.Section(name="AIS")
         ais.labels = ["AIS"]
         ais.set_dimensions(length=17,diameter=0.97)
-        ais.set_segments(1 + (2 * int(17 / 40)))
+        ais.set_segments(1)
         ais.connect(self.soma[0], 0)
 
         ais_k = p.Section(name="AIS_K")
         ais_k.labels = ["AIS_K"]
         ais_k.set_dimensions(length=4,diameter=0.97)
-        ais_k.set_segments(1 + (2 * int(4 / 40)))
+        ais_k.set_segments(1)
         ais_k.connect(ais, 1)
 
         myelin_0 = p.Section(name="axonmyelin")
         myelin_0.labels = ["axonmyelin"]
         myelin_0.set_dimensions(length=100,diameter=0.73)
-        myelin_0.set_segments(1 + (2 * int(100 / 40)))
+        myelin_0.set_segments(5)
         myelin_0.connect(ais_k, 1)
 
         node_0 = p.Section(name="node_0")
         node_0.labels = ["nodes"]
         node_0.set_dimensions(length=4,diameter=0.73)
-        node_0.set_segments(1 + (2 * int(4 / 40)))
+        node_0.set_segments(1)
         node_0.connect(myelin_0, 1)
 
         myelin_1 = p.Section(name="axonmyelin_1")
         myelin_1.labels = ["axonmyelin"]
         myelin_1.set_dimensions(length=100,diameter=0.73)
-        myelin_1.set_segments(1 + (2 * int(100 / 40)))
+        myelin_1.set_segments(5)
         myelin_1.connect(node_0, 1)
 
         node_1 = p.Section(name="node_1")
         node_1.labels = ["nodes"]
         node_1.set_dimensions(length=4,diameter=0.73)
-        node_1.set_segments(1 + (2 * int(4 / 40)))
+        node_1.set_segments(1)
         node_1.connect(myelin_1, 1)
 
         myelin_2 = p.Section(name="axonmyelin_2")
         myelin_2.labels = ["axonmyelin"]
         myelin_2.set_dimensions(length=100,diameter=0.73)
-        myelin_2.set_segments(1 + (2 * int(100 / 40)))
+        myelin_2.set_segments(5)
         myelin_2.connect(node_1, 1)
 
         node_2 = p.Section(name="node_2")
         node_2.labels = ["nodes"]
         node_2.set_dimensions(length=4,diameter=0.73)
-        node_2.set_segments(1 + (2 * int(4 / 40)))
+        node_2.set_segments(1)
         node_2.connect(myelin_2, 1)
 
         myelin_3 = p.Section(name="axonmyelin_3")
         myelin_3.labels = ["axonmyelin"]
         myelin_3.set_dimensions(length=100,diameter=0.73)
-        myelin_3.set_segments(1 + (2 * int(100 / 40)))
+        myelin_3.set_segments(5)
         myelin_3.connect(node_2, 1)
 
         self.axon = [ais, ais_k, myelin_0, node_0, myelin_1, node_1, myelin_2, node_2, myelin_3]

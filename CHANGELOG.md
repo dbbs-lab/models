@@ -1,3 +1,11 @@
+## 1.1.1
+
+* GABA synapse available on Purkinje cell soma.
+
+## 1.1.0
+
+* New Golgi cell model
+
 ## 1.0.3
 
 * Added GolgiCell autorhythm test.

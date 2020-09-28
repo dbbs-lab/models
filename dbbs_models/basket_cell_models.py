@@ -1,6 +1,6 @@
-from arborize import NeuronModel
+from ._shared import DbbsNeuronModel
 
-class BasketCell(NeuronModel):
+class BasketCell(DbbsNeuronModel):
     morphologies = ['01bc.asc']
     
     synapse_types = {

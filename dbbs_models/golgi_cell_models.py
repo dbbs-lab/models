@@ -11,11 +11,21 @@ class GolgiCell(DbbsNeuronModel):
                 "tau_facil": 54, "tau_rec": 35.1, "tau_1": 30, "gmax": 1200, "U": 0.4
             }
         },
+        "AMPA_AA": {
+            "point_process": 'AMPA',
+            "attributes": {
+                "tau_facil": 54, "tau_rec": 35.1, "tau_1": 30, "gmax": 1200, "U": 0.4
+            }
+        },
         "AMPA_MF": {
             "point_process": ('AMPA', 'granule'),
         },
+        
         "NMDA": {
-            "point_process": ('NMDA', 'granule')
+            "point_process": ('NMDA', 'stellate'),
+            "attributes": {
+                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 10000, "U": 0.43
+            }
         }
     }
 

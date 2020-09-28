@@ -1,7 +1,7 @@
-from arborize import NeuronModel
+from ._shared import DbbsNeuronModel
 from arborize.builders import rotate
 
-class GolgiCell(NeuronModel):
+class GolgiCell(DbbsNeuronModel):
     morphologies = [('pair-140514-C2-1_split_1.asc', rotate([0., 1., 0.], [1., 0., 0.]))]
 
     synapse_types = {
@@ -86,7 +86,7 @@ class GolgiCell(NeuronModel):
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -80, "eca": 137,
                 ("e", "Leak"): -55,
                 ("gmax", "Leak"):  0.00003,
-                ("gbar", "Nav1_6"): 0.17233663543618999,      
+                ("gbar", "Nav1_6"): 0.17233663543618999,
                 ("gbar", "Kca1_1"): 0.10008178886943001,
                 ("gcabar", "Ca"): 0.0059504600114800004,
                 ("gkbar", "Km"): 0.00024381226197999999,

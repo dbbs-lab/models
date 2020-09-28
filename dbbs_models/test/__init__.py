@@ -12,3 +12,6 @@ def quick_test(model, duration=300, temperature=32, v_init=-65):
     from plotly import graph_objs as go
 
     go.Figure(go.Scatter(x=list(p.time), y=list(model.Vm), name=model.__class__.__name__)).show()
+
+def orphan_section_scan(model):
+    pass

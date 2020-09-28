@@ -12,7 +12,7 @@ class PurkinjeCell(DbbsNeuronModel):
     morphologies = [('soma_10c.asc', rotate([-1, 0, 0], [0, 1, 0]), builder)]
 
     synapse_types = {
-        "AMPA_PF": {
+        "AMPA": {
             "point_process": 'AMPA',
             "attributes": {
                 "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": 0.13
@@ -50,7 +50,6 @@ class PurkinjeCell(DbbsNeuronModel):
             }
         },
         "dendrites": {
-            "synapses": ['AMPA_PF', 'GABA'],
             "mechanisms": ['Leak','Kv1_1','Kv1_5','Kv3_3','Kv4_3','Cav2_1','Cav3_3', 'Kca1_1', 'HCN1', ('cdp5', 'CAM')],
             "attributes": {
                 "cm": lambda d: (11.510294 * math.exp( - 1.376463 * d) + 2.120503),
@@ -69,7 +68,6 @@ class PurkinjeCell(DbbsNeuronModel):
             }
         },
         "basal_dendrites": {
-            "synapses": ['AMPA_PF'],
             "mechanisms": ['Leak', 'Kir2_3', 'Cav3_1', 'Cav3_2', 'Kca2_2', 'Kca3_1'],
             "attributes":  {
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -88, "eca": 137.52625,
@@ -88,6 +86,15 @@ class PurkinjeCell(DbbsNeuronModel):
                 "Ra": 122, "cm": 1, "ena": 60, "ek": -88, "eca": 137.52625,
                 ("gbar", "Nav1_6"): 0.01568012827236,
             }
+        },
+        "aa_targets": {
+            "synapses": ['AMPA']
+        },
+        "pf_targets": {
+            "synapses": ['AMPA']
+        },
+        "sc_targets": {
+            "synapses": ['GABA']
         },
         "AIS": {
             "mechanisms": ['Leak', 'Nav1_6', 'Kv3_4', 'Cav2_1', 'Cav3_1', ('cdp5', 'CAM')],
@@ -146,6 +153,18 @@ class PurkinjeCell(DbbsNeuronModel):
         "sodium_dendrites": {
             "from": "dendrites",
             "diam": lambda diam: diam >= 3.3
+        },
+        "aa_targets": {
+            "from": "dendrites",
+            "diam": lambda diam: diam <= 0.75
+        },
+        "pf_targets": {
+            "from": "dendrites",
+            "diam": lambda diam: diam > 0.75 and diam <= 1.6
+        },
+        "sc_targets": {
+            "from": "dendrites",
+            "diam": lambda diam: diam > 0.3 and diam <= 1.6
         }
     }
 

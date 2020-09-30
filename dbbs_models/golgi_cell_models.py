@@ -20,7 +20,7 @@ class GolgiCell(DbbsNeuronModel):
         "AMPA_MF": {
             "point_process": ('AMPA', 'granule'),
         },
-        
+
         "NMDA": {
             "point_process": ('NMDA', 'stellate'),
             "attributes": {
@@ -51,7 +51,7 @@ class GolgiCell(DbbsNeuronModel):
             "mechanisms": [], "attributes": {}
         },
         "basal_dendrites": {
-            "synapses": ['AMPA_MF', 'AMPA_PF', 'NMDA'],
+            "synapses": ['AMPA_AA', 'AMPA_MF', 'NMDA'],
             "mechanisms": ['Leak','Nav1_6','Kca1_1','Kca2_2','Ca',('cdp5', 'CAM_GoC')],
             "attributes": {
                 "Ra": 122, "cm": 2.5, "ena": 60, "ek": -80, "eca": 137,
@@ -65,7 +65,7 @@ class GolgiCell(DbbsNeuronModel):
             }
         },
         "apical_dendrites": {
-            "synapses": ['AMPA_MF', 'AMPA_PF'],
+            "synapses": ['AMPA_PF'],
             "mechanisms": ['Leak', 'Nav1_6', 'Kca1_1', 'Kca2_2', 'Cav2_3', 'Cav3_1', ('cdp5', 'CAM_GoC')],
             "attributes":  {
                 "Ra": 122, "cm": 2.5, "ena": 60, "ek": -80, "eca": 137,

@@ -9,7 +9,7 @@ install: source devops/install.sh
 script:
   - coverage run -m unittest discover -v -s ./tests
 after_success:
-  - ./devops/travis/upload_artifacts.sh
+  - python devops/travis/upload_artifacts.py
   - bash <(curl -s https://codecov.io/bash)
 after_failure:
-  - ./devops/travis/upload_artifacts.sh
+  - python devops/travis/upload_artifacts.py

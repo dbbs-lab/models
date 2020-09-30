@@ -11,11 +11,21 @@ class GolgiCell(DbbsNeuronModel):
                 "tau_facil": 54, "tau_rec": 35.1, "tau_1": 30, "gmax": 1200, "U": 0.4
             }
         },
+        "AMPA_AA": {
+            "point_process": 'AMPA',
+            "attributes": {
+                "tau_facil": 54, "tau_rec": 35.1, "tau_1": 30, "gmax": 1200, "U": 0.4
+            }
+        },
         "AMPA_MF": {
             "point_process": ('AMPA', 'granule'),
         },
+
         "NMDA": {
-            "point_process": ('NMDA', 'granule')
+            "point_process": ('NMDA', 'stellate'),
+            "attributes": {
+                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 10000, "U": 0.43
+            }
         },
         "GABA": {
             "point_process": ('GABA', 'biexp'),
@@ -47,7 +57,7 @@ class GolgiCell(DbbsNeuronModel):
             "mechanisms": [], "attributes": {}
         },
         "basal_dendrites": {
-            "synapses": ['AMPA_MF', 'AMPA_PF', 'NMDA', 'GABA'],
+            "synapses": ['AMPA_AA', 'AMPA_MF', 'NMDA', 'GABA'],
             "mechanisms": ['Leak','Nav1_6','Kca1_1','Kca2_2','Ca',('cdp5', 'CAM_GoC')],
             "attributes": {
                 "Ra": 122, "cm": 2.5, "ena": 60, "ek": -80, "eca": 137,
@@ -61,7 +71,7 @@ class GolgiCell(DbbsNeuronModel):
             }
         },
         "apical_dendrites": {
-            "synapses": ['AMPA_MF', 'AMPA_PF'],
+            "synapses": ['AMPA_PF'],
             "mechanisms": ['Leak', 'Nav1_6', 'Kca1_1', 'Kca2_2', 'Cav2_3', 'Cav3_1', ('cdp5', 'CAM_GoC')],
             "attributes":  {
                 "Ra": 122, "cm": 2.5, "ena": 60, "ek": -80, "eca": 137,

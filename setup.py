@@ -34,9 +34,9 @@ setuptools.setup(
         "arborize>=2.0.0b2",
         "nrn-glia>=0.3.5",
         "dbbs-mod-collection>=1.0.1",
-        "nrn-patch>=2.1.1",
+        "nrn-patch>=2.1.1"
      ],
      extras_require={
-        'dev': ['efel']
+        'dev': ['efel', "ndsb>=1.0.0", "plotly>=4.10.0"]
      }
  )

@@ -16,6 +16,12 @@ class GolgiCell(DbbsNeuronModel):
         },
         "NMDA": {
             "point_process": ('NMDA', 'granule')
+        },
+        "GABA": {
+            "point_process": ('GABA', 'biexp'),
+            "attributes": {
+                "ref_temp": 32, "tau2_Fix": 10, "e": -75, "gmax": 130, "gmax_factor": 1
+            }
         }
     }
 
@@ -41,7 +47,7 @@ class GolgiCell(DbbsNeuronModel):
             "mechanisms": [], "attributes": {}
         },
         "basal_dendrites": {
-            "synapses": ['AMPA_MF', 'AMPA_PF', 'NMDA'],
+            "synapses": ['AMPA_MF', 'AMPA_PF', 'NMDA', 'GABA'],
             "mechanisms": ['Leak','Nav1_6','Kca1_1','Kca2_2','Ca',('cdp5', 'CAM_GoC')],
             "attributes": {
                 "Ra": 122, "cm": 2.5, "ena": 60, "ek": -80, "eca": 137,

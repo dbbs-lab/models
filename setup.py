@@ -34,7 +34,7 @@ setuptools.setup(
         "arborize>=2.0.0b2",
         "nrn-glia>=0.3.5",
         "dbbs-mod-collection>=1.1.0",
-        "nrn-patch>=2.1.1",
+        "nrn-patch>=2.2.0",
      ],
      extras_require={
         'dev': ['efel']

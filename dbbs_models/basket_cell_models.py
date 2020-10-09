@@ -2,7 +2,7 @@ from ._shared import DbbsNeuronModel
 
 class BasketCell(DbbsNeuronModel):
     morphologies = ['01bc.asc']
-    
+
     synapse_types = {
         "AMPA": {
             "point_process": 'AMPA',
@@ -15,7 +15,13 @@ class BasketCell(DbbsNeuronModel):
             "attributes": {
                 "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 5000, "U": 0.15
             }
-        }
+        },
+        "GABA": {
+            "point_process": 'GABA',
+            "attributes": {
+                "tau_facil": 0, "tau_rec": 38.7, "tau_1": 1, "gmax": 1600, "U":0.42, "Erev": -65
+            }
+        },
     }
 
     section_types = {
@@ -38,7 +44,7 @@ class BasketCell(DbbsNeuronModel):
             }
         },
         "dendrites": {
-            "synapses": ["AMPA", "NMDA"],
+            "synapses": ["AMPA", "NMDA", "GABA"],
             "mechanisms": ['Leak','Cav2_1','Kca1_1','Kv1_1','cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 1, "ek": -80,

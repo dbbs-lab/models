@@ -2,7 +2,7 @@ from ._shared import DbbsNeuronModel
 
 class BasketCell(DbbsNeuronModel):
     morphologies = ['01bc.asc']
-    
+
     synapse_types = {
         "AMPA": {
             "point_process": 'AMPA',
@@ -38,7 +38,7 @@ class BasketCell(DbbsNeuronModel):
             }
         },
         "dendrites": {
-            "synapses": ["AMPA", "NMDA"],
+            "synapses": ["AMPA", "NMDA", "GABA"],
             "mechanisms": ['Leak','Cav2_1','Kca1_1','Kv1_1','cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 1, "ek": -80,

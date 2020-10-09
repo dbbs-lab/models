@@ -15,7 +15,13 @@ class BasketCell(DbbsNeuronModel):
             "attributes": {
                 "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 5000, "U": 0.15
             }
-        }
+        },
+        "GABA": {
+            "point_process": 'GABA',
+            "attributes": {
+                "tau_facil": 0, "tau_rec": 38.7, "tau_1": 1, "gmax": 1600, "U":0.42, "Erev": -65
+            }
+        },
     }
 
     section_types = {

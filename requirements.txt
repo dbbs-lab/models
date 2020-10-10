@@ -7,3 +7,4 @@ ndsb==1.0.0
 plotly==4.11.0
 pygithub==1.53
 kaleido==0.0.3.post1
+neuron==7.8.1

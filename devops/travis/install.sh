@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-sudo apt-get install -y openmpi-bin libopenmpi-dev
+sudo apt-get install -y python3-rtree build-essential cmake cython libgsl-dev libltdl-dev libncurses-dev libreadline-dev openmpi-bin libopenmpi-dev
 python --version
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt

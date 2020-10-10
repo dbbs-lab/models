@@ -9,13 +9,12 @@ sys.path.insert(0, str(pathlib.Path(os.getcwd()) / "tests"))
 pickles = ndsb.thaw()
 print(f"Found {len(pickles)} artifacts.")
 
-try:
-    beam = ndsb.artificer(pickles)
-    url = os.getenv("NDSB_VAULT_URL")
-    print(f"Beaming artifact archive to '{url}'")
-    response = beam.fire(url, os.getenv("NDSB_VAULT_KEY"))
-    beam_id = response["id"]
-    print(f"Beam etched with id {beam_id}")
+beam = ndsb.artificer(pickles)
+url = os.getenv("NDSB_VAULT_URL")
+print(f"Beaming artifact archive to '{url}'")
+response = beam.fire(url, os.getenv("NDSB_VAULT_KEY"))
+beam_id = response["id"]
+print(f"Beam etched with id {beam_id}")
 
 TRAVIS_PULL_REQUEST = os.getenv("TRAVIS_PULL_REQUEST", 1)
 TRAVIS_SLUG = os.getenv("TRAVIS_SLUG", "Helveg/test-bot")

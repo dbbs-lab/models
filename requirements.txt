@@ -4,4 +4,6 @@ dbbs-mod-collection==1.0.1
 nrn-patch==2.1.1
 efel==3.0.70
 ndsb==1.0.0
-plotly==4.10.0
+plotly==4.11.0
+pygithub==1.53
+kaleido==0.0.3.post1

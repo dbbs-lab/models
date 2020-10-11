@@ -1,4 +1,5 @@
 from neuron import h
+import json
 
 _dir = {}
 builtin_mechs = []
@@ -14,3 +15,5 @@ for k in dir(h):
         _dir[k] = str(e)
     except Exception as e:
         _dir[k] = str(e)
+
+print(json.dumps(_dir, indent=2))

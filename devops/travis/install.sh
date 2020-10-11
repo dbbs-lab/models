@@ -5,4 +5,4 @@ python --version
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m pip install coverage
-glia compile
+python -c "import glia; glia.compile()"

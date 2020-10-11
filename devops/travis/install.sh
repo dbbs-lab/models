@@ -6,3 +6,5 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 python -m pip install coverage
 python -c "import glia; glia.compile()"
+echo "TESTING GLIA"
+python -c "import glia; glia.load_library(); print([[m.asset_name for m in p.mods] for p in glia._manager.packages])"

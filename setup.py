@@ -37,6 +37,6 @@ setuptools.setup(
         "nrn-patch>=2.2.0",
      ],
      extras_require={
-        'dev': ['efel']
+        'dev': ["efel", "ndsb>=2.0.0", "plotly>=4.11.0", "kaleido", "pygithub", "h5py"]
      }
  )

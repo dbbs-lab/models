@@ -12,7 +12,10 @@ NDSB_CLIENT_SECRET = os.getenv("NDSB_CLIENT_SECRET", "")
 NDSB_PASSWORD = os.getenv("NDSB_PASSWORD", "")
 NDSB_VAULT_KEY = os.getenv("NDSB_VAULT_KEY", "")
 NDSB_FIRE_AT_STRANGERS = os.getenv("NDSB_FIRE_AT_STRANGERS", "").lower() == "true"
-TRAVIS_PULL_REQUEST = int(os.getenv("TRAVIS_PULL_REQUEST", "0"))
+try:
+    TRAVIS_PULL_REQUEST = int(os.getenv("TRAVIS_PULL_REQUEST", False))
+except:
+    TRAVIS_PULL_REQUEST = False
 TRAVIS_SLUG = os.getenv("TRAVIS_SLUG", "")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 

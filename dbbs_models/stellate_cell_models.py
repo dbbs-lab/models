@@ -18,7 +18,13 @@ class StellateCell(DbbsNeuronModel):
             "attributes": {
                 "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 10000, "U": 0.15
             }
-        }
+        },
+        "GABA": {
+            "point_process": 'GABA',
+            "attributes": {
+                "tau_facil": 0, "tau_rec": 38.7, "tau_1": 1, "gmax": 1600, "U":0.42, "Erev": -65
+            }
+        },
     }
 
     section_types = {
@@ -26,9 +32,9 @@ class StellateCell(DbbsNeuronModel):
             "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','Kir2_3','Kv1_1','Kv3_4','Kv4_3','Kca1_1','Kca2_2','Cav2_1', 'HCN1','cdp5'],
             "attributes": {
               "Ra": 110, "cm": 1, "ena": 60, "ek": -84, "eca": 137.5, "eh": -34,
-              ("e", "Leak"): -48,
-              ("gmax", "Leak"): 0.000008,
-              ("gbar", "Nav1_1"): 0.8,
+              ("e", "Leak"): -52,
+              ("gmax", "Leak"): 0.00003,
+              ("gbar", "Nav1_1"): 0.2,
               ("gcabar", "Cav3_2"): 0.00163912063769,
               ("pcabar", "Cav3_3"): 0.00001615552993,
               ("gkbar", "Kir2_3"): 0.00001093425575,
@@ -37,13 +43,13 @@ class StellateCell(DbbsNeuronModel):
               ("gkbar", "Kv4_3"): 0.00404228168138,
               ("gbar", "Kca1_1"): 0.00518036298671,
               ("gkbar", "Kca2_2"): 0.00054166094878,
-              ("pcabar", "Cav2_1"): 0.00038,
+              ("pcabar", "Cav2_1"): 0.0005,
               ("gbar", "HCN1"): 0.00058451678362,
               ("TotalPump", "cdp5"): 7e-9,
             }
         },
         "dendrites": {
-            "mechanisms": [], "attributes": {}
+            "synapses": ['GABA'], "mechanisms": [], "attributes": {}
         },
         "proximal_dendrites": {
             "synapses": ['AMPA', 'NMDA'],
@@ -58,7 +64,7 @@ class StellateCell(DbbsNeuronModel):
                 ("gkbar", "Kv4_3"): 0.00264204713540,
                 ("gbar", "Kca1_1"): 0.00499205404769,
                 ("gkbar", "Kca2_2"): 0.00000326194117,
-                ("pcabar", "Cav2_1"): 0.0005,
+                ("pcabar", "Cav2_1"): 0.0008,
                 ("TotalPump", "cdp5"): 1e-9,
             }
         },
@@ -95,7 +101,7 @@ class StellateCell(DbbsNeuronModel):
                 ("e", "Leak"): -48,
                 ("gmax", "Leak"): 0.000008,
                 ("gbar", "HCN1"): 0.00099184971498,
-                ("gbar", "Nav1_6"): 0.4,
+                ("gbar", "Nav1_6"): 0.3,
                 ("gbar", "Kv1_1"): 0.00492841685426,
                 ("gkbar", "Kv3_4"):0.03351450571128,
                 ("gkbar", "Km"):0.00007960307413,

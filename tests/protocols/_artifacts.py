@@ -1,4 +1,4 @@
-import ndsb, h5py, plotly.graph_objs as go
+import ndsb, h5py, plotly.graph_objs as go, os
 
 class VoltageTrace(ndsb.Data):
     def __init__(self, cell, protocol, t, v, **kwargs):
@@ -27,6 +27,15 @@ class VoltageTrace(ndsb.Data):
             fig.write_html(f, include_plotlyjs='cdn')
         with artifact.open("trace.png", "wb") as f:
             f.write(fig.to_image(format="png", width=1280, height=720))
-        # with artifact.open("trace.hdf5", "w") as f:
-        #     h5 = h5py.File(f, "w")
-        #     h5.create_dataset("data", data=[self.t, self.v])
+        with artifact.open("trace.hdf5", "wb+") as f:
+             h5 = h5py.File(f, "w")
+             h5.create_dataset("data", data=[self.t, self.v])
+             h5.close()
+
+    def view(self):
+        if not hasattr(self, "artifact") or not hasattr(self.artifact, "remote_path"):
+            content = "**`data.artifact.remote_path` not set; Set it before calling `data.view()`. It is required to fetch remote images!**"
+        else:
+            trace_path = os.path.join(self.artifact.remote_path, "trace.png")
+            content = f"![VoltageTrace]({trace_path})"
+        return self.to_markdown(content)

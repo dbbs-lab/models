@@ -16,7 +16,7 @@ try:
     TRAVIS_PULL_REQUEST = int(os.getenv("TRAVIS_PULL_REQUEST", False))
 except:
     TRAVIS_PULL_REQUEST = False
-TRAVIS_SLUG = os.getenv("TRAVIS_SLUG", "")
+TRAVIS_REPO_SLUG = os.getenv("TRAVIS_REPO_SLUG", "")
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 
 if not (NDSB_USERNAME or NDSB_VAULT_KEY):
@@ -51,23 +51,23 @@ beam_id = response["id"]
 
 print(f"Beam etched with id {beam_id}")
 
-if not TRAVIS_SLUG:
-    print(f"Invalid repository slug '{TRAVIS_SLUG}', cancelling build report.")
+if not TRAVIS_REPO_SLUG:
+    print(f"Invalid repository slug '{TRAVIS_REPO_SLUG}', cancelling build report.")
     exit(1)
 
 if not TRAVIS_PULL_REQUEST:
     print("Exiting without build artifact report, not a pull request.")
     exit(0)
 
-print(f"Posting build artifact report to {TRAVIS_SLUG}#{TRAVIS_PULL_REQUEST}.")
+print(f"Posting build artifact report to {TRAVIS_REPO_SLUG}#{TRAVIS_PULL_REQUEST}.")
 gh = Github(GITHUB_TOKEN)
 user = gh.get_user()
 print(f"Connected to Github as '{user.name}'")
 
 try:
-    repo = gh.get_repo(TRAVIS_SLUG)
+    repo = gh.get_repo(TRAVIS_REPO_SLUG)
 except UnknownObjectException:
-    raise Exception(f"Repository '{TRAVIS_SLUG}' not found") from None
+    raise Exception(f"Repository '{TRAVIS_REPO_SLUG}' not found") from None
 try:
     pr = repo.get_pull(TRAVIS_PULL_REQUEST)
 except UnknownObjectException:

@@ -32,7 +32,7 @@ setuptools.setup(
      ],
      install_requires=[
         "arborize>=2.0.0b2",
-        "nrn-glia>=0.3.5",
+        "nrn-glia>=0.3.8",
         "dbbs-mod-collection>=1.1.0",
         "nrn-patch>=3.0.0b0",
      ],

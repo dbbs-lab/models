@@ -1,3 +1,8 @@
+## 1.3.1
+
+* Switched the GABA synapses on the Golgi cell from GABA-biexp to regular GABA
+* Using Patch 3.0 beta 0
+
 ## 1.3.0
 
 * Added GABA synapses on the Stellate & Basket cell.

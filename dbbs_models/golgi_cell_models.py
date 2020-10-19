@@ -28,9 +28,9 @@ class GolgiCell(DbbsNeuronModel):
             }
         },
         "GABA": {
-            "point_process": ('GABA', 'biexp'),
+            "point_process": 'GABA',
             "attributes": {
-                "ref_temp": 32, "tau2_Fix": 10, "e": -75, "gmax": 130, "gmax_factor": 1
+            "tau_facil": 0, "tau_rec": 38.7, "tau_1": 1, "gmax": 1600, "U":0.42, "Erev": -65
             }
         }
     }

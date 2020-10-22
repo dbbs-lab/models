@@ -22,7 +22,7 @@ class StellateCell(DbbsNeuronModel):
         "GABA": {
             "point_process": 'GABA',
             "attributes": {
-                "tau_facil": 0, "tau_rec": 38.7, "tau_1": 1, "gmax": 1600, "U":0.42, "Erev": -65
+                "tau_facil": 0, "tau_rec": 38.7, "tau_1": 1, "gmax": 3230, "U":0.42, "Erev": -65
             }
         },
     }

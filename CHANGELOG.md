@@ -1,3 +1,7 @@
+## 1.3.2
+
+* Gmax tuning of GABA syn on GoC, SC and BC
+
 ## 1.3.1
 
 * Switched the GABA synapses on the Golgi cell from GABA-biexp to regular GABA
@@ -9,7 +13,7 @@
 
 ## 1.2.0
 
-* Fixed electrophysiological properties of the Stellate & Basket _cell
+* Fixed electrophysiological properties of the Stellate & Basket_cell
 * Added GABA synapses on the Golgi cell
 
 ## 1.1.1

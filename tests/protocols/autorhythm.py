@@ -12,10 +12,12 @@ def run_protocol(cell, duration=100):
     p.finitialize()
     p.run()
 
-    # Create a build artifact
-    VoltageTrace(cell, "Autorhythm", _time, _vm, duration=duration)
-
-    return ezfel(
+    e = ezfel(
         T=list(_time),
         V=list(_vm)
     )
+
+    # Create a build artifact
+    VoltageTrace(cell, "Autorhythm", _time, _vm, duration=duration, frequency=e.inv_second_ISI)
+
+    return e

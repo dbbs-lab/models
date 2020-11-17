@@ -18,6 +18,6 @@ def run_protocol(cell, duration=100):
     )
 
     # Create a build artifact
-    VoltageTrace(cell, "Autorhythm", _time, _vm, duration=duration, frequency=e.inv_second_ISI)
+    VoltageTrace(cell, "Autorhythm", _time, _vm, duration=duration, frequency=list(e.inv_second_ISI))
 
     return e

@@ -1,7 +1,7 @@
 numpy==1.19.2
 arborize==2.0.0b2
 nrn-glia==0.3.7
-dbbs-mod-collection==1.1.0
+dbbs-mod-collection==1.2.0
 nrn-patch==3.0.0b0
 efel==3.0.70
 ndsb==2.0.0

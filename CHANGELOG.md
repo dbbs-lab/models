@@ -1,3 +1,8 @@
+## 1.4.1
+
+* Breaking change in `dbbs_models.test`: quick_test no longer plots, use `quick_plot`
+  instead.
+
 ## 1.4.0
 
 * Tuned the granule cell to 20µm sections and to be capable of doublets cfr Mapelli 2007.

@@ -1,4 +1,5 @@
 from ._helpers import *
+from ._artifacts import VoltageTrace
 from patch import p
 
 def run_protocol(cell, amplitude=0.01):
@@ -16,6 +17,9 @@ def run_protocol(cell, amplitude=0.01):
 
     p.finitialize()
     p.run()
+
+    # Create a build artifact
+    VoltageTrace(cell, "Current injection", _time, _vm, amplitude=amplitude)
 
     return ezfel(
         T=list(_time),

@@ -1,3 +1,7 @@
+## 1.4.0
+
+* Tuned the granule cell to 20µm sections and to be capable of doublets cfr Mapelli 2007.
+
 ## 1.3.2
 
 * Gmax tuning of GABA syn on GoC, SC and BC

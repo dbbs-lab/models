@@ -22,13 +22,13 @@ class GranuleCell(DbbsNeuronModel):
         "AMPA": {
             "point_process": ('AMPA', 'granule'),
             "attributes": {
-                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 1200, "U": 0.43
+                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 1400, "U": 0.43
             }
         },
         "NMDA": {
             "point_process": ('NMDA', 'granule'),
             "attributes": {
-                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 18800, "U": 0.43
+                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 23500, "U": 0.43
             }
         },
         "GABA": {
@@ -55,10 +55,10 @@ class GranuleCell(DbbsNeuronModel):
         },
         "dendrites": {
             "synapses": ['NMDA', 'AMPA', 'GABA'],
-            "mechanisms": ['Leak', 'Ca', 'Kca1_1', 'Kv1_1', ('cdp5', 'CR')],
+            "mechanisms": ['Leak', ('Leak', 'GABA'), 'Ca', 'Kca1_1', 'Kv1_1', ('cdp5', 'CR')],
             "attributes": {
                 "Ra": 100, "cm": 2.5,
-                ("e","Leak"):  -60, "ek": -88, "eca": 137.5,
+                ("e", "Leak"):  -60, "ek": -88, "eca": 137.5,
                 ("gmax", "Leak"): 0.00025029700736999997,
                 ("gcabar", "Ca"): 0.0050012800845900002,
                 ("gbar", "Kca1_1"): 0.010018074546510001,

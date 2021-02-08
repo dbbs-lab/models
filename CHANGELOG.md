@@ -1,3 +1,7 @@
+## 1.4.2
+
+* Updated to dbbs-mod-collection v2 for altered NMDA channel
+
 ## 1.4.1
 
 * Breaking change in `dbbs_models.test`: quick_test no longer plots, use `quick_plot`

@@ -1,13 +1,99 @@
 #!/usr/bin/env python3
 
-import os, sys
+import os, sys, json
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import dbbs_models
 import protocols
+from patch import p
 
-cell = dbbs_models.__dict__[sys.argv[1]]()
-protocol_name = sys.argv[2]
-kwargs = {a.split('=')[0]: eval(a.split('=')[1]) for a in sys.argv[3:]}
+def scheme_default():
+    cell = dbbs_models.__dict__[sys.argv[1]]()
+    protocol_name = sys.argv[2]
+    kwargs = {a.split('=')[0]: eval(a.split('=')[1]) for a in sys.argv[3:]}
 
-mod = __import__('protocols.' + protocol_name, globals(), locals(), ["run_protocol"], 0)
-sys.stdout.write(repr(mod.run_protocol(cell, **kwargs)))
+    mod = __import__('protocols.' + protocol_name, globals(), locals(), ["run_protocol"], 0)
+    sys.stdout.write(repr(mod.run_protocol(cell, **kwargs)))
+
+def scheme_multicell():
+    protocol_name = sys.argv[2]
+    kwargs = json.loads(sys.argv[3])
+    cells = _create_multicell(kwargs["cell_list"])
+    del kwargs["cell_list"]
+    if "connections" in kwargs:
+        _create_multicell_connections(cells, kwargs["connections"])
+    recorders = None
+    if "recorders" in kwargs:
+        recorders = _create_multicell_recorders(cells, kwargs["recorders"])
+        kwargs["recorders"] = recorders
+    if "stimuli" in kwargs:
+        stimuli = _create_multicell_stimuli(cells, kwargs["stimuli"])
+        kwargs["stimuli"] = stimuli
+    mod = __import__('protocols.' + protocol_name, globals(), locals(), ["run_protocol"], 0)
+    sys.stdout.write(repr(mod.run_protocol(*cells.values(), **kwargs)))
+
+def scheme_paracell():
+    protocol_name = sys.argv[2]
+    kwargs = json.loads(sys.argv[3])
+    cells = _create_multicell(kwargs["cell_list"])
+    del kwargs["cell_list"]
+    if "connections" in kwargs:
+        _create_multicell_connections(cells, kwargs["connections"])
+    recorders = None
+    if "recorders" in kwargs:
+        recorders = _create_multicell_recorders(cells, kwargs["recorders"])
+        kwargs["recorders"] = recorders
+    if "stimuli" in kwargs:
+        stimuli = _create_multicell_stimuli(cells, kwargs["stimuli"])
+        kwargs["stimuli"] = stimuli
+    mod = __import__('protocols.' + protocol_name, globals(), locals(), ["run_protocol"], 0)
+    sys.stdout.write(repr(mod.run_protocol(*cells.values(), **kwargs)))
+
+def _cell_name(cell):
+    if hasattr(cell, "name") and cell.name is not None:
+        return cell.name
+    else:
+        return str(cell)
+
+def _create_multicell(cell_list):
+    cells = {}
+    for cell_type, cell_name in cell_list:
+        cell = dbbs_models.__dict__[cell_type]()
+        cell.name = cell_name
+        cells[_cell_name(cell)] = cell
+    return cells
+
+def _create_multicell_connections(cells, connections):
+    for syn_type, from_name, to_name, from_comp, to_comp in connections:
+        from_cell = cells[from_name]
+        to_cell = cells[to_name]
+        from_s = eval(f"c.{from_comp}", {"c": from_cell}, {})
+        to_s = eval(f"c.{to_comp}", {"c": to_cell}, {})
+        syn = to_cell.create_synapse(to_s, syn_type)
+        syn.presynaptic(from_s)
+
+def _create_multicell_recorders(cells, recorders):
+    out = {}
+    for category, apparatus in recorders.items():
+        cat = []
+        for cell_name, rec in apparatus:
+            cell = cells[cell_name]
+            cat.append(p.record(eval(f"c.{rec}", {"c": cell}, {})))
+        out[category] = cat
+    return out
+
+def _create_multicell_stimuli(cells, stimuli):
+    out = []
+    for cell_name, syn, secloc, start, number, interval in stimuli:
+        cell = cells[cell_name]
+        sec = eval(f"c.{secloc}", {"c": cell}, {})
+        syn = cell.create_synapse(sec, syn)
+        syn.stimulate(start=start, number=number, interval=interval)
+        out.append(syn)
+    return out
+
+if sys.argv[1].startswith("__scheme__"):
+    scheme = sys.argv[1][10:]
+else:
+    scheme = "default"
+
+globals()["scheme_" + scheme]()

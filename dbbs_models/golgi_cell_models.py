@@ -32,6 +32,14 @@ class GolgiCell(DbbsNeuronModel):
             "attributes": {
             "tau_facil": 0, "tau_rec": 38.7, "tau_1": 1, "gmax": 3200, "U":0.42, "Erev": -65
             }
+        },
+        "gap_s": {
+            "point_process": "gap_junction",
+            "source": "vgap"
+        },
+        "gap": {
+            "point_process": ("gap_junction", "parallel"),
+            "source": "vgap"
         }
     }
 
@@ -57,7 +65,7 @@ class GolgiCell(DbbsNeuronModel):
             "mechanisms": [], "attributes": {}
         },
         "basal_dendrites": {
-            "synapses": ['AMPA_AA', 'AMPA_MF', 'NMDA', 'GABA'],
+            "synapses": ['AMPA_AA', 'AMPA_MF', 'NMDA', 'GABA', "gap", "gap_s"],
             "mechanisms": ['Leak','Nav1_6','Kca1_1','Kca2_2','Ca',('cdp5', 'CAM_GoC')],
             "attributes": {
                 "Ra": 122, "cm": 2.5, "ena": 60, "ek": -80, "eca": 137,

@@ -2,6 +2,7 @@ from ._helpers import *
 from ._artifacts import VoltageTrace
 from patch import p
 
+
 def run_protocol(cell, *synapses, duration=500, start=200, interval=10, number=10):
     disable_cvode()
     init_simulator(tstop=duration)
@@ -33,11 +34,7 @@ def run_protocol(cell, *synapses, duration=500, start=200, interval=10, number=1
         spike_interval=interval,
         spike_number=number,
         spike_start=start,
-        synapses=synapses
+        synapses=synapses,
     )
 
-    return ezfel(
-        T=list(_time),
-        V=list(_vm),
-        I=I
-    )
+    return ezfel(T=list(_time), V=list(_vm), I=I)

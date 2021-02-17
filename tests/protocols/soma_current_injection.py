@@ -2,6 +2,7 @@ from ._helpers import *
 from ._artifacts import VoltageTrace
 from patch import p
 
+
 def run_protocol(cell, amplitude=0.01):
     disable_cvode()
     init_simulator(tstop=200)
@@ -25,5 +26,5 @@ def run_protocol(cell, amplitude=0.01):
         T=list(_time),
         V=list(_vm),
         stim_start=stim.delay,
-        stim_end=stim.delay + stim.dur
+        stim_end=stim.delay + stim.dur,
     )

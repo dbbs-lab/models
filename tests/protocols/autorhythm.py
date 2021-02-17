@@ -2,6 +2,7 @@ from ._helpers import *
 from ._artifacts import VoltageTrace
 from patch import p
 
+
 def run_protocol(cell, duration=100):
     disable_cvode()
     init_simulator(tstop=duration)
@@ -12,12 +13,16 @@ def run_protocol(cell, duration=100):
     p.finitialize()
     p.run()
 
-    e = ezfel(
-        T=list(_time),
-        V=list(_vm)
-    )
+    e = ezfel(T=list(_time), V=list(_vm))
 
     # Create a build artifact
-    VoltageTrace(cell, "Autorhythm", _time, _vm, duration=duration, frequency=list(e.inv_second_ISI))
+    VoltageTrace(
+        cell,
+        "Autorhythm",
+        _time,
+        _vm,
+        duration=duration,
+        frequency=list(e.inv_second_ISI),
+    )
 
     return e

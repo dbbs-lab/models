@@ -10,3 +10,4 @@ pygithub==1.53
 kaleido==0.0.3.post1
 neuron==7.8.2
 h5py==3.1.0
+coverage==5.4

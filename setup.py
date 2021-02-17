@@ -34,7 +34,7 @@ setuptools.setup(
         "arborize>=2.0.0b8",
         "nrn-glia>=0.3.8",
         "dbbs-mod-collection==2.2.0b1",
-        "nrn-patch>=3.0.0b0",
+        "nrn-patch>=3.0.0b1",
      ],
      extras_require={
         'dev': ["efel", "ndsb>=2.0.0", "plotly>=4.11.0", "kaleido", "pygithub", "h5py"]

@@ -7,7 +7,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      GH_PR: ${{github.event.issue.number}}
+      GH_PR: ${{github.event.number}}
     steps:
     - name: Check PR number
       run: echo "Hi! $GH_PR Bye!"

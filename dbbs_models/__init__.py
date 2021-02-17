@@ -1,4 +1,4 @@
-__version__ = "1.4.2"
+__version__ = "1.5.0rc0"
 
 from .granule_cell_models import GranuleCell
 from .stellate_cell_models import StellateCell

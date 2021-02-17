@@ -37,7 +37,7 @@ def scheme_paracell():
     cells = _create_multicell(kwargs["cell_list"])
     del kwargs["cell_list"]
     if "connections" in kwargs:
-        _create_multicell_connections(cells, kwargs["connections"])
+        _create_paracell_connections(cells, kwargs["connections"])
     recorders = None
     if "recorders" in kwargs:
         recorders = _create_multicell_recorders(cells, kwargs["recorders"])
@@ -70,6 +70,21 @@ def _create_multicell_connections(cells, connections):
         to_s = eval(f"c.{to_comp}", {"c": to_cell}, {})
         syn = to_cell.create_synapse(to_s, syn_type)
         syn.presynaptic(from_s)
+
+def _create_paracell_connections(cells, connections):
+    conn_map = {}
+    gid = 0
+    for syn_type, from_name, to_name, from_comp, to_comp in connections:
+        from_cell = cells[from_name]
+        to_cell = cells[to_name]
+        from_s = eval(f"c.{from_comp}", {"c": from_cell}, {})
+        to_s = eval(f"c.{to_comp}", {"c": to_cell}, {})
+        if (from_cell, from_s) not in conn_map:
+            gid += 1
+            conn_map[(from_cell, from_s)] = gid
+        r = to_cell.create_receiver(to_s, conn_map[(from_cell, from_s)], syn_type)
+        source = r.get("source", None)
+        from_cell.create_transmitter(from_s, gid, source_var=source)
 
 def _create_multicell_recorders(cells, recorders):
     out = {}

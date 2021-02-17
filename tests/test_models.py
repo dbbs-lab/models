@@ -1,5 +1,5 @@
 import unittest, efel
-from runner import run_protocol, run_multicell
+from runner import run_protocol, run_multicell, run_paracell
 from protocols._helpers import ezfel
 
 class TestGranule(unittest.TestCase):
@@ -133,5 +133,69 @@ class TestGolgi(unittest.TestCase):
                 "Currents": [["receiver", "dendrites[0].synapses[0]._point_process._ref_i"]]
             },
             duration=300,
+        )
+        self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
+
+    def test_parallel_halfgap_response(self):
+        results = run_paracell(
+            "network",
+            [
+                ("GolgiCell", "sender"),
+                ("GolgiCell", "receiver"),
+            ],
+            connections=[
+                (
+                    "gap",
+                    "sender",
+                    "receiver",
+                    "dendrites[0]",
+                    "dendrites[0]"
+                )
+            ],
+            stimuli=[
+                ["sender", "AMPA_AA", "dendrites[0]", 100, 10, 10]
+            ],
+            recorders={
+                "Currents": [
+                    ["receiver", "dendrites[0].synapses[0]._point_process._ref_i"]
+                ]
+            },
+            duration=300,
+        )
+        self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
+
+    def test_parallel_fullgap_response(self):
+        results = run_paracell(
+            "network",
+            [
+                ("GolgiCell", "sender"),
+                ("GolgiCell", "receiver"),
+            ],
+            connections=[
+                (
+                    "gap",
+                    "sender",
+                    "receiver",
+                    "dendrites[0]",
+                    "dendrites[0]"
+                ),
+                (
+                    "gap",
+                    "receiver",
+                    "sender",
+                    "dendrites[0]",
+                    "dendrites[0]"
+                )
+            ],
+            stimuli=[
+                ["sender", "AMPA_AA", "dendrites[0]", 100, 10, 10]
+            ],
+            recorders={
+                "Currents": [
+                    ["sender", "dendrites[0].synapses[0]._point_process._ref_i"],
+                    ["receiver", "dendrites[0].synapses[0]._point_process._ref_i"]
+                ]
+            },
+            duration=1000,
         )
         self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")

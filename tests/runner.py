@@ -72,4 +72,4 @@ def run_paracell(protocol_name, cell_list, **kwargs):
     except subprocess.CalledProcessError as e:
         print("ERRRR", e.output)
     else:
-        return efel_dict(eval(out.split("\n")[-1]))
+        return [efel_dict(cell) for cell in eval(out.split("\n")[-1])]

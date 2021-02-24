@@ -26,6 +26,18 @@ class TestGolgi(unittest.TestCase):
         results = run_protocol("GolgiCell", "autorhythm", duration=300)
         self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
 
+    def test_input_conductance(self):
+        results = run_protocol("GolgiCell", "voltage_clamp", voltage=-80, holding=-70)
+        current = results.get("current")
+        i = current.x
+        t = current.t
+        dv = -0.01
+        di = i[11964] * 10e-9 - i[7866] * 10e-9
+        print(dv, di, di / dv)
+        import plotly.graph_objs as go
+
+        go.Figure(go.Scatter(x=t, y=i)).show()
+
     def test_serial_halfgap_resting(self):
         results = run_multicell(
             "network",

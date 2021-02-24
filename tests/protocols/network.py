@@ -23,7 +23,7 @@ def run_protocol(
     p.finitialize()
     p.run()
 
-    e = [ezfel(T=list(_time), V=list(vm)) for vm in _vms]
+    e = [ezfel(T=list(_time), signal=list(vm)) for vm in _vms]
 
     # Create a build artifact
     rec = {cat: [list(r) for r in recs] for cat, recs in recorders.items()}

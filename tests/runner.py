@@ -1,5 +1,5 @@
-import os, sys, subprocess, json
-from protocols._helpers import efel_dict
+import os, sys, subprocess, json, pickle, codecs
+from protocols._helpers import efel_dict, boundary
 
 
 def run_protocol(cell_name, protocol_name, **kwargs):
@@ -19,10 +19,11 @@ def run_protocol(cell_name, protocol_name, **kwargs):
                 protocol_name,
                 *["{}={}".format(k, repr(v)) for k, v in kwargs.items()],
             ]
-        ).decode("utf-8")
+        )
     except subprocess.CalledProcessError as e:
-        print("ERRRR", e.output)
-    return efel_dict(eval(out.split("\n")[-1]))
+        raise RuntimeError(e.output)
+    else:
+        return _parse_output(out)
 
 
 def run_multicell(protocol_name, cell_list, **kwargs):
@@ -43,11 +44,11 @@ def run_multicell(protocol_name, cell_list, **kwargs):
                 protocol_name,
                 json.dumps(kwargs),
             ]
-        ).decode("utf-8")
+        )
     except subprocess.CalledProcessError as e:
-        print("ERRRR", e.output)
+        raise RuntimeError(e.output)
     else:
-        return [efel_dict(cell) for cell in eval(out.split("\n")[-1])]
+        return _parse_output(out)
 
 
 def run_paracell(protocol_name, cell_list, **kwargs):
@@ -68,8 +69,20 @@ def run_paracell(protocol_name, cell_list, **kwargs):
                 protocol_name,
                 json.dumps(kwargs),
             ]
-        ).decode("utf-8")
+        )
     except subprocess.CalledProcessError as e:
-        print("ERRRR", e.output)
+        raise RuntimeError(e.output)
     else:
-        return [efel_dict(cell) for cell in eval(out.split("\n")[-1])]
+        return _parse_output(out)
+
+
+def _parse_output(out):
+    b = bytes(boundary, "utf-8")
+    c = out.count(b)
+    if c != 2:
+        raise RuntimeError(
+            f"Communication error with subprocess, received {c} boundary signals, expected 2."
+        )
+    b64str = out.split(b)[1]
+    bytestream = codecs.decode(b64str, "base64")
+    return pickle.loads(bytestream)

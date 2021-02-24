@@ -13,7 +13,7 @@ def run_protocol(cell, duration=100):
     p.finitialize()
     p.run()
 
-    e = ezfel(T=list(_time), V=list(_vm))
+    e = ezfel(T=list(_time), signal=list(_vm))
 
     # Create a build artifact
     VoltageTrace(

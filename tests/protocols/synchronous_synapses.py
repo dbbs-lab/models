@@ -37,4 +37,4 @@ def run_protocol(cell, *synapses, duration=500, start=200, interval=10, number=1
         synapses=synapses,
     )
 
-    return ezfel(T=list(_time), V=list(_vm), I=I)
+    return ezfel(T=list(_time), signal=list(_vm), I=I)

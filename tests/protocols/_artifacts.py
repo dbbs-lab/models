@@ -9,7 +9,8 @@ class VoltageTrace(ndsb.Data):
         self.t = list(t)
         self.v = list(v)
         self.kwargs = kwargs
-        self.freeze()
+        if os.getenv("ARBZ_ARTIFACTS"):
+            self.freeze()
 
     def pack(self, artifact):
         artifact.json(

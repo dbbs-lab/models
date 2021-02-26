@@ -1,6 +1,7 @@
-import unittest, efel
+import unittest, efel, arborize, nrnsub
 from runner import run_protocol, run_multicell, run_paracell
 from protocols._helpers import ezfel
+import random, dill
 
 
 class TestGranule(unittest.TestCase):
@@ -21,7 +22,16 @@ class TestBasket(unittest.TestCase):
         self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
 
 
-class TestGolgi(unittest.TestCase):
+class TestGolgi(arborize.TestCase):
+    input_conductance = 5.395755181874052e-08
+    gaba_conductance = 8.960206676533555e-11
+
+    def test_success(self):
+        self.assertEqual(6, 6)
+
+    def test_failure(self):
+        self.assertEqual(5, 6, "Incorrect spike count.")
+
     def test_autorhythm(self):
         results = run_protocol("GolgiCell", "autorhythm", duration=300)
         self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
@@ -33,10 +43,37 @@ class TestGolgi(unittest.TestCase):
         t = current.t
         dv = -0.01
         di = i[11964] * 10e-9 - i[7866] * 10e-9
-        print(dv, di, di / dv)
-        import plotly.graph_objs as go
+        g = di / dv
+        print(g)
+        self.assertAlmostEqual(self.input_conductance, g, 3)
 
-        go.Figure(go.Scatter(x=t, y=i)).show()
+    def test_single_gaba_conductance(self):
+        synapses = [
+            {
+                "type": "GABA",
+                "location": lambda cell, i: random.choice(cell.basal_dendrites),
+                "stimulation": [
+                    {"start": 250, "number": 1, "interval": 0, "noise": False}
+                ],
+            }
+        ]
+        results = run_protocol(
+            "GolgiCell",
+            "voltage_clamp_with_synapses",
+            voltage=-80,
+            holding=-70,
+            synapses=dill.dumps(synapses),
+        )
+        current = results.get("current")
+        gaba = results.get("GABA.currents")
+        i = current.x
+        t = current.t
+        dv = -0.01
+        peak = 10053
+        di = i[peak] * 10e-9 - i[7866] * 10e-9
+        g = di / dv
+        gmax_gaba = g - self.input_conductance
+        self.assertAlmostEqual(self.gaba_conductance, g, 3)
 
     def test_serial_halfgap_resting(self):
         results = run_multicell(

@@ -24,7 +24,9 @@ if not (NDSB_USERNAME or NDSB_VAULT_KEY):
 
 if NDSB_USERNAME:
     print("Authenticating with login")
-    NDSB_VAULT_KEY = ndsb.aim(NDSB_VAULT_URL, NDSB_CLIENT_ID, NDSB_CLIENT_SECRET, NDSB_USERNAME, NDSB_PASSWORD)
+    NDSB_VAULT_KEY = ndsb.aim(
+        NDSB_VAULT_URL, NDSB_CLIENT_ID, NDSB_CLIENT_SECRET, NDSB_USERNAME, NDSB_PASSWORD
+    )
 else:
     print("Authenticating with key")
 
@@ -37,9 +39,7 @@ beam = ndsb.artificer(data)
 print(f"Beaming artifact archive to '{NDSB_VAULT_URL}'")
 try:
     response = beam.fire(
-        NDSB_VAULT_URL,
-        NDSB_VAULT_KEY,
-        fire_at_strangers=NDSB_FIRE_AT_STRANGERS
+        NDSB_VAULT_URL, NDSB_VAULT_KEY, fire_at_strangers=NDSB_FIRE_AT_STRANGERS
     )
 finally:
     if NDSB_DEBUG:
@@ -75,14 +75,18 @@ except UnknownObjectException:
 
 report_title = "# Build artifact report"
 
+
 def render_artifact_report(artifacts):
     return report_title + "\n\n" + "\n".join(a.view() for a in artifacts)
+
 
 def edit_comment(comment, artifacts):
     comment.edit(render_artifact_report(artifacts))
 
+
 def post_comment(pr, artifact):
     pr.create_issue_comment(render_artifact_report(artifacts))
+
 
 artifacts = data
 

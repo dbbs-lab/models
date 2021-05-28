@@ -1,7 +1,15 @@
 from ._shared import DbbsNeuronModel
-from arborize.builders import rotate
+from arborize import compose_types
 from patch import p
 import math
+
+
+def _lbl_pdi(region, d):
+    return f'(distal-interval (proximal (region "{region}")) {d})'
+
+
+def _lbl_select(region, f, t):
+    return f"(difference {_lbl_pdi(region, t)} {_lbl_pdi(region, f)})"
 
 
 class PurkinjeCell(DbbsNeuronModel):
@@ -10,7 +18,7 @@ class PurkinjeCell(DbbsNeuronModel):
         model.build_AIS()
         model.set_segments()
 
-    morphologies = [("soma_10c.asc", rotate([-1, 0, 0], [0, 1, 0]), builder)]
+    morphologies = ["purkinje_cell.swc"]
 
     synapse_types = {
         "AMPA": {
@@ -59,8 +67,7 @@ class PurkinjeCell(DbbsNeuronModel):
                 "Kca2_2": {"gkbar": 0.00085748826176},
                 "Kca3_1": {"gkbar": 0.00978230722317},
                 "HCN1": {"gbar": 0.00192222696826},
-                ("cdp5", "CAM"): {},
-                "cdp5": {"TotalPump": 2e-08},
+                ("cdp5", "CAM"): {"TotalPump": 2e-08},
             },
             "synapses": ["GABA"],
         },
@@ -85,124 +92,41 @@ class PurkinjeCell(DbbsNeuronModel):
                 "Cav3_3": {"pcabar": 0.00013000262047},
                 "Kca1_1": {"gbar": 0.03803999223084},
                 "HCN1": {"gbar": 2.49811225e-06},
-                ("cdp5", "CAM"): {},
-                "cdp5": {"TotalPump": 5e-08},
-            },
-        },
-        "axon": {"cable": {}, "ions": {}, "mechanisms": {}},
-        "ascending_axon": {
-            "cable": {},
-            "ions": {},
-            "mechanisms": {
-                ("Na", "granule_cell"): {},
-                "Kv3_4": {},
-                "Leak": {},
-                "Ca": {},
-                ("cdp5", "CR"): {},
-                "Na": {},
-            },
-        },
-        "parallel_fiber": {
-            "cable": {},
-            "ions": {},
-            "mechanisms": {
-                ("Na", "granule_cell"): {},
-                "Kv3_4": {},
-                "Leak": {},
-                "Ca": {},
-                ("cdp5", "CR"): {},
-                "Na": {},
-            },
-        },
-        "axon_initial_segment": {
-            "cable": {"Ra": 122, "cm": 1},
-            "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 137}},
-            "mechanisms": {
-                "Leak": {"e": -55, "gmax": 3e-05},
-                ("HCN1", "golgi"): {},
-                "HCN2": {"gbar": 0.00030643090764},
-                "Nav1_6": {"gbar": 0.17233663543619},
-                "Ca": {"gcabar": 0.00595046001148},
-                "Kca1_1": {"gbar": 0.10008178886943},
-                "Km": {"gkbar": 0.00024381226198},
-                ("cdp5", "CAM_GoC"): {},
-                "HCN1": {"gbar": 0.0003371456442},
-                "cdp5": {"TotalPump": 1e-08},
-            },
-        },
-        "axon_hillock": {
-            "cable": {},
-            "ions": {},
-            "mechanisms": {
-                "Leak": {},
-                ("Na", "granule_cell_FHF"): {},
-                "Kv3_4": {},
-                "Ca": {},
-                ("cdp5", "CR"): {},
-                "Na": {},
-            },
-        },
-        "proximal_dendrites": {
-            "cable": {"Ra": 110, "cm": 1.5},
-            "ions": {"k": {"e": -84}, "ca": {"e": 137.5}},
-            "mechanisms": {
-                "Leak": {"e": -48, "gmax": 8e-06},
-                "Cav3_2": {"gcabar": 0.00070661092763},
-                "Cav3_3": {"pcabar": 1.526216781e-05},
-                "Kv1_1": {"gbar": 0.0090681056165},
-                "Kv4_3": {"gkbar": 0.0026420471354},
-                "Kca1_1": {"gbar": 0.00499205404769},
-                "Kca2_2": {"gkbar": 3.26194117e-06},
-                "Cav2_1": {"pcabar": 0.0008},
-                "cdp5": {"TotalPump": 1e-09},
-            },
-            "synapses": ["AMPA", "NMDA"],
-        },
-        "distal_dendrites": {
-            "cable": {"Ra": 110, "cm": 1.5},
-            "ions": {"k": {"e": -84}, "ca": {"e": 137.5}},
-            "mechanisms": {
-                "Leak": {"e": -48, "gmax": 8e-06},
-                "Kv1_1": {"gbar": 0.00237825442906},
-                "Kca1_1": {"gbar": 0.00226329455766},
-                "Kca2_2": {"gkbar": 1.079984416e-05},
-                "Cav2_1": {"pcabar": 0.00025},
-                "cdp5": {"TotalPump": 1e-09},
-            },
-            "synapses": ["AMPA", "NMDA"],
-        },
-        "basal_dendrites": {
-            "cable": {"Ra": 122, "cm": 1},
-            "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
-            "mechanisms": {
-                "Leak": {"e": -61, "gmax": 0.0003},
-                "Kir2_3": {"gkbar": 1.135399111e-05},
-                "Cav3_1": {"pcabar": 4.0066819e-06},
-                "Cav3_2": {"gcabar": 0.00194175819441},
-                "Kca2_2": {"gkbar": 0.00078534639818},
-                "Kca3_1": {"gkbar": 0.00330481139341},
-            },
-        },
-        "apical_dendrites": {
-            "cable": {"Ra": 122, "cm": 2.5},
-            "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 137}},
-            "mechanisms": {
-                "Leak": {"e": -55, "gmax": 3e-05},
-                "Nav1_6": {"gbar": 0.00499506303209},
-                "Kca1_1": {"gbar": 0.01016375552607},
-                "Kca2_2": {"gkbar": 0.00247172479141},
-                "Cav2_3": {"gcabar": 0.00128859564935},
-                "Cav3_1": {"pcabar": 3.690771983e-05},
-                ("cdp5", "CAM_GoC"): {},
-                "cdp5": {"TotalPump": 5e-09},
+                ("cdp5", "CAM"): {"TotalPump": 5e-08},
             },
             "synapses": ["AMPA_PF"],
         },
-        "sodium_dendrites": {
-            "cable": {"Ra": 122, "cm": 1},
-            "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
-            "mechanisms": {"Nav1_6": {"gbar": 0.01568012827236}},
-        },
+        "basal_dendrites": compose_types(
+            "dendrites",
+            {
+                "cable": {"Ra": 122, "cm": 1},
+                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "mechanisms": {
+                    "Leak": {"e": -61, "gmax": 0.0003},
+                    "Kir2_3": {"gkbar": 1.135399111e-05},
+                    "Cav3_1": {"pcabar": 4.0066819e-06},
+                    "Cav3_2": {"gcabar": 0.00194175819441},
+                    "Kca2_2": {"gkbar": 0.00078534639818},
+                    "Kca3_1": {"gkbar": 0.00330481139341},
+                },
+            },
+        ),
+        "sodium_dendrites": compose_types(
+            "dendrites",
+            {
+                "cable": {"Ra": 122, "cm": 1},
+                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "mechanisms": {
+                    "Leak": {"e": -61, "gmax": 0.0003},
+                    "Kir2_3": {"gkbar": 1.135399111e-05},
+                    "Cav3_1": {"pcabar": 4.0066819e-06},
+                    "Cav3_2": {"gcabar": 0.00194175819441},
+                    "Kca2_2": {"gkbar": 0.00078534639818},
+                    "Kca3_1": {"gkbar": 0.00330481139341},
+                    "Nav1_6": {"gbar": 0.01568012827236},
+                },
+            },
+        ),
         "aa_targets": {"cable": {}, "ions": {}, "mechanisms": {}, "synapses": ["AMPA"]},
         "pf_targets": {"cable": {}, "ions": {}, "mechanisms": {}, "synapses": ["AMPA"]},
         "sc_targets": {"cable": {}, "ions": {}, "mechanisms": {}, "synapses": ["GABA"]},
@@ -215,10 +139,10 @@ class PurkinjeCell(DbbsNeuronModel):
                 "Kv3_4": {"gkbar": 0.01470016164534},
                 "Cav2_1": {"pcabar": 0.00028786836482},
                 "Cav3_1": {"pcabar": 6.43429659e-06},
-                ("cdp5", "CAM"): {},
-                "cdp5": {"TotalPump": 2e-08},
+                ("cdp5", "CAM"): {"TotalPump": 2e-08},
             },
         },
+        "axon": {"cable": {}, "ions": {}, "mechanisms": {}},
         "AIS_K": {
             "cable": {"Ra": 122, "cm": 1},
             "ions": {"k": {"e": -88}},
@@ -241,23 +165,59 @@ class PurkinjeCell(DbbsNeuronModel):
                 "Kv3_4": {"gkbar": 0.02227585026371},
                 "Cav2_1": {"pcabar": 0.00012353396215},
                 "Cav3_1": {"pcabar": 1.508814156e-05},
-                ("cdp5", "CAM"): {},
-                "cdp5": {"TotalPump": 5e-07},
+                ("cdp5", "CAM"): {"TotalPump": 5e-07},
             },
         },
     }
 
     labels = {
-        "basal_dendrites": {"from": "dendrites", "diam": lambda diam: diam >= 1.6},
-        "sodium_dendrites": {"from": "dendrites", "diam": lambda diam: diam >= 3.3},
-        "aa_targets": {"from": "dendrites", "diam": lambda diam: diam <= 0.75},
+        "soma": {"arbor": "(tag 1)"},
+        "axon": {"arbor": "(tag 2)"},
+        "dend": {"arbor": "(tag 3)"},
+        "basal_dendrites": {
+            "from": "dendrites",
+            "diam": lambda diam: diam >= 1.6,
+            "arbor": '(difference (radius-ge (region "dend") 0.8) (region "sodium_dendrites"))',
+        },
+        "sodium_dendrites": {
+            "from": "dendrites",
+            "diam": lambda diam: diam >= 3.3,
+            "arbor": '(radius-ge (region "dend") 1.65)',
+        },
+        "aa_targets": {
+            "from": "dendrites",
+            "diam": lambda diam: diam <= 0.75,
+            "arbor": '(radius-le (region "dend") 0.375)',
+        },
         "pf_targets": {
             "from": "dendrites",
             "diam": lambda diam: diam > 0.75 and diam <= 1.6,
+            "arbor": '(intersect (radius-gt (region "dend") 0.375) (radius-le (region "dend") 0.8))',
         },
         "sc_targets": {
             "from": "dendrites",
             "diam": lambda diam: diam > 0.3 and diam <= 1.6,
+            "arbor": '(intersect (radius-gt (region "dend") 0.15) (radius-le (region "dend") 0.8))',
+        },
+        "AIS": {"arbor": '(distal-interval (proximal (region "axon")) 17)'},
+        "AIS_K": {
+            "arbor": '(difference (distal-interval (proximal (region "axon")) 21) (region"AIS"))'
+        },
+        "axonmyelin": {
+            "arbor": "(join {})".format(
+                " ".join(
+                    _lbl_select("axon", 21 + i * 104, 21 + i * 104 + 100)
+                    for i in range(4)
+                )
+            )
+        },
+        "nodes": {
+            "arbor": "(join {})".format(
+                " ".join(
+                    _lbl_select("axon", 21 + i * 104 + 100, 21 + (i + 1) * 104)
+                    for i in range(4)
+                )
+            )
         },
     }
 

@@ -1,11 +1,9 @@
 from ._shared import DbbsNeuronModel
-from arborize.builders import rotate
+from arborize import compose_types
 
 
 class GolgiCell(DbbsNeuronModel):
-    morphologies = [
-        ("pair-140514-C2-1_split_1.asc", rotate([0.0, 1.0, 0.0], [1.0, 0.0, 0.0]))
-    ]
+    morphologies = ["golgi_cell.swc"]
 
     synapse_types = {
         "AMPA_PF": {
@@ -58,136 +56,83 @@ class GolgiCell(DbbsNeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": [
-                "Leak",
-                "Nav1_6",
-                "Kv1_1",
-                "Kv3_4",
-                "Kv4_3",
-                "Kca1_1",
-                "Kca3_1",
-                "Ca",
-                "Cav3_1",
-                ("cdp5", "CAM_GoC"),
-            ],
-            "attributes": {
-                "Ra": 122,
-                "cm": 1,
-                "ena": 60,
-                "ek": -80,
-                "eca": 137,
-                ("e", "Leak"): -55,
-                ("gmax", "Leak"): 0.00003,
-                ("gbar", "Nav1_6"): 0.14927733727426,
-                ("gbar", "Kv1_1"): 0.00549507510519,
-                ("gkbar", "Kv3_4"): 0.14910988921938,
-                ("gkbar", "Kv4_3"): 0.00406420380423,
-                ("gbar", "Kca1_1"): 0.017643457890359999,
-                ("gkbar", "Kca3_1"): 0.10177335775222,
-                ("gcabar", "Ca"): 0.0087689418803,
-                ("pcabar", "Cav3_1"): 3.407734319e-05,
-                ("TotalPump", "cdp5"): 1e-7,
+            "cable": {"Ra": 122, "cm": 1},
+            "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 137}},
+            "mechanisms": {
+                "Leak": {"e": -55, "gmax": 3e-05},
+                "Nav1_6": {"gbar": 0.14927733727426},
+                "Kv1_1": {"gbar": 0.00549507510519},
+                "Kv3_4": {"gkbar": 0.14910988921938},
+                "Kv4_3": {"gkbar": 0.00406420380423},
+                "Kca1_1": {"gbar": 0.01764345789036},
+                "Kca3_1": {"gkbar": 0.10177335775222},
+                "Ca": {"gcabar": 0.0087689418803},
+                "Cav3_1": {"pcabar": 3.407734319e-05},
+                ("cdp5", "CAM_GoC"): {"TotalPump": 1e-07},
             },
         },
-        "dendrites": {"mechanisms": [], "attributes": {}},
+        "dendrites": {"cable": {}, "ions": {}, "mechanisms": {}},
         "basal_dendrites": {
-            "synapses": ["AMPA_AA", "AMPA_MF", "NMDA", "GABA", "gap", "gap_s"],
-            "mechanisms": [
-                "Leak",
-                "Nav1_6",
-                "Kca1_1",
-                "Kca2_2",
-                "Ca",
-                ("cdp5", "CAM_GoC"),
-            ],
-            "attributes": {
-                "Ra": 122,
-                "cm": 2.5,
-                "ena": 60,
-                "ek": -80,
-                "eca": 137,
-                ("e", "Leak"): -55,
-                ("gmax", "Leak"): 0.00003,
-                ("gbar", "Nav1_6"): 0.0080938853145999991,
-                ("gbar", "Kca1_1"): 0.012260527481460001,
-                ("gkbar", "Kca2_2"): 0.016506899583850002,
-                ("gcabar", "Ca"): 0.0013988561771200001,
-                ("TotalPump", "cdp5"): 2e-9,
+            "cable": {"Ra": 122, "cm": 2.5},
+            "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 137}},
+            "mechanisms": {
+                "Leak": {"e": -55, "gmax": 3e-05},
+                "Nav1_6": {"gbar": 0.0080938853146},
+                "Kca1_1": {"gbar": 0.01226052748146},
+                "Kca2_2": {"gkbar": 0.01650689958385},
+                "Ca": {"gcabar": 0.00139885617712},
+                ("cdp5", "CAM_GoC"): {"TotalPump": 2e-09},
             },
+            "synapses": ["AMPA_AA", "AMPA_MF", "NMDA", "GABA", "gap", "gap_s"],
         },
         "apical_dendrites": {
-            "synapses": ["AMPA_PF"],
-            "mechanisms": [
-                "Leak",
-                "Nav1_6",
-                "Kca1_1",
-                "Kca2_2",
-                "Cav2_3",
-                "Cav3_1",
-                ("cdp5", "CAM_GoC"),
-            ],
-            "attributes": {
-                "Ra": 122,
-                "cm": 2.5,
-                "ena": 60,
-                "ek": -80,
-                "eca": 137,
-                ("e", "Leak"): -55,
-                ("gmax", "Leak"): 0.00003,
-                ("gbar", "Nav1_6"): 0.00499506303209,
-                ("gbar", "Kca1_1"): 0.01016375552607,
-                ("gkbar", "Kca2_2"): 0.0024717247914099998,
-                ("gcabar", "Cav2_3"): 0.00128859564935,
-                ("pcabar", "Cav3_1"): 3.690771983e-05,
-                ("TotalPump", "cdp5"): 5e-9,
+            "cable": {"Ra": 122, "cm": 2.5},
+            "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 137}},
+            "mechanisms": {
+                "Leak": {"e": -55, "gmax": 3e-05},
+                "Nav1_6": {"gbar": 0.00499506303209},
+                "Kca1_1": {"gbar": 0.01016375552607},
+                "Kca2_2": {"gkbar": 0.00247172479141},
+                "Cav2_3": {"gcabar": 0.00128859564935},
+                "Cav3_1": {"pcabar": 3.690771983e-05},
+                ("cdp5", "CAM_GoC"): {"TotalPump": 5e-09},
             },
+            "synapses": ["AMPA_PF"],
         },
         "axon": {
-            "mechanisms": ["Leak", "Nav1_6", "Kv3_4", ("cdp5", "CAM_GoC")],
-            "attributes": {
-                "Ra": 122,
-                "cm": 1,
-                "ena": 60,
-                "ek": -80,
-                "eca": 137,
-                ("e", "Leak"): -55,
-                ("gmax", "Leak"): 0.000001,
-                ("gbar", "Nav1_6"): 0.0115,
-                ("gkbar", "Kv3_4"): 0.0091,
-                ("TotalPump", "cdp5"): 1e-8,
+            "cable": {"Ra": 122, "cm": 1},
+            "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 137}},
+            "mechanisms": {
+                "Leak": {"e": -55, "gmax": 1e-06},
+                "Nav1_6": {"gbar": 0.0115},
+                "Kv3_4": {"gkbar": 0.0091},
+                ("cdp5", "CAM_GoC"): {"TotalPump": 1e-08},
             },
         },
-        "axon_initial_segment": {
-            "mechanisms": [
-                "Leak",
-                ("HCN1", "golgi"),
-                "HCN2",
-                "Nav1_6",
-                "Ca",
-                "Kca1_1",
-                "Km",
-                ("cdp5", "CAM_GoC"),
-            ],
-            "attributes": {
-                "Ra": 122,
-                "cm": 1,
-                "ena": 60,
-                "ek": -80,
-                "eca": 137,
-                ("e", "Leak"): -55,
-                ("gmax", "Leak"): 0.00003,
-                ("gbar", "Nav1_6"): 0.17233663543618999,
-                ("gbar", "Kca1_1"): 0.10008178886943001,
-                ("gcabar", "Ca"): 0.0059504600114800004,
-                ("gkbar", "Km"): 0.00024381226197999999,
-                ("gbar", "HCN1"): 0.0003371456442,
-                ("gbar", "HCN2"): 0.00030643090764,
-                ("TotalPump", "cdp5"): 1e-8,
+        "axon_initial_segment": compose_types(
+            "axon",
+            {
+                "cable": {"Ra": 122, "cm": 1},
+                "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 137}},
+                "mechanisms": {
+                    "Leak": {"e": -55, "gmax": 3e-05},
+                    ("HCN1", "golgi"): {},
+                    "HCN2": {"gbar": 0.00030643090764},
+                    "Nav1_6": {"gbar": 0.17233663543619},
+                    "Ca": {"gcabar": 0.00595046001148},
+                    "Kca1_1": {"gbar": 0.10008178886943},
+                    "Km": {"gkbar": 0.00024381226198},
+                    ("cdp5", "CAM_GoC"): {"TotalPump": 1e-08},
+                    "HCN1": {"gbar": 0.0003371456442},
+                },
             },
-        },
+        ),
     }
 
     labels = {
+        "soma": {"arbor": "(tag 1)"},
+        "axon": {"arbor": "(tag 2)"},
+        "dend": {"arbor": "(tag 3)"},
         "basal_dendrites": {
             "from": "dendrites",
             "id": lambda id: id >= 0
@@ -199,6 +144,7 @@ class GolgiCell(DbbsNeuronModel):
             or id == 84
             or id >= 105
             and id <= 150,
+            "arbor": '(distal-interval (proximal (region "dendrites")) 30)',
         },
         "apical_dendrites": {
             "from": "dendrites",
@@ -210,6 +156,11 @@ class GolgiCell(DbbsNeuronModel):
             and id <= 83
             or id >= 85
             and id <= 104,
+            "arbor": '(difference (region "dendrites") (region "basal_dendrites"))',
         },
-        "axon_initial_segment": {"from": "axon", "id": lambda id: id == 0},
+        "axon_initial_segment": {
+            "from": "axon",
+            "id": lambda id: id == 0,
+            "arbor": '(distal-interval (proximal (region "axon")) 10)',
+        },
     }

@@ -2,6 +2,7 @@ import numpy as np
 from patch import p
 from ._shared import DbbsNeuronModel
 from math import floor
+from arborize import compose_types
 
 
 class GranuleCell(DbbsNeuronModel):
@@ -17,7 +18,7 @@ class GranuleCell(DbbsNeuronModel):
         model.build_ascending_axon()
         model.build_parallel_fiber()
 
-    morphologies = [builder]
+    morphologies = ["granule_cell.swc"]
 
     synapse_types = {
         "AMPA": {
@@ -45,147 +46,85 @@ class GranuleCell(DbbsNeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": [
-                "Leak",
-                "Kv3_4",
-                "Kv4_3",
-                "Kir2_3",
-                "Ca",
-                "Kv1_1",
-                "Kv1_5",
-                "Kv2_2",
-                ("cdp5", "CR"),
-            ],
-            "attributes": {
-                "Ra": 100,
-                "cm": 2,
-                ("e", "Leak"): -60,
-                "ek": -88,
-                "eca": 137.5,
-                ("gmax", "Leak"): 0.00029038073716,
-                ("gkbar", "Kv3_4"): 0.00076192450951999995,
-                ("gkbar", "Kv4_3"): 0.0028149683906099998,
-                ("gkbar", "Kir2_3"): 0.00074725514701999996,
-                ("gcabar", "Ca"): 0.00060938071783999998,
-                ("gbar", "Kv1_1"): 0.0056973826455499997,
-                ("gKur", "Kv1_5"): 0.00083407556713999999,
-                ("gKv2_2bar", "Kv2_2"): 1.203410852e-05,
+            "cable": {"Ra": 100, "cm": 2},
+            "ions": {"k": {"e": -88}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                "Leak": {"e": -60, "gmax": 0.00029038073716},
+                "Kv3_4": {"gkbar": 0.00076192450952},
+                "Kv4_3": {"gkbar": 0.00281496839061},
+                "Kir2_3": {"gkbar": 0.00074725514702},
+                "Ca": {"gcabar": 0.00060938071784},
+                "Kv1_1": {"gbar": 0.00569738264555},
+                "Kv1_5": {"gKur": 0.00083407556714},
+                "Kv2_2": {"gKv2_2bar": 1.203410852e-05},
+                ("cdp5", "CR"): {},
             },
         },
         "dendrites": {
-            "synapses": ["NMDA", "AMPA", "GABA"],
-            "mechanisms": [
-                "Leak",
-                ("Leak", "GABA"),
-                "Ca",
-                "Kca1_1",
-                "Kv1_1",
-                ("cdp5", "CR"),
-            ],
-            "attributes": {
-                "Ra": 100,
-                "cm": 2.5,
-                ("e", "Leak"): -60,
-                "ek": -88,
-                "eca": 137.5,
-                ("gmax", "Leak"): 0.00025029700736999997,
-                ("gcabar", "Ca"): 0.0050012800845900002,
-                ("gbar", "Kca1_1"): 0.010018074546510001,
-                ("gbar", "Kv1_1"): 0.00381819207934,
+            "cable": {"Ra": 100, "cm": 2.5},
+            "ions": {"k": {"e": -88}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                "Leak": {"e": -60, "gmax": 0.00025029700737},
+                ("Leak", "GABA"): {},
+                "Ca": {"gcabar": 0.00500128008459},
+                "Kca1_1": {"gbar": 0.01001807454651},
+                "Kv1_1": {"gbar": 0.00381819207934},
+                ("cdp5", "CR"): {},
             },
         },
-        "axon": {"mechanisms": [], "attributes": {}},
+        "axon": {"cable": {}, "ions": {}, "mechanisms": {}},
         "ascending_axon": {
-            "mechanisms": [
-                ("Na", "granule_cell"),
-                "Kv3_4",
-                "Leak",
-                "Ca",
-                ("cdp5", "CR"),
-            ],
-            "attributes": {
-                "Ra": 100,
-                "cm": 1,
-                "ena": 87.39,
-                "ek": -88,
-                ("e", "Leak"): -60,
-                "eca": 137.5,
-                ("gnabar", "Na"): 0.026301636815019999,
-                ("gkbar", "Kv3_4"): 0.00237386061632,
-                ("gmax", "Leak"): 9.3640921249999996e-05,
-                ("gcabar", "Ca"): 0.00068197420273000001,
+            "cable": {"Ra": 100, "cm": 1},
+            "ions": {"na": {"e": 87.39}, "k": {"e": -88}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                ("Na", "granule_cell"): {"gnabar": 0.02630163681502},
+                "Kv3_4": {"gkbar": 0.00237386061632},
+                "Leak": {"e": -60, "gmax": 9.364092125e-05},
+                "Ca": {"gcabar": 0.00068197420273},
+                ("cdp5", "CR"): {},
             },
         },
         "parallel_fiber": {
-            "mechanisms": [
-                ("Na", "granule_cell"),
-                "Kv3_4",
-                "Leak",
-                "Ca",
-                ("cdp5", "CR"),
-            ],
-            "attributes": {
-                "L": 20,
-                "diam": 0.15,
-                "Ra": 100,
-                "cm": 1,
-                "ena": 87.39,
-                "ek": -88,
-                ("e", "Leak"): -60,
-                "eca": 137.5,
-                ("gnabar", "Na"): 0.017718484492610001,
-                ("gkbar", "Kv3_4"): 0.0081756804703699993,
-                ("gmax", "Leak"): 3.5301616000000001e-07,
-                ("gcabar", "Ca"): 0.00020856833529999999,
+            "cable": {"Ra": 100, "cm": 1},
+            "ions": {"na": {"e": 87.39}, "k": {"e": -88}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                ("Na", "granule_cell"): {"gnabar": 0.01771848449261},
+                "Kv3_4": {"gkbar": 0.00817568047037},
+                "Leak": {"e": -60, "gmax": 3.5301616e-07},
+                "Ca": {"gcabar": 0.0002085683353},
+                ("cdp5", "CR"): {},
             },
         },
-        "axon_initial_segment": {
-            "mechanisms": [
-                ("Na", "granule_cell_FHF"),
-                "Kv3_4",
-                "Leak",
-                "Ca",
-                "Km",
-                ("cdp5", "CR"),
-            ],
-            "attributes": {
-                "Ra": 100,
-                "cm": 1,
-                "ena": 87.39,
-                "ek": -88,
-                "eca": 137.5,
-                ("e", "Leak"): -60,
-                ("gnabar", "Na"): 1.28725006737226,
-                ("gkbar", "Kv3_4"): 0.0064959534065400001,
-                ("gmax", "Leak"): 0.00029276697557000002,
-                ("gcabar", "Ca"): 0.00031198539471999999,
-                ("gkbar", "Km"): 0.00056671971737000002,
+        "axon_initial_segment": compose_types(
+            "ascending_axon",
+            {
+                "cable": {"Ra": 100, "cm": 1},
+                "ions": {"na": {"e": 87.39}, "k": {"e": -88}, "ca": {"e": 137.5}},
+                "mechanisms": {
+                    ("Na", "granule_cell_FHF"): {"gnabar": 1.28725006737226},
+                    "Kv3_4": {"gkbar": 0.00649595340654},
+                    "Leak": {"e": -60, "gmax": 0.00029276697557},
+                    "Ca": {"gcabar": 0.00031198539472},
+                    "Km": {"gkbar": 0.00056671971737},
+                    ("cdp5", "CR"): {},
+                },
             },
-        },
-        "axon_hillock": {
-            "mechanisms": [
-                "Leak",
-                ("Na", "granule_cell_FHF"),
-                "Kv3_4",
-                "Ca",
-                ("cdp5", "CR"),
-            ],
-            "attributes": {
-                "Ra": 100,
-                "cm": 2,
-                ("e", "Leak"): -60,
-                "ena": 87.39,
-                "ek": -88,
-                "eca": 137.5,
-                ("gmax", "Leak"): 0.00036958189720000001,
-                ("gnabar", "Na"): 0.0092880585146199995,
-                ("gkbar", "Kv3_4"): 0.020373463109149999,
-                ("gcabar", "Ca"): 0.00057726155447,
+        ),
+        "axon_hillock": compose_types(
+            "ascending_axon",
+            {
+                "cable": {"Ra": 100, "cm": 2},
+                "ions": {"na": {"e": 87.39}, "k": {"e": -88}, "ca": {"e": 137.5}},
+                "mechanisms": {
+                    "Leak": {"e": -60, "gmax": 0.0003695818972},
+                    ("Na", "granule_cell_FHF"): {"gnabar": 0.00928805851462},
+                    "Kv3_4": {"gkbar": 0.02037346310915},
+                    "Ca": {"gcabar": 0.00057726155447},
+                    ("cdp5", "CR"): {},
+                },
             },
-        },
+        ),
     }
-
-    # ATTENTION: NEURON's Import3D loads coordinates in a very funky YXZ way.
 
     def build_soma(self):
         self.soma = [p.Section()]
@@ -287,3 +226,19 @@ class GranuleCell(DbbsNeuronModel):
                 section.connect(self.parallel_fiber[id - 2])
             z += section_length
         self.axon.extend(self.parallel_fiber)
+
+    labels = {
+        "soma": {"arbor": "(tag 1)"},
+        "axon": {"arbor": "(tag 2)"},
+        "dend": {"arbor": "(tag 3)"},
+        "ascending_axon": {"arbor": "(branch 1)"},
+        "axon_hillock": {
+            "arbor": '(distal-interval (proximal (region "ascending_axon")) 1)'
+        },
+        "axon_initial_segment": {
+            "arbor": '(difference (distal-interval (proximal (region "ascending_axon")) 11) (region "axon_hillock"))'
+        },
+        "parallel_fiber": {
+            "arbor": '(difference (region "axon") (region "ascending_axon"))'
+        },
+    }

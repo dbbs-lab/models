@@ -73,7 +73,9 @@ class PurkinjeCell(DbbsNeuronModel):
         },
         "dendrites": {
             "cable": {
-                "cm": lambda d: (11.510294 * math.exp(-1.376463 * d) + 2.120503),
+                # Formula for cm varied from 2 to 6, aprroximated with 4.5
+                "cm": 5.577701084442752,
+                # "cm": lambda d: (11.510294 * math.exp(-1.376463 * d) + 2.120503),
                 "Ra": 122,
             },
             "ions": {
@@ -206,6 +208,7 @@ class PurkinjeCell(DbbsNeuronModel):
         "axonmyelin": {
             "arbor": "(join {})".format(
                 " ".join(
+                    # Select axonal intervals in micrometers
                     _lbl_select("axon", 21 + i * 104, 21 + i * 104 + 100)
                     for i in range(4)
                 )
@@ -214,6 +217,7 @@ class PurkinjeCell(DbbsNeuronModel):
         "nodes": {
             "arbor": "(join {})".format(
                 " ".join(
+                    # Select axonal intervals in micrometers
                     _lbl_select("axon", 21 + i * 104 + 100, 21 + (i + 1) * 104)
                     for i in range(4)
                 )

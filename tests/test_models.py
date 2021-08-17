@@ -1,53 +1,144 @@
 import unittest, efel, arborize, nrnsub
 import arborize.unittest.protocols as protocols
-
-# from runner import run_protocol, run_multicell, run_paracell
+import arborize.unittest.setups as setups
+from patch import p
+import dbbs_models
+from numpy.random import default_rng
 import random
 
-#
-#
-# class TestGranule(unittest.TestCase):
-#     def test_soma_current(self):
-#         results = run_protocol("GranuleCell", "soma_current_injection", amplitude=0.01)
-#         self.assertEqual(results.Spikecount[0], 5, "Incorrect spike count.")
-#
-#
-# class TestPurkinje(unittest.TestCase):
-#     def test_autorhythm(self):
-#         results = run_protocol("PurkinjeCell", "autorhythm")
-#         self.assertEqual(results.Spikecount[0], 3, "Incorrect spike count.")
-#
-#
-# class TestBasket(unittest.TestCase):
-#     def test_autorhythm(self):
-#         results = run_protocol("BasketCell", "autorhythm", duration=300)
-#         self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
+# class TestGranule(arborize.TestCase):
+#     setUp = setups.SingleCell(dbbs_models.GranuleCell)
+#     test_soma_current = protocols.CurrentClamp(dur=500, skip=100, freq=15.0)
+
+
+class TestPurkinje(arborize.TestCase):
+    setUp = setups.SingleCell(dbbs_models.PurkinjeCell)
+    test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
+
+
+class TestBasket(arborize.TestCase):
+    setUp = setups.SingleCell(dbbs_models.BasketCell)
+    test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
 
 
 class TestGolgi(arborize.TestCase):
-    input_conductance = 5.395755181874052e-08
-    gaba_conductance = 8.960206676533555e-11
+    setUp = setups.SingleCell(dbbs_models.GolgiCell)
+    input_conductance = 54000  # pS
+    gaba_conductance = 3200
+    autorhythm = 15.0
 
-    test_autorhythm = protocols.Autorhythm()
+    test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=autorhythm)
+    test_input_conductance = protocols.InputConductance(g=input_conductance, places=-3)
 
-    def test_failure(self):
-        self.assertEqual(5, 6, "Incorrect spike count.")
+    def test_gaba_conductance(self):
+        baseline_setup = setups.SingleCell(dbbs_models.GolgiCell)
+        baseline = protocols.InputConductance(rec_offset=49.15)
+        protocol = protocols.InputConductance(
+            g=self.gaba_conductance, rec_offset=49.15, places=-2
+        )
+        baseline_setup.setup(self)
+        baseline.prepare(baseline_setup)
+        protocol.prepare(self.setup)
+        gc = self.setup.subjects["main"]
+        syn = gc.create_synapse(gc.basal_dendrites[0], "GABA")
+        syn.stimulate(start=250, number=1)
+        i_gaba = syn.record()
+        protocol.run()
+        baseline_results = baseline.results(baseline_setup)
+        results = protocol.results(self.setup)
+        g_gaba = results.get("main.g") - baseline_results.get("main.g")
+        results.set("main.g", g_gaba)
+        protocol.asserts(self, results)
 
-    # def test_autorhythm(self):
-    #     results = run_protocol("GolgiCell", "autorhythm", duration=300)
-    #     self.assertEqual(results.Spikecount[0], 6, "Incorrect spike count.")
-    #
-    # def test_input_conductance(self):
-    #     results = run_protocol("GolgiCell", "voltage_clamp", voltage=-80, holding=-70)
-    #     current = results.get("current")
-    #     i = current.x
-    #     t = current.t
-    #     dv = -0.01
-    #     di = i[11964] * 10e-9 - i[7866] * 10e-9
-    #     g = di / dv
-    #     print(g)
-    #     self.assertAlmostEqual(self.input_conductance, g, 3)
-    #
+    def test_ei_balance(self, n_e=900, n_i=2000, f_e=1, f_i=10, c_e=0, c_i=0):
+        setup = self.setup
+        setup.init_simulator(tstop=9000)
+        gc = setup.subjects["main"]
+        dnd = gc.dendrites
+        bsd = gc.basal_dendrites
+        apd = gc.apical_dendrites
+        epf = [
+            gc.create_synapse(random.choice(apd), "AMPA_PF")
+            for _ in range(int(n_e * 0.85))
+        ]
+        ea = [
+            (
+                gc.create_synapse(s := random.choice(bsd), "AMPA_AA"),
+                gc.create_synapse(random.choice(bsd), "NMDA"),
+            )
+            for _ in range(int(n_e * 0.15))
+        ]
+        i = [gc.create_synapse(random.choice(bsd), "GABA") for _ in range(n_i)]
+        t = p.time
+
+        def poisson(rate=1.0, t_start=0, t_stop=1150):
+            rng = default_rng()
+            t_n = t_start
+            while True:
+                t_n += rng.exponential(scale=1000 / rate)
+                if t_n < t_stop:
+                    yield t_n
+                else:
+                    break
+
+        def corr_poiss_stim(syns, rate, corr, t_start, t_stop):
+            shared = list(poisson(t_start=t_start, t_stop=t_stop, rate=rate))
+            raster = []
+            for syn in syns:
+                unique = list(poisson(t_start=t_start, t_stop=t_stop, rate=rate))
+                combined = random.choices(
+                    shared, k=int(round(len(shared) * corr))
+                ) + random.choices(unique, k=int(round(len(unique) * (1 - corr))))
+                if not isinstance(syn, tuple):
+                    syn = [syn]
+                for s in syn:
+                    for spike in combined:
+                        s.stimulate(number=1, start=spike)
+                raster.append(combined)
+            return raster
+
+        e_inp = corr_poiss_stim(epf, f_e, c_e, 3000, 9000) + corr_poiss_stim(
+            ea, f_e, c_e, 3000, 9000
+        )
+        i_inp = corr_poiss_stim(i, f_i, c_i, 6000, 9000)
+
+        p.finitialize()
+        p.run()
+
+        import plotly.graph_objs as go
+        from plotly.subplots import make_subplots
+
+        fig = make_subplots(rows=3, cols=1, shared_xaxes=True)
+        fig.add_trace(go.Scatter(x=list(p.time), y=list(gc.Vm)), row=3, col=1)
+        for i, train in enumerate(e_inp):
+            fig.add_trace(
+                go.Scatter(
+                    x=train,
+                    y=[i] * len(train),
+                    mode="markers",
+                    marker=dict(size=2, symbol="square", color="red"),
+                ),
+                row=1,
+                col=1,
+            )
+        for i, train in enumerate(i_inp):
+            fig.add_trace(
+                go.Scatter(
+                    x=train,
+                    y=[i] * len(train),
+                    mode="markers",
+                    marker=dict(size=2, symbol="square", color="blue"),
+                ),
+                row=2,
+                col=1,
+            )
+
+        from arborize.unittest._helpers import ezfel
+
+        fq = ezfel(T=list(p.time), signal=list(gc.Vm)).Spikecount[0]
+        fig.update_layout(title_text=f"Golgi cell E/I ({fq}Hz)")
+        fig.show()
+
     # def test_single_gaba_conductance(self):
     #     synapses = [
     #         {

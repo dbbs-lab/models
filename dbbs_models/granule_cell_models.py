@@ -71,6 +71,7 @@ class GranuleCell(DbbsNeuronModel):
                 "Kv1_1": {"gbar": 0.00381819207934},
                 ("cdp5", "CR"): {},
             },
+            "synapses": ["AMPA", "NMDA", "GABA"],
         },
         "axon": {"cable": {}, "ions": {}, "mechanisms": {}},
         "ascending_axon": {
@@ -127,7 +128,7 @@ class GranuleCell(DbbsNeuronModel):
     }
 
     def build_soma(self):
-        self.soma = [p.Section()]
+        self.soma = [p.Section(name="soma")]
         self.soma[0].set_dimensions(length=5.62232, diameter=5.8)
         self.soma[0].set_segments(1)
         self.soma[0].add_3d([self.position, self.position + [0.0, 5.62232, 0.0]])
@@ -135,7 +136,7 @@ class GranuleCell(DbbsNeuronModel):
     def build_dendrites(self):
         self.dend = []
         for i in range(4):
-            dendrite = p.Section()
+            dendrite = p.Section(name=f"dendrite_{i}")
             self.dend.append(dendrite)
             dendrite_position = self.position.copy()
             # Shift the dendrites a little bit for voxelization
@@ -150,7 +151,7 @@ class GranuleCell(DbbsNeuronModel):
             dendrite.connect(self.soma[0], 0)
 
     def build_hillock(self):
-        hillock = p.Section()
+        hillock = p.Section(name="axon_hillock")
         hillock.set_dimensions(length=1, diameter=1.5)
         hillock.set_segments(1)
         hillock.add_3d(
@@ -174,9 +175,8 @@ class GranuleCell(DbbsNeuronModel):
 
     def build_ascending_axon(self):
         seg_length = self.fiber_segment_length
-        n = int(self.ascending_axon_length / seg_length)
 
-        self.ascending_axon = p.Section()
+        self.ascending_axon = p.Section(name="ascending_axon")
         self.ascending_axon.labels = ["ascending_axon"]
         self.ascending_axon.nseg = int(n)
         self.ascending_axon.L = self.ascending_axon_length
@@ -196,18 +196,15 @@ class GranuleCell(DbbsNeuronModel):
         ]
 
         self.ascending_axon.add_3d(points)
-
-        # Store the last used y position as the start for the parallel fiber
-        self.y_pf = y + (seg_length * n)
+        self.y_pf = y + self.ascending_axon_length
 
     def build_parallel_fiber(self):
         section_length = self.fiber_section_length
         n = int(self.parallel_fiber_length / section_length)
         self.parallel_fiber = [
-            p.Section(name="parellel_fiber_" + str(x)) for x in range(n)
+            p.Section(name="parallel_fiber_" + str(x)) for x in range(n)
         ]
-        # Use the last AA y as Y for the PF
-        y = self.y_pf
+        y = self.ascending_axon_length
         center = self.position[2]
         for id, section in enumerate(self.parallel_fiber):
             section.labels = ["parallel_fiber"]

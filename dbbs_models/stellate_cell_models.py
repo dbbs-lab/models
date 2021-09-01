@@ -6,7 +6,7 @@ from arborize import compose_types
 
 
 class StellateCell(DbbsNeuronModel):
-    morphologies = ["stellate.asc"]
+    morphologies = ["StellateCell.swc"]
 
     synapse_types = {
         "AMPA": {

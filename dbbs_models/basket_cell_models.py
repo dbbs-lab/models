@@ -3,7 +3,7 @@ from arborize import compose_types
 
 
 class BasketCell(DbbsNeuronModel):
-    morphologies = ["01bc.asc"]
+    morphologies = ["BasketCell.swc"]
 
     synapse_types = {
         "AMPA": {
@@ -112,4 +112,8 @@ class BasketCell(DbbsNeuronModel):
             "id": lambda id: id == 0,
             "arbor": '(distal-interval (proximal (region "axon")) 10)',
         },
+    }
+
+    tag_translations = {
+        16: ["axon", "axon_initial_segment"],
     }

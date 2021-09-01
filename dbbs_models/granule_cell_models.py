@@ -6,19 +6,7 @@ from arborize import compose_types
 
 
 class GranuleCell(DbbsNeuronModel):
-    @staticmethod
-    def builder(model):
-        model.fiber_section_length = 20  # µm (parallel fiber section length)
-        model.fiber_segment_length = 7
-        model.ascending_axon_length = 126  # µm
-        model.parallel_fiber_length = 2000  # µm
-        model.build_soma()
-        model.build_dendrites()
-        model.build_hillock()
-        model.build_ascending_axon()
-        model.build_parallel_fiber()
-
-    morphologies = ["granule_cell.swc"]
+    morphologies = ["GranuleCell.swc"]
 
     synapse_types = {
         "AMPA": {
@@ -127,110 +115,13 @@ class GranuleCell(DbbsNeuronModel):
         ),
     }
 
-    def build_soma(self):
-        self.soma = [p.Section(name="soma")]
-        self.soma[0].set_dimensions(length=5.62232, diameter=5.8)
-        self.soma[0].set_segments(1)
-        self.soma[0].add_3d([self.position, self.position + [0.0, 5.62232, 0.0]])
-
-    def build_dendrites(self):
-        self.dend = []
-        for i in range(4):
-            dendrite = p.Section(name=f"dendrite_{i}")
-            self.dend.append(dendrite)
-            dendrite_position = self.position.copy()
-            # Shift the dendrites a little bit for voxelization
-            dendrite_position[0] += (i - 1.5) * 2
-            dendrite.set_dimensions(length=15, diameter=0.75)
-            points = []
-            for j in range(10):
-                pt = dendrite_position.copy()
-                pt[1] -= dendrite.L * j / 10
-                points.append(pt)
-            dendrite.add_3d([[p[0], p[1], p[2]] for p in points])
-            dendrite.connect(self.soma[0], 0)
-
-    def build_hillock(self):
-        hillock = p.Section(name="axon_hillock")
-        hillock.set_dimensions(length=1, diameter=1.5)
-        hillock.set_segments(1)
-        hillock.add_3d(
-            [self.position + [0.0, 5.62232, 0.0], self.position + [0.0, 6.62232, 0.0]]
-        )
-        hillock.labels = ["axon_hillock"]
-        hillock.connect(self.soma[0], 0)
-
-        ais = p.Section(name="axon_initial_segment")
-        ais.labels = ["axon_initial_segment"]
-        ais.set_dimensions(length=10, diameter=0.7)
-        ais.set_segments(1)
-        ais.add_3d(
-            [self.position + [0.0, 6.62232, 0.0], self.position + [0.0, 16.62232, 0.0]]
-        )
-        ais.connect(hillock, 1)
-
-        self.axon = [hillock, ais]
-        self.axon_hillock = hillock
-        self.axon_initial_segment = ais
-
-    def build_ascending_axon(self):
-        seg_length = self.fiber_segment_length
-
-        self.ascending_axon = p.Section(name="ascending_axon")
-        self.ascending_axon.labels = ["ascending_axon"]
-        self.ascending_axon.nseg = int(n)
-        self.ascending_axon.L = self.ascending_axon_length
-        self.ascending_axon.diam = 0.3
-        previous_section = self.axon_initial_segment
-        self.axon.append(self.ascending_axon)
-        self.ascending_axon.connect(previous_section)
-
-        y = 16.62232
-
-        # Extract a set of intermediate points between start and end of ascending_axon to improve voxelization in scaffold
-        fraction = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-
-        points = [
-            self.position + [0.0, (y + f * self.ascending_axon_length), 0.0]
-            for f in fraction
-        ]
-
-        self.ascending_axon.add_3d(points)
-        self.y_pf = y + self.ascending_axon_length
-
-    def build_parallel_fiber(self):
-        section_length = self.fiber_section_length
-        n = int(self.parallel_fiber_length / section_length)
-        self.parallel_fiber = [
-            p.Section(name="parallel_fiber_" + str(x)) for x in range(n)
-        ]
-        y = self.ascending_axon_length
-        center = self.position[2]
-        for id, section in enumerate(self.parallel_fiber):
-            section.labels = ["parallel_fiber"]
-            section.set_dimensions(length=section_length, diameter=0.3)
-            sign = 1 - (id % 2) * 2
-            z = floor(id / 2) * section_length
-            section.add_3d(
-                [
-                    self.position + [0.0, y, center + sign * z],
-                    self.position + [0.0, y, center + sign * (z + section_length)],
-                ]
-            )
-            if id < 2:
-                section.connect(self.ascending_axon)
-            else:
-                section.connect(self.parallel_fiber[id - 2])
-            z += section_length
-        self.axon.extend(self.parallel_fiber)
-
     labels = {
         "soma": {"arbor": "(tag 1)"},
         "axon": {"arbor": "(tag 2)"},
         "dend": {"arbor": "(tag 3)"},
         "ascending_axon": {"arbor": "(branch 1)"},
         "axon_hillock": {
-            "arbor": '(distal-interval (proximal (region "ascending_axon")) 1)'
+            "arbor": '(distal-interval (proximal (region "ascending_axon")) 1)',
         },
         "axon_initial_segment": {
             "arbor": '(difference (distal-interval (proximal (region "ascending_axon")) 11) (region "axon_hillock"))'
@@ -238,4 +129,11 @@ class GranuleCell(DbbsNeuronModel):
         "parallel_fiber": {
             "arbor": '(difference (region "axon") (region "ascending_axon"))'
         },
+    }
+
+    tag_translations = {
+        16: ["axon", "axon_hillock"],
+        17: ["axon", "axon_initial_segment"],
+        18: ["axon", "ascending_axon"],
+        19: ["axon", "parallel_fiber"],
     }

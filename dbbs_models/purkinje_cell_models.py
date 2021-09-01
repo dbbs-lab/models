@@ -225,6 +225,16 @@ class PurkinjeCell(DbbsNeuronModel):
         },
     }
 
+    tag_translations = {
+        16: ["axon", "AIS"],
+        17: ["axon", "AIS_K"],
+        18: ["axon", "axonmyelin"],
+        19: ["axon", "nodes"],
+        20: ["dendrites", "basal_dendrites"],
+        21: ["dendrites", "pf_targets", "sc_targets"],
+        22: ["dendrites", "aa_targets", "sc_targets"],
+    }
+
     def build_AIS(self):
         ais = p.Section(name="AIS")
         ais.labels = ["AIS"]

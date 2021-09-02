@@ -42,7 +42,7 @@ class PurkinjeCell(DbbsNeuronModel):
             "cable": {"Ra": 122, "cm": 1},
             "ions": {
                 "na": {"e": 60},
-                "k": {"e": -88},
+                "k": {"e": -80.993},
                 "h": {"e": -34.4},
                 "ca": {"e": 137.52625},
             },
@@ -73,7 +73,7 @@ class PurkinjeCell(DbbsNeuronModel):
             },
             "ions": {
                 "na": {"e": 60},
-                "k": {"e": -88},
+                "k": {"e": -80.993},
                 "h": {"e": -34.4},
                 "ca": {"e": 137.52625},
             },
@@ -95,7 +95,7 @@ class PurkinjeCell(DbbsNeuronModel):
             "dendrites",
             {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "ions": {"na": {"e": 60}, "k": {"e": -80.993}, "ca": {"e": 137.52625}},
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
                     "Kir2_3": {"gkbar": 1.135399111e-05},
@@ -110,7 +110,7 @@ class PurkinjeCell(DbbsNeuronModel):
             "dendrites",
             {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "ions": {"na": {"e": 60}, "k": {"e": -80.993}, "ca": {"e": 137.52625}},
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
                     "Kir2_3": {"gkbar": 1.135399111e-05},
@@ -127,7 +127,7 @@ class PurkinjeCell(DbbsNeuronModel):
         "sc_targets": {"cable": {}, "ions": {}, "mechanisms": {}, "synapses": ["GABA"]},
         "AIS": {
             "cable": {"Ra": 122, "cm": 1},
-            "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+            "ions": {"na": {"e": 60}, "k": {"e": -80.993}, "ca": {"e": 137.52625}},
             "mechanisms": {
                 "Leak": {"e": -61, "gmax": 0.0003},
                 "Nav1_6": {"gbar": 0.76520432560779},
@@ -140,7 +140,7 @@ class PurkinjeCell(DbbsNeuronModel):
         "axon": {"cable": {}, "ions": {}, "mechanisms": {}},
         "AIS_K": {
             "cable": {"Ra": 122, "cm": 1},
-            "ions": {"k": {"e": -88}},
+            "ions": {"k": {"e": -80.993}},
             "mechanisms": {
                 "Leak": {"e": -61, "gmax": 0.0003},
                 "Kv1_1": {"gbar": 0.01011038066089},
@@ -153,7 +153,7 @@ class PurkinjeCell(DbbsNeuronModel):
         },
         "nodes": {
             "cable": {"Ra": 122, "cm": 1},
-            "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+            "ions": {"na": {"e": 60}, "k": {"e": -80.993}, "ca": {"e": 137.52625}},
             "mechanisms": {
                 "Leak": {"e": -61, "gmax": 0.0003},
                 "Nav1_6": {"gbar": 0.02749309338198},

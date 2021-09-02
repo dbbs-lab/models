@@ -116,9 +116,6 @@ class GranuleCell(DbbsNeuronModel):
     }
 
     labels = {
-        "soma": {"arbor": "(tag 1)"},
-        "axon": {"arbor": "(tag 2)"},
-        "dend": {"arbor": "(tag 3)"},
         "ascending_axon": {"arbor": "(branch 1)"},
         "axon_hillock": {
             "arbor": '(distal-interval (proximal (region "ascending_axon")) 1)',

@@ -130,11 +130,8 @@ class GolgiCell(DbbsNeuronModel):
     }
 
     labels = {
-        "soma": {"arbor": "(tag 1)"},
-        "axon": {"arbor": "(tag 2)"},
-        "dend": {"arbor": "(tag 3)"},
         "basal_dendrites": {
-            "arbor": "(distal-interval (proximal (tag 3)) 30)",
+            "arbor": '(distal-interval (proximal (region "dendrites")) 30)',
         },
         "apical_dendrites": {
             "arbor": '(difference (tag 3) (region "basal_dendrites"))',

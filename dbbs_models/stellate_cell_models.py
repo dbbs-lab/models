@@ -157,3 +157,9 @@ class StellateCell(DbbsNeuronModel):
             "arbor": '(distal-interval (proximal (region "axon")) 25)',
         },
     }
+
+    tag_translations = {
+        16: ["dendrites", "proximal_dendrites"],
+        17: ["dendrites", "distal_dendrites"],
+        18: ["axon", "axon_initial_segment"],
+    }

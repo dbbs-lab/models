@@ -166,32 +166,19 @@ class PurkinjeCell(DbbsNeuronModel):
     }
 
     labels = {
-        "soma": {"arbor": "(tag 1)"},
-        "axon": {"arbor": "(tag 2)"},
-        "dend": {"arbor": "(tag 3)"},
         "basal_dendrites": {
-            "from": "dendrites",
-            "diam": lambda diam: diam >= 1.6,
             "arbor": '(difference (radius-ge (region "dend") 0.8) (region "sodium_dendrites"))',
         },
         "sodium_dendrites": {
-            "from": "dendrites",
-            "diam": lambda diam: diam >= 3.3,
             "arbor": '(radius-ge (region "dend") 1.65)',
         },
         "aa_targets": {
-            "from": "dendrites",
-            "diam": lambda diam: diam <= 0.75,
             "arbor": '(radius-le (region "dend") 0.375)',
         },
         "pf_targets": {
-            "from": "dendrites",
-            "diam": lambda diam: diam > 0.75 and diam <= 1.6,
             "arbor": '(intersect (radius-gt (region "dend") 0.375) (radius-le (region "dend") 0.8))',
         },
         "sc_targets": {
-            "from": "dendrites",
-            "diam": lambda diam: diam > 0.3 and diam <= 1.6,
             "arbor": '(intersect (radius-gt (region "dend") 0.15) (radius-le (region "dend") 0.8))',
         },
         "AIS": {"arbor": '(distal-interval (proximal (region "axon")) 17)'},

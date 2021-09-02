@@ -104,9 +104,6 @@ class BasketCell(DbbsNeuronModel):
     }
 
     labels = {
-        "soma": {"arbor": "(tag 1)"},
-        "axon": {"arbor": "(tag 2)"},
-        "dend": {"arbor": "(tag 3)"},
         "axon_initial_segment": {
             "from": "axon",
             "id": lambda id: id == 0,

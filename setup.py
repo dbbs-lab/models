@@ -23,7 +23,6 @@ setuptools.setup(
     url="https://github.com/dbbs-lab/models",
     include_package_data=True,
     package_data={
-        # If any package contains *.txt or *.rst files, include them:
         "": ["morphologies/*.asc", "morphologies/*.swc"],
     },
     license="GPLv3",
@@ -34,9 +33,10 @@ setuptools.setup(
     ],
     install_requires=[
         "arborize>=2.0.0b12",
-        "nrn-glia>=0.3.8",
+        "nrn-glia>=0.4",
         "dbbs-mod-collection==2.2.0b1",
         "nrn-patch>=3.0.0b1",
+        "dbbs-catalogue>=0.0.2",
     ],
     extras_require={
         "dev": ["efel", "ndsb>=2.0.0", "plotly>=4.11.0", "kaleido", "pygithub", "h5py"]

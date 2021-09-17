@@ -115,20 +115,7 @@ class GranuleCell(DbbsNeuronModel):
         ),
     }
 
-    labels = {
-        "ascending_axon": {"arbor": "(branch 1)"},
-        "axon_hillock": {
-            "arbor": '(distal-interval (proximal (region "ascending_axon")) 1)',
-        },
-        "axon_initial_segment": {
-            "arbor": '(difference (distal-interval (proximal (region "ascending_axon")) 11) (region "axon_hillock"))'
-        },
-        "parallel_fiber": {
-            "arbor": '(difference (region "axon") (region "ascending_axon"))'
-        },
-    }
-
-    tag_translations = {
+    tags = {
         16: ["axon", "axon_hillock"],
         17: ["axon", "axon_initial_segment"],
         18: ["axon", "ascending_axon"],

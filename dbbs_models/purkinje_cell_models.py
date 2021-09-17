@@ -205,7 +205,7 @@ class PurkinjeCell(DbbsNeuronModel):
         },
     }
 
-    tag_translations = {
+    tags = {
         16: ["axon", "AIS"],
         17: ["axon", "AIS_K"],
         18: ["axon", "axonmyelin"],

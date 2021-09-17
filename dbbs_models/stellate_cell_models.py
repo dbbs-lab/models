@@ -129,25 +129,8 @@ class StellateCell(DbbsNeuronModel):
             },
         ),
     }
-    labels = {
-        "proximal_dendrites": {
-            "from": "dendrites",
-            "diam": lambda diam: diam >= 0.6,
-            "arbor": '(radius-ge (region "dendrites") 0.3)',
-        },
-        "distal_dendrites": {
-            "from": "dendrites",
-            "diam": lambda diam: diam < 0.6,
-            "arbor": '(radius-lt (region "dendrites") 0.3)',
-        },
-        "axon_initial_segment": {
-            "from": "axon",
-            "id": lambda id: id == 0,
-            "arbor": '(distal-interval (proximal (region "axon")) 25)',
-        },
-    }
 
-    tag_translations = {
+    tags = {
         16: ["dendrites", "proximal_dendrites"],
         17: ["dendrites", "distal_dendrites"],
         18: ["axon", "axon_initial_segment"],

@@ -103,14 +103,6 @@ class BasketCell(DbbsNeuronModel):
         ),
     }
 
-    labels = {
-        "axon_initial_segment": {
-            "from": "axon",
-            "id": lambda id: id == 0,
-            "arbor": '(distal-interval (proximal (region "axon")) 10)',
-        },
-    }
-
-    tag_translations = {
+    tags = {
         16: ["axon", "axon_initial_segment"],
     }

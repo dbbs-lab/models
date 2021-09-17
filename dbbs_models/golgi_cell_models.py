@@ -1,11 +1,9 @@
 from ._shared import DbbsNeuronModel
 from arborize import compose_types
-from arborize.builders import rotate
+from arborize.builders import rotate, blue_nseg
 
 
-class GolgiCell(DbbsNeuronModel):
-    morphologies = ["GolgiCell.swc"]
-
+class AbstractGolgiCell(DbbsNeuronModel, abstract=True):
     synapse_types = {
         "AMPA_PF": {
             "point_process": "AMPA",
@@ -129,20 +127,46 @@ class GolgiCell(DbbsNeuronModel):
         ),
     }
 
-    labels = {
-        "basal_dendrites": {
-            "arbor": '(distal-interval (proximal (region "dendrites")) 30)',
-        },
-        "apical_dendrites": {
-            "arbor": '(difference (tag 3) (region "basal_dendrites"))',
-        },
-        "axon_initial_segment": {
-            "arbor": '(distal-interval (proximal (region "axon")) 10)',
-        },
-    }
-
-    tag_translations = {
+    tags = {
         16: ["dendrites", "basal_dendrites"],
         17: ["dendrites", "apical_dendrites"],
         18: ["axon", "axon_initial_segment"],
     }
+
+
+class GolgiCell(AbstractGolgiCell):
+    morphologies = [
+        ("GolgiCell.asc", rotate([0.0, 1.0, 0.0], [1.0, 0.0, 0.0])),
+        blue_nseg(),
+    ]
+
+    labels = {
+        "basal_dendrites": {
+            "from": "dendrites",
+            "id": lambda id: id >= 0
+            and id <= 3
+            or id >= 16
+            and id <= 17
+            or id >= 33
+            and id <= 41
+            or id == 84
+            or id >= 105
+            and id <= 150,
+        },
+        "apical_dendrites": {
+            "from": "dendrites",
+            "id": lambda id: id >= 4
+            and id <= 15
+            or id >= 18
+            and id <= 32
+            or id >= 42
+            and id <= 83
+            or id >= 85
+            and id <= 104,
+        },
+        "axon_initial_segment": {"from": "axon", "id": lambda id: id == 0},
+    }
+
+
+class GolgiCellArb(AbstractGolgiCell):
+    morphologies = ["GolgiCell.swc"]

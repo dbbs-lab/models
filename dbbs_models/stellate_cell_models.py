@@ -109,7 +109,7 @@ class StellateCell(DbbsNeuronModel):
                 "Nav1_6": {"gbar": 0.00835931586458},
                 "Kv3_4": {"gkbar": 0.01153520393521},
                 "HCN1": {"gbar": 0.00070017344082},
-                "cdp5": None,
+                "cdp5": {},
             },
         },
         "axon_initial_segment": compose_types(

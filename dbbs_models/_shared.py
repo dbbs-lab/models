@@ -12,6 +12,9 @@ class DbbsNeuronModel(arborize.NeuronModel, abstract=True):
     morphology_directory = _dir
 
     @classmethod
-    @functools.cache
-    def catalogue(cls):
-        return glia.catalogue("dbbs"), ""
+    def make_catalogue(cls):
+        import arbor
+
+        cat = arbor.default_catalogue()
+        cat.extend(glia.catalogue("dbbs"), "")
+        return cat

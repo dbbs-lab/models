@@ -2,211 +2,122 @@ import numpy as np
 from patch import p
 from ._shared import DbbsNeuronModel
 from math import floor
+from arborize import compose_types
+
 
 class GranuleCell(DbbsNeuronModel):
-    @staticmethod
-    def builder(model):
-        model.fiber_section_length = 20          # µm (parallel fiber section length)
-        model.fiber_segment_length = 7
-        model.ascending_axon_length = 126       # µm
-        model.parallel_fiber_length = 2000      # µm
-        model.build_soma()
-        model.build_dendrites()
-        model.build_hillock()
-        model.build_ascending_axon()
-        model.build_parallel_fiber()
-
-    morphologies = [builder]
+    morphologies = ["GranuleCell.swc"]
 
     synapse_types = {
         "AMPA": {
-            "point_process": ('AMPA', 'granule'),
+            "point_process": ("AMPA", "granule"),
             "attributes": {
-                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 1400, "U": 0.43
-            }
+                "tau_facil": 5,
+                "tau_rec": 8,
+                "tau_1": 1,
+                "gmax": 1400,
+                "U": 0.43,
+            },
         },
         "NMDA": {
-            "point_process": ('NMDA', 'granule'),
+            "point_process": ("NMDA", "granule"),
             "attributes": {
-                "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 23500, "U": 0.43
-            }
+                "tau_facil": 5,
+                "tau_rec": 8,
+                "tau_1": 1,
+                "gmax": 23500,
+                "U": 0.43,
+            },
         },
-        "GABA": {
-            "point_process": ('GABA', 'granule'),
-            "attributes": {"U": 0.35}
-        }
+        "GABA": {"point_process": ("GABA", "granule"), "attributes": {"U": 0.35}},
     }
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak', 'Kv3_4', 'Kv4_3', 'Kir2_3', 'Ca', 'Kv1_1', 'Kv1_5', 'Kv2_2', ('cdp5', 'CR')],
-            "attributes": {
-                "Ra": 100, "cm": 2,
-                ("e","Leak"): -60, "ek": -88, "eca": 137.5,
-                ("gmax", "Leak"): 0.00029038073716,
-                ("gkbar", "Kv3_4"): 0.00076192450951999995,
-                ("gkbar", "Kv4_3"): 0.0028149683906099998,
-                ("gkbar", "Kir2_3"): 0.00074725514701999996,
-                ("gcabar", "Ca"): 0.00060938071783999998,
-                ("gbar", "Kv1_1"):  0.0056973826455499997,
-                ("gKur", "Kv1_5"):  0.00083407556713999999,
-                ("gKv2_2bar", "Kv2_2"): 1.203410852e-05
-            }
+            "cable": {"Ra": 100, "cm": 2},
+            "ions": {"k": {"e": -80.993}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                "Leak": {"e": -60, "gmax": 0.00029038073716},
+                "Kv3_4": {"gkbar": 0.00076192450952},
+                "Kv4_3": {"gkbar": 0.00281496839061},
+                "Kir2_3": {"gkbar": 0.00074725514702},
+                "Ca": {"gcabar": 0.00060938071784},
+                "Kv1_1": {"gbar": 0.00569738264555},
+                "Kv1_5": {"gKur": 0.00083407556714},
+                "Kv2_2": {"gKv2_2bar": 1.203410852e-05},
+                ("cdp5", "CR"): {},
+            },
         },
         "dendrites": {
-            "synapses": ['NMDA', 'AMPA', 'GABA'],
-            "mechanisms": ['Leak', ('Leak', 'GABA'), 'Ca', 'Kca1_1', 'Kv1_1', ('cdp5', 'CR')],
-            "attributes": {
-                "Ra": 100, "cm": 2.5,
-                ("e", "Leak"):  -60, "ek": -88, "eca": 137.5,
-                ("gmax", "Leak"): 0.00025029700736999997,
-                ("gcabar", "Ca"): 0.0050012800845900002,
-                ("gbar", "Kca1_1"): 0.010018074546510001,
-                ("gbar", "Kv1_1"): 0.00381819207934
-            }
+            "cable": {"Ra": 100, "cm": 2.5},
+            "ions": {"k": {"e": -80.993}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                "Leak": {"e": -60, "gmax": 0.00025029700737},
+                ("Leak", "GABA"): {},
+                "Ca": {"gcabar": 0.00500128008459},
+                "Kca1_1": {"gbar": 0.01001807454651},
+                "Kv1_1": {"gbar": 0.00381819207934},
+                ("cdp5", "CR"): {},
+            },
+            "synapses": ["AMPA", "NMDA", "GABA"],
         },
-        "axon": {
-            "mechanisms": [], "attributes": {}
-        },
+        "axon": {"cable": {}, "ions": {}, "mechanisms": {}},
         "ascending_axon": {
-            "mechanisms": [('Na', 'granule_cell'), 'Kv3_4', 'Leak', 'Ca', ('cdp5', 'CR')],
-            "attributes": {
-                "Ra": 100, "cm": 1,
-                "ena": 87.39, "ek": -88, ("e","Leak"):  -60, "eca": 137.5,
-                ("gnabar", "Na"): 0.026301636815019999,
-                ("gkbar", "Kv3_4"): 0.00237386061632,
-                ("gmax", "Leak"):  9.3640921249999996e-05,
-                ("gcabar", "Ca"): 0.00068197420273000001,
-            }
+            "cable": {"Ra": 100, "cm": 1},
+            "ions": {"na": {"e": 87.39}, "k": {"e": -80.993}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                ("Na", "granule_cell"): {"gnabar": 0.02630163681502},
+                "Kv3_4": {"gkbar": 0.00237386061632},
+                "Leak": {"e": -60, "gmax": 9.364092125e-05},
+                "Ca": {"gcabar": 0.00068197420273},
+                ("cdp5", "CR"): {},
+            },
         },
         "parallel_fiber": {
-            "mechanisms": [('Na', 'granule_cell'), 'Kv3_4', 'Leak', 'Ca', ('cdp5', 'CR')],
-            "attributes": {
-            "L": 20, "diam": 0.15, "Ra": 100, "cm": 1,
-            "ena": 87.39, "ek": -88, ("e","Leak"):  -60, "eca": 137.5,
-            ("gnabar", "Na"): 0.017718484492610001,
-            ("gkbar", "Kv3_4"): 0.0081756804703699993,
-            ("gmax", "Leak"): 3.5301616000000001e-07,
-            ("gcabar", "Ca"): 0.00020856833529999999
-            }
+            "cable": {"Ra": 100, "cm": 1},
+            "ions": {"na": {"e": 87.39}, "k": {"e": -80.993}, "ca": {"e": 137.5}},
+            "mechanisms": {
+                ("Na", "granule_cell"): {"gnabar": 0.01771848449261},
+                "Kv3_4": {"gkbar": 0.00817568047037},
+                "Leak": {"e": -60, "gmax": 3.5301616e-07},
+                "Ca": {"gcabar": 0.0002085683353},
+                ("cdp5", "CR"): {},
+            },
         },
-        "axon_initial_segment": {
-            "mechanisms": [('Na', 'granule_cell_FHF'), 'Kv3_4', 'Leak', 'Ca', 'Km', ('cdp5', 'CR')],
-            "attributes": {
-                "Ra": 100, "cm": 1,
-                "ena": 87.39, "ek": -88, "eca": 137.5, ("e","Leak"):  -60,
-                ("gnabar", "Na"): 1.28725006737226,
-                ("gkbar", "Kv3_4"): 0.0064959534065400001,
-                ("gmax", "Leak"): 0.00029276697557000002,
-                ("gcabar", "Ca"):  0.00031198539471999999,
-                ("gkbar", "Km"):  0.00056671971737000002
-            }
-        },
-        "axon_hillock": {
-            "mechanisms": ['Leak', ('Na', 'granule_cell_FHF'), 'Kv3_4', 'Ca', ('cdp5', 'CR')],
-            "attributes": {
-                "Ra": 100, "cm": 2,
-                ("e","Leak"):  -60, "ena": 87.39, "ek": -88, "eca": 137.5,
-                ("gmax", "Leak"): 0.00036958189720000001,
-                ("gnabar", "Na"): 0.0092880585146199995,
-                ("gkbar", "Kv3_4"): 0.020373463109149999,
-                ("gcabar", "Ca"): 0.00057726155447
-            }
-        }
+        "axon_initial_segment": compose_types(
+            "ascending_axon",
+            {
+                "cable": {"Ra": 100, "cm": 1},
+                "ions": {"na": {"e": 87.39}, "k": {"e": -80.993}, "ca": {"e": 137.5}},
+                "mechanisms": {
+                    ("Na", "granule_cell_FHF"): {"gnabar": 1.28725006737226},
+                    "Kv3_4": {"gkbar": 0.00649595340654},
+                    "Leak": {"e": -60, "gmax": 0.00029276697557},
+                    "Ca": {"gcabar": 0.00031198539472},
+                    "Km": {"gkbar": 0.00056671971737},
+                    ("cdp5", "CR"): {},
+                },
+            },
+        ),
+        "axon_hillock": compose_types(
+            "ascending_axon",
+            {
+                "cable": {"Ra": 100, "cm": 2},
+                "ions": {"na": {"e": 87.39}, "k": {"e": -80.993}, "ca": {"e": 137.5}},
+                "mechanisms": {
+                    "Leak": {"e": -60, "gmax": 0.0003695818972},
+                    ("Na", "granule_cell_FHF"): {"gnabar": 0.00928805851462},
+                    "Kv3_4": {"gkbar": 0.02037346310915},
+                    "Ca": {"gcabar": 0.00057726155447},
+                    ("cdp5", "CR"): {},
+                },
+            },
+        ),
     }
 
-    # ATTENTION: NEURON's Import3D loads coordinates in a very funky YXZ way.
-
-    def build_soma(self):
-        self.soma = [p.Section()]
-        self.soma[0].set_dimensions(length=5.62232, diameter=5.8)
-        self.soma[0].set_segments(1)
-        self.soma[0].add_3d([self.position, self.position + [0., 5.62232, 0.]])
-
-    def build_dendrites(self):
-        self.dend = []
-        for i in range(4):
-            dendrite = p.Section()
-            self.dend.append(dendrite)
-            dendrite_position = self.position.copy()
-            # Shift the dendrites a little bit for voxelization
-            dendrite_position[0] += (i - 1.5) * 2
-            dendrite.set_dimensions(length=15, diameter=0.75)
-            points = []
-            for j in range(10):
-                pt = dendrite_position.copy()
-                pt[1] -= dendrite.L * j / 10
-                points.append(pt)
-            dendrite.add_3d([[p[0], p[1], p[2]] for p in points])
-            dendrite.connect(self.soma[0],0)
-
-    def build_hillock(self):
-        hillock = p.Section()
-        hillock.set_dimensions(length=1,diameter=1.5)
-        hillock.set_segments(1)
-        hillock.add_3d([self.position + [0., 5.62232, 0.], self.position + [0., 6.62232, 0.]])
-        hillock.labels = ["axon_hillock"]
-        hillock.connect(self.soma[0], 0)
-
-        ais = p.Section(name="axon_initial_segment")
-        ais.labels = ["axon_initial_segment"]
-        ais.set_dimensions(length=10,diameter=0.7)
-        ais.set_segments(1)
-        ais.add_3d([self.position + [0., 6.62232, 0.], self.position + [0., 16.62232, 0.]])
-        ais.connect(hillock, 1)
-
-        self.axon = [hillock, ais]
-        self.axon_hillock = hillock
-        self.axon_initial_segment = ais
-
-    def build_ascending_axon(self):
-        seg_length = self.fiber_segment_length
-        n = int(self.ascending_axon_length / seg_length)
-
-        self.ascending_axon = p.Section()
-        self.ascending_axon.labels = ["ascending_axon"]
-        self.ascending_axon.nseg = int(n)
-        self.ascending_axon.L = self.ascending_axon_length
-        self.ascending_axon.diam = 0.3
-        previous_section = self.axon_initial_segment
-        self.axon.append(self.ascending_axon)
-        self.ascending_axon.connect(previous_section)
-
-        y = 16.62232
-
-        # Extract a set of intermediate points between start and end of ascending_axon to improve voxelization in scaffold
-        fraction = [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-
-        points = [
-            self.position
-            + [0., (y + f * self.ascending_axon_length), 0.]
-            for f in fraction
-        ]
-
-        self.ascending_axon.add_3d(points)
-
-        # Store the last used y position as the start for the parallel fiber
-        self.y_pf = y + (seg_length * n)
-
-    def build_parallel_fiber(self):
-        section_length = self.fiber_section_length
-        n = int(self.parallel_fiber_length / section_length)
-        self.parallel_fiber = [p.Section(name='parellel_fiber_'+str(x)) for x in range(n)]
-        # Use the last AA y as Y for the PF
-        y = self.y_pf
-        center = self.position[2]
-        for id, section in enumerate(self.parallel_fiber):
-            section.labels = ["parallel_fiber"]
-            section.set_dimensions(length=section_length, diameter=0.3)
-            sign = 1 - (id % 2) * 2
-            z = floor(id / 2) * section_length
-            section.add_3d([
-                self.position + [0., y, center + sign * z],
-                self.position + [0., y, center + sign * (z + section_length)]
-            ])
-            if id < 2:
-                section.connect(self.ascending_axon)
-            else:
-                section.connect(self.parallel_fiber[id - 2])
-            z += section_length
-        self.axon.extend(self.parallel_fiber)
+    tags = {
+        16: ["axon", "axon_hillock"],
+        17: ["axon", "axon_initial_segment"],
+        18: ["axon", "ascending_axon"],
+        19: ["axon", "parallel_fiber"],
+    }

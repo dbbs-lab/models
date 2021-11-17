@@ -106,3 +106,9 @@ class BasketCell(DbbsNeuronModel):
     tags = {
         16: ["axon", "axon_initial_segment"],
     }
+
+class HumanBasketCell(DbbsNeuronModel):
+    morphologies = ["BC4_Human_Munoz.asc"]
+
+    synapse_types = {}
+    section_types = {}

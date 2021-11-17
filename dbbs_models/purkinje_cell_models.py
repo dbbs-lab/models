@@ -214,3 +214,9 @@ class PurkinjeCell(DbbsNeuronModel):
         21: ["dendrites", "pf_targets", "sc_targets"],
         22: ["dendrites", "aa_targets", "sc_targets"],
     }
+
+class HumanPurkinjeCell(DbbsNeuronModel):
+    morphologies = ["PC_Human_3_Munoz.asc"]
+
+    synapse_types = {}
+    section_types = {}

@@ -135,3 +135,9 @@ class StellateCell(DbbsNeuronModel):
         17: ["dendrites", "distal_dendrites"],
         18: ["axon", "axon_initial_segment"],
     }
+
+class HumanStellateCell(DbbsNeuronModel):
+    morphologies = ["SC9_Human_Munoz.asc"]
+
+    synapse_types = {}
+    section_types = {}

@@ -134,3 +134,9 @@ class GolgiCell(DbbsNeuronModel):
         17: ["dendrites", "apical_dendrites"],
         18: ["axon", "axon_initial_segment"],
     }
+
+class HumanGolgiCell(DbbsNeuronModel):
+    morphologies = ["GolgiCell.swc"]
+
+    synapse_types = {}
+    section_types = {}

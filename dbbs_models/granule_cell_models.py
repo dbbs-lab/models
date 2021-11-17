@@ -121,3 +121,10 @@ class GranuleCell(DbbsNeuronModel):
         18: ["axon", "ascending_axon"],
         19: ["axon", "parallel_fiber"],
     }
+
+
+class HumanGranuleCell(DbbsNeuronModel):
+    morphologies = ["grc_human.asc"]
+
+    synapse_types = {}
+    section_types = {}

@@ -128,16 +128,18 @@ class GranuleCell(DbbsNeuronModel):
     }
 
     def build_soma(self):
-        self.soma = [p.Section()]
-        self.soma[0].set_dimensions(length=5.62232, diameter=5.8)
-        self.soma[0].set_segments(1)
-        self.soma[0].add_3d([self.position, self.position + [0.0, 5.62232, 0.0]])
+        soma = p.Section()
+        soma.set_dimensions(length=5.62232, diameter=5.8)
+        soma.set_segments(1)
+        soma.add_3d([self.position, self.position + [0.0, 5.62232, 0.0]])
+        soma.labels = ["soma"]
+        self.sections.append(soma)
 
     def build_dendrites(self):
-        self.dend = []
+        dends = []
         for i in range(4):
             dendrite = p.Section()
-            self.dend.append(dendrite)
+            dends.append(dendrite)
             dendrite_position = self.position.copy()
             # Shift the dendrites a little bit for voxelization
             dendrite_position[0] += (i - 1.5) * 2
@@ -149,6 +151,9 @@ class GranuleCell(DbbsNeuronModel):
                 points.append(pt)
             dendrite.add_3d([[p[0], p[1], p[2]] for p in points])
             dendrite.connect(self.soma[0], 0)
+            dendrite.labels = ["dendrites"]
+        self.sections.extend(dends)
+
 
     def build_hillock(self):
         hillock = p.Section()
@@ -157,34 +162,35 @@ class GranuleCell(DbbsNeuronModel):
         hillock.add_3d(
             [self.position + [0.0, 5.62232, 0.0], self.position + [0.0, 6.62232, 0.0]]
         )
-        hillock.labels = ["axon_hillock"]
+        hillock.labels = ["axon", "axon_hillock"]
         hillock.connect(self.soma[0], 0)
+        self.sections.append(hillock)
 
         ais = p.Section(name="axon_initial_segment")
-        ais.labels = ["axon_initial_segment"]
+        ais.labels = ["axon", "axon_initial_segment"]
         ais.set_dimensions(length=10, diameter=0.7)
         ais.set_segments(1)
         ais.add_3d(
             [self.position + [0.0, 6.62232, 0.0], self.position + [0.0, 16.62232, 0.0]]
         )
         ais.connect(hillock, 1)
+        self.sections.append(ais)
 
-        self.axon = [hillock, ais]
-        self.axon_hillock = hillock
-        self.axon_initial_segment = ais
 
     def build_ascending_axon(self):
         seg_length = self.fiber_segment_length
         n = int(self.ascending_axon_length / seg_length)
 
-        self.ascending_axon = p.Section()
-        self.ascending_axon.labels = ["ascending_axon"]
-        self.ascending_axon.nseg = int(n)
-        self.ascending_axon.L = self.ascending_axon_length
-        self.ascending_axon.diam = 0.3
-        previous_section = self.axon_initial_segment
-        self.axon.append(self.ascending_axon)
-        self.ascending_axon.connect(previous_section)
+        ascending_axon = p.Section()
+        ascending_axon.labels = ["ascending_axon"]
+        ascending_axon.nseg = int(n)
+        ascending_axon.L = self.ascending_axon_length
+        ascending_axon.diam = 0.3
+        previous_section = self.axon_initial_segment[-1]
+        self.axon.append(ascending_axon)
+        ascending_axon.connect(previous_section)
+        ascending_axon.labels = ["axon", "ascending_axon"]
+        self.sections.append(ascending_axon)
 
         y = 16.62232
 
@@ -196,7 +202,7 @@ class GranuleCell(DbbsNeuronModel):
             for f in fraction
         ]
 
-        self.ascending_axon.add_3d(points)
+        ascending_axon.add_3d(points)
 
         # Store the last used y position as the start for the parallel fiber
         self.y_pf = y + (seg_length * n)
@@ -204,14 +210,14 @@ class GranuleCell(DbbsNeuronModel):
     def build_parallel_fiber(self):
         section_length = self.fiber_section_length
         n = int(self.parallel_fiber_length / section_length)
-        self.parallel_fiber = [
+        pf_sections = [
             p.Section(name="parellel_fiber_" + str(x)) for x in range(n)
         ]
         # Use the last AA y as Y for the PF
         y = self.y_pf
         center = self.position[2]
-        for id, section in enumerate(self.parallel_fiber):
-            section.labels = ["parallel_fiber"]
+        for id, section in enumerate(pf_sections):
+            section.labels = ["axon", "parallel_fiber"]
             section.set_dimensions(length=section_length, diameter=0.3)
             sign = 1 - (id % 2) * 2
             z = floor(id / 2) * section_length
@@ -222,11 +228,11 @@ class GranuleCell(DbbsNeuronModel):
                 ]
             )
             if id < 2:
-                section.connect(self.ascending_axon)
+                section.connect(self.ascending_axon[-1])
             else:
-                section.connect(self.parallel_fiber[id - 2])
+                section.connect(pf_sections[id - 2])
             z += section_length
-        self.axon.extend(self.parallel_fiber)
+        self.sections.extend(pf_sections)
 
     labels = {
         "soma": {"arbor": "(tag 1)"},

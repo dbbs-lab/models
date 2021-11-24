@@ -110,6 +110,6 @@ class BasketCell(DbbsNeuronModel):
         "axon_initial_segment": {
             "from": "axon",
             "id": lambda id: id == 0,
-            "arbor": '(distal-interval (proximal (region "axon")) 10)',
+            "arbor": '(distal-interval (proximal (region "axon")) 30)',
         },
     }

@@ -18,6 +18,7 @@ class GranuleCell(DbbsNeuronModel):
         model.build_ascending_axon()
         model.build_parallel_fiber()
 
+    #morphologies = [builder]
     morphologies = ["granule_cell.swc"]
 
     synapse_types = {

@@ -120,7 +120,7 @@ class StellateCell(DbbsNeuronModel):
                 "HCN1": {
                     "gbar": 0.00070017344082,
                 },
-                "cdp5": None,
+                "cdp5": {},
             },
         },
         "axon_initial_segment": compose_types(

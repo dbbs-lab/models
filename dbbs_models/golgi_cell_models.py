@@ -116,14 +116,13 @@ class GolgiCell(DbbsNeuronModel):
                 "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 3e-05},
-                    ("HCN1", "golgi"): {},
+                    ("HCN1", "golgi"): {"gbar": 0.0003371456442},
                     "HCN2": {"gbar": 0.00030643090764},
                     "Nav1_6": {"gbar": 0.17233663543619},
                     "Ca": {"gcabar": 0.00595046001148},
                     "Kca1_1": {"gbar": 0.10008178886943},
                     "Km": {"gkbar": 0.00024381226198},
                     ("cdp5", "CAM_GoC"): {"TotalPump": 1e-08},
-                    "HCN1": {"gbar": 0.0003371456442},
                 },
             },
         ),
@@ -144,7 +143,7 @@ class GolgiCell(DbbsNeuronModel):
             or id == 84
             or id >= 105
             and id <= 150,
-            "arbor": '(distal-interval (proximal (tag 3)) 30)',
+            "arbor": "(distal-interval (proximal (tag 3)) 30)",
         },
         "apical_dendrites": {
             "from": "dendrites",

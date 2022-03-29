@@ -1,7 +1,4 @@
-import numpy as np
-from patch import p
 from ._shared import DbbsNeuronModel
-from math import floor
 from arborize import compose_types
 
 

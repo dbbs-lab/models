@@ -1,12 +1,11 @@
-import numpy as np
-from patch import p
 from arborize import NeuronModel
-from math import floor
 
 
 class SimpleCell(NeuronModel):
     @staticmethod
     def builder(model):
+        from patch import p
+
         soma = p.Section()
         soma.diam = 0.125
         soma.L = 5.0

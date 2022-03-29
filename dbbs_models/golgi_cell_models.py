@@ -1,6 +1,5 @@
 from ._shared import DbbsNeuronModel
 from arborize import compose_types
-from arborize.builders import rotate, blue_nseg
 
 
 class GolgiCell(DbbsNeuronModel):

@@ -57,9 +57,9 @@ class GolgiCell(DbbsNeuronModel):
     section_types = {
         "soma": {
             "cable": {"Ra": 122, "cm": 1},
-            "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
+            "ions": {"na": {"e": 0}, "k": {"e": 0}, "ca": {"e": 0.70872293}},
             "mechanisms": {
-                "Leak": {"e": -55, "gmax": 3e-05},
+                "Leak": {"e": -40, "gmax": 1.55e-04},
                 "Nav1_6": {"gbar": 0.14927733727426},
                 "Kv1_1": {"gbar": 0.00549507510519},
                 "Kv3_4": {"gkbar": 0.14910988921938},
@@ -105,7 +105,7 @@ class GolgiCell(DbbsNeuronModel):
             "mechanisms": {
                 "Leak": {"e": -55, "gmax": 1e-06},
                 "Nav1_6": {"gbar": 0.0115},
-                "Kv3_4": {"gkbar": 0.0091},
+                "Kv3_4": {"gkbar": 0.007},
                 ("cdp5", "CAM_GoC"): {"TotalPump": 1e-08},
             },
         },
@@ -113,16 +113,15 @@ class GolgiCell(DbbsNeuronModel):
             "axon",
             {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
+                "ions": {"na": {"e": 60}, "k": {"e": -81.5}, "ca": {"e": 137.70872293}},
                 "mechanisms": {
-                    "Leak": {"e": -55, "gmax": 3e-05},
+                    "Leak": {"e": -55, "gmax": 9e-06},
                     ("HCN1", "golgi"): {"gbar": 0.0003371456442},
                     "HCN2": {"gbar": 0.00030643090764},
                     "Nav1_6": {"gbar": 0.17233663543619},
                     "Ca": {"gcabar": 0.00595046001148},
                     "Kca1_1": {"gbar": 0.10008178886943},
                     "Km": {"gkbar": 0.00024381226198},
-                    ("cdp5", "CAM_GoC"): {"TotalPump": 1e-08},
                 },
             },
         ),

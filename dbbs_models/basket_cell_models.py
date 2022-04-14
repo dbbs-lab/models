@@ -49,11 +49,11 @@ class BasketCell(DbbsNeuronModel):
                 "h": {"e": -34},
             },
             "mechanisms": {
-                "Leak": {"e": -60, "gmax": 3e-05},
+                "Leak": {"e": -72.9, "gmax": 3e-04},
                 "Nav1_1": {"gbar": 0.10946415489712},
                 "Cav3_2": {"gcabar": 0.0006295539},
                 "Cav3_3": {"pcabar": 0.0007543986},
-                # "CaL13": {"pcaLbar": 0.0002593795},
+                "CaL13": {"pcaLbar": 0.0002593795},
                 "Kir2_3": {"gkbar": 0.0012770833},
                 "Kv3_4": {"gkbar": 0.0277114781},
                 "Kca1_1": {"gbar": 0.0044251081},

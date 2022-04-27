@@ -219,4 +219,23 @@ class HumanPurkinjeCell(DbbsNeuronModel):
     morphologies = ["PC_Human_3_Munoz.asc"]
 
     synapse_types = {}
-    section_types = {}
+    section_types = {
+        "aa_targets": {},
+        "pf_targets": {},
+        "sc_targets": {}
+    }
+
+    labels = {
+        "aa_targets": {
+            "from": "dendrites",
+            "diam": lambda diam: diam <= 0.75
+        },
+        "pf_targets": {
+            "from": "dendrites",
+            "diam": lambda diam: diam > 0.75 and diam <= 1.6
+        },
+        "sc_targets": {
+            "from": "dendrites",
+            "diam": lambda diam: diam > 0.3 and diam <= 1.6
+        }
+    }

@@ -124,7 +124,7 @@ class GranuleCell(DbbsNeuronModel):
 
 
 class HumanGranuleCell(DbbsNeuronModel):
-    morphologies = ["grc_human.asc"]
+    morphologies = ["grc_human.swc"]
 
     synapse_types = {}
     section_types = {}

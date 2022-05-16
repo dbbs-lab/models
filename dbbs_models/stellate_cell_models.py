@@ -29,12 +29,11 @@ class StellateCell(DbbsNeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','Kir2_3','Kv1_1','Kv3_4','Kv4_3','Kca1_1','Kca2_2','Cav2_1', 'HCN1','cdp5'],
+            "mechanisms": ['Leak','Cav3_2','Cav3_3','Kir2_3','Kv1_1','Kv3_4','Kv4_3','Kca1_1','Kca2_2','Cav2_1', 'HCN1','cdp5'],
             "attributes": {
-              "Ra": 110, "cm": 1, "ena": 60, "ek": -84, "eca": 137.5, "eh": -34,
+              "Ra": 110, "cm": 1, "ek": -84, "eca": 137.5, "eh": -34,
               ("e", "Leak"): -52,
               ("gmax", "Leak"): 0.00003,
-              ("gbar", "Nav1_1"): 0.2,
               ("gcabar", "Cav3_2"): 0.00163912063769,
               ("pcabar", "Cav3_3"): 0.00001615552993,
               ("gkbar", "Kir2_3"): 0.00001093425575,

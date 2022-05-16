@@ -26,15 +26,14 @@ class BasketCell(DbbsNeuronModel):
 
     section_types = {
         "soma": {
-            "mechanisms": ['Leak','Nav1_1','Cav3_2','Cav3_3','CaL13','Kir2_3','Kv3_4','Kca1_1','Cav2_1','HCN1', 'cdp5'],
+            "mechanisms": ['Leak','Cav3_2','Cav3_3','CaL13','Kir2_3','Kv3_4','Kca1_1','Cav2_1','HCN1', 'cdp5'],
             "attributes": {
-              "Ra": 122, "cm": 1, "ena": 60, "ek": -80, "eca": 137.5, "eh": -34,
+              "Ra": 122, "cm": 1, "ek": -80, "eca": 137.5, "eh": -34,
               ("e", "Leak"): -60,
               ("gmax", "Leak"): 0.00003,
-              ("gbar", "Nav1_1"): 0.10946415489712,
               ("gcabar", "Cav3_2"): 0.0006295539,
               ("pcabar", "Cav3_3"): 0.0007543986,
-              ("pcaLbar", "CaL13"): 0.0002593795,
+              # ("pcaLbar", "CaL13"): 0.0002593795,
               ("gkbar", "Kir2_3"): 0.0012770833,
               ("gkbar", "Kv3_4"): 0.0277114781,
               ("gbar", "Kca1_1"): 0.0044251081,

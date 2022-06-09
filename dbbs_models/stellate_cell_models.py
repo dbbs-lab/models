@@ -70,7 +70,7 @@ class StellateCell(DbbsNeuronModel):
             "synapses": ['GABA'], "mechanisms": [], "attributes": {}
         },
         "proximal_dendrites": {
-            "synapses": ['AMPA', 'NMDA'],
+            "synapses": ['AMPA', *(f"AMPA_{i}" for i in range(11)), 'NMDA', *(f"NMDA_{i}" for i in range(11))],
             "mechanisms": ['Leak', 'Cav3_2', 'Cav3_3', 'Kv1_1','Kv4_3','Kca1_1','Kca2_2','Cav2_1','cdp5'],
             "attributes": {
                 "Ra": 110, "cm": 1.5, "ek": -84, "eca": 137.5,
@@ -87,7 +87,7 @@ class StellateCell(DbbsNeuronModel):
             }
         },
         "distal_dendrites": {
-            "synapses": ['AMPA', 'NMDA'],
+            "synapses": ['AMPA', *(f"AMPA_{i}" for i in range(11)), 'NMDA', *(f"NMDA_{i}" for i in range(11))],
             "mechanisms": ['Leak', 'Kv1_1', 'Kca1_1', 'Kca2_2', 'Cav2_1', 'cdp5'],
             "attributes":  {
                 "Ra": 110, "cm": 1.5, "ek": -84, "eca": 137.5,

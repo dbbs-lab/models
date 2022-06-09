@@ -13,11 +13,29 @@ class StellateCell(DbbsNeuronModel):
                 "tau_facil": 10.8, "tau_rec": 35.1, "tau_1": 10, "gmax": 2300, "U": 0.15
             }
         },
+        **{
+            f"AMPA_{i}": {
+                "point_process": 'AMPA',
+                "attributes": {
+                    "tau_facil": 10.8, "tau_rec": 35.1, "tau_1": 10, "gmax": 2300, "U": i * 0.1
+                }
+            }
+            for i in range(11)
+        },
         "NMDA": {
             "point_process": ('NMDA', 'stellate'),
             "attributes": {
                 "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 10000, "U": 0.15
             }
+        },
+        **{
+            f"NMDA_{i}": {
+                "point_process": ('NMDA', 'stellate'),
+                "attributes": {
+                    "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 10000, "U": i * 0.1
+                }
+            }
+            for i in range(11)
         },
         "GABA": {
             "point_process": 'GABA',

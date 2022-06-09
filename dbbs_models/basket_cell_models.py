@@ -10,11 +10,29 @@ class BasketCell(DbbsNeuronModel):
                 "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": 0.4
             }
         },
+        **{
+            f"AMPA_{i}": {
+                "point_process": 'AMPA',
+                "attributes": {
+                    "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": i * 0.1
+                }
+            }
+            for i in range(11)
+        },
         "NMDA": {
             "point_process": ('NMDA', 'stellate'),
             "attributes": {
                 "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 5000, "U": 0.15
             }
+        },
+        **{
+            f"NMDA_{i}": {
+                "point_process": ('NMDA', 'stellate'),
+                "attributes": {
+                    "tau_facil": 5, "tau_rec": 8, "tau_1": 1, "gmax": 5000, "U": i * 0.1
+                }
+            }
+            for i in range(11)
         },
         "GABA": {
             "point_process": 'GABA',

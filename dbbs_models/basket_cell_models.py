@@ -62,7 +62,7 @@ class BasketCell(DbbsNeuronModel):
             }
         },
         "dendrites": {
-            "synapses": ["AMPA", "NMDA", "GABA"],
+            "synapses": ['AMPA', *(f"AMPA_{i}" for i in range(11)), 'NMDA', *(f"NMDA_{i}" for i in range(11)), "GABA"],
             "mechanisms": ['Leak','Cav2_1','Kca1_1','Kv1_1','cdp5'],
             "attributes": {
                 "Ra": 122, "cm": 1, "ek": -80,

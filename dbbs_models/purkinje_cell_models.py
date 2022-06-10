@@ -18,6 +18,15 @@ class PurkinjeCell(DbbsNeuronModel):
                 "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": 0.13
             }
         },
+        **{
+            f"AMPA_{i}": {
+                "point_process": 'AMPA',
+                "attributes": {
+                    "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": i * 0.1
+                }
+            }
+            for i in range(11)
+        },
         "GABA": {
             "point_process": 'GABA',
             "attributes": {
@@ -88,10 +97,10 @@ class PurkinjeCell(DbbsNeuronModel):
             }
         },
         "aa_targets": {
-            "synapses": ['AMPA']
+            "synapses": ['AMPA', *(f"AMPA_{i}" for i in range(11))]
         },
         "pf_targets": {
-            "synapses": ['AMPA']
+            "synapses": ['AMPA', *(f"AMPA_{i}" for i in range(11))]
         },
         "sc_targets": {
             "synapses": ['GABA']

@@ -22,7 +22,7 @@ class PurkinjeCell(DbbsNeuronModel):
             f"AMPA_{i}": {
                 "point_process": 'AMPA',
                 "attributes": {
-                    "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": i * 0.1
+                    "tau_facil": 54, "tau_rec": 35.1, "tau_1": 6, "gmax": 1200, "U": i * 0.013
                 }
             }
             for i in range(11)

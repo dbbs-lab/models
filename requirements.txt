@@ -1,8 +1,8 @@
 numpy==1.20.1
-arborize==2.0.0b12
-nrn-glia==0.4
+arborize==4.0.0a0
+nrn-glia==4.0.0a0
 dbbs-mod-collection==2.2.0b1
-nrn-patch==3.0.0b1
+nrn-patch==4.0.0a0
 efel==3.0.70
 ndsb==2.0.0
 plotly==4.11.0

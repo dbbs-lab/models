@@ -32,11 +32,8 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        "arborize>=2.0.0",
-        "nrn-glia>=0.4",
-        "dbbs-mod-collection==2.2.0b1",
-        "nrn-patch>=3.0.0",
-        "dbbs-catalogue>=0.0.2",
+        "arborize[neuron]==4.0.0a1",
+        "dbbs-mod-collection==4.0.0a0",
     ],
     extras_require={
         "dev": ["efel", "ndsb>=2.0.0", "plotly>=4.11.0", "kaleido", "pygithub", "h5py"]

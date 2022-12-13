@@ -12,17 +12,17 @@ import random
 
 
 class TestPurkinje(arborize.TestCase):
-    setUp = setups.SingleCell(dbbs_models.PurkinjeCell)
+    setUp = setups.SingleCell(dbbs_models.PurkinjeCellModel)
     test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
 
 
 class TestBasket(arborize.TestCase):
-    setUp = setups.SingleCell(dbbs_models.BasketCell)
+    setUp = setups.SingleCell(dbbs_models.BasketCellModel)
     test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
 
 
 class TestGolgi(arborize.TestCase):
-    setUp = setups.SingleCell(dbbs_models.GolgiCell)
+    setUp = setups.SingleCell(dbbs_models.GolgiCellModel)
     input_conductance = 54000  # pS
     gaba_conductance = 3200
     autorhythm = 15.0
@@ -31,7 +31,7 @@ class TestGolgi(arborize.TestCase):
     test_input_conductance = protocols.InputConductance(g=input_conductance, places=-3)
 
     def test_gaba_conductance(self):
-        baseline_setup = setups.SingleCell(dbbs_models.GolgiCell)
+        baseline_setup = setups.SingleCell(dbbs_models.GolgiCellModel)
         baseline = protocols.InputConductance(rec_offset=49.15)
         protocol = protocols.InputConductance(
             g=self.gaba_conductance, rec_offset=49.15, places=-2

@@ -1,6 +1,3 @@
-from .validation_models import *
-
-
 def quick_test(*models, duration=300, temperature=32, v_init=-65):
     from patch import p
 
@@ -22,9 +19,7 @@ def quick_plot(*args, **kwargs):
     from plotly import graph_objs as go
 
     go.Figure(
-        list(
-            go.Scatter(x=time, y=res["Vm"], name=res["model"]) for res in model_results
-        )
+        list(go.Scatter(x=time, y=res["Vm"], name=res["model"]) for res in model_results)
     ).show()
 
 

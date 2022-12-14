@@ -21,7 +21,3 @@ def quick_plot(*args, **kwargs):
     go.Figure(
         list(go.Scatter(x=time, y=res["Vm"], name=res["model"]) for res in model_results)
     ).show()
-
-
-def orphan_section_scan(model):
-    pass

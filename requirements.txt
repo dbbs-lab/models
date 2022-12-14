@@ -1,5 +1,5 @@
 numpy==1.20.1
-arborize==4.0.0a0
+arborize==4.0.0a1
 nrn-glia==4.0.0a0
 dbbs-mod-collection==2.2.0b1
 nrn-patch==4.0.0a0

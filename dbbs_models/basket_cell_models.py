@@ -30,10 +30,10 @@ BasketCellModel = define_model(
             "soma": {
                 "cable": {"Ra": 122, "cm": 1},
                 "ions": {
-                    "na": {"e": 60},
-                    "k": {"e": -80},
-                    "ca": {"e": 137.5},
-                    "h": {"e": -34},
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "ca": {"rev_pot": 137.5},
+                    "h": {"rev_pot": -34},
                 },
                 "mechanisms": {
                     "Leak": {"e": -60, "gmax": 3e-05},
@@ -51,7 +51,7 @@ BasketCellModel = define_model(
             },
             "dendrites": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"k": {"e": -80}},
+                "ions": {"k": {"rev_pot": -80}},
                 "mechanisms": {
                     "Leak": {"e": -60, "gmax": 3e-05},
                     "Cav2_1": {"pcabar": 0.0004965596},
@@ -62,7 +62,11 @@ BasketCellModel = define_model(
             },
             "axon": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "h": {"e": -34}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "h": {"rev_pot": -34},
+                },
                 "mechanisms": {
                     "Leak": {"e": -60, "gmax": 3e-05},
                     "Kv1_1": {"gbar": 0.0069654709},
@@ -74,7 +78,11 @@ BasketCellModel = define_model(
             },
             "axon_initial_segment": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "h": {"e": -34}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "h": {"rev_pot": -34},
+                },
                 "mechanisms": {
                     "Leak": {"e": -60, "gmax": 3e-05},
                     "HCN1": {"gbar": 0.0048096086},

@@ -38,7 +38,11 @@ GolgiCellModel = define_model(
         "cable_types": {
             "soma": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "ca": {"rev_pot": 140.70872293},
+                },
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 3e-05},
                     "Nav1_6": {"gbar": 0.14927733727426},
@@ -55,7 +59,11 @@ GolgiCellModel = define_model(
             "dendrites": {"cable": {}, "ions": {}, "mechanisms": {}},
             "basal_dendrites": {
                 "cable": {"Ra": 122, "cm": 2.5},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "ca": {"rev_pot": 140.70872293},
+                },
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 3e-05},
                     "Nav1_6": {"gbar": 0.0080938853146},
@@ -67,7 +75,11 @@ GolgiCellModel = define_model(
             },
             "apical_dendrites": {
                 "cable": {"Ra": 122, "cm": 2.5},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "ca": {"rev_pot": 140.70872293},
+                },
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 3e-05},
                     "Nav1_6": {"gbar": 0.00499506303209},
@@ -80,7 +92,11 @@ GolgiCellModel = define_model(
             },
             "axon": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "ca": {"rev_pot": 140.70872293},
+                },
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 1e-06},
                     "Nav1_6": {"gbar": 0.0115},
@@ -90,7 +106,11 @@ GolgiCellModel = define_model(
             },
             "axon_initial_segment": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -80}, "ca": {"e": 140.70872293}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -80},
+                    "ca": {"rev_pot": 140.70872293},
+                },
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 3e-05},
                     ("HCN1", "golgi"): {"gbar": 0.0003371456442},
@@ -106,5 +126,3 @@ GolgiCellModel = define_model(
     },
     use_defaults=True,
 )
-
-print(GolgiCellModel.get_synapse_types().keys())

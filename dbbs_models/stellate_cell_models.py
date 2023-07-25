@@ -30,10 +30,10 @@ StellateCellModel = define_model(
             "soma": {
                 "cable": {"Ra": 110, "cm": 1},
                 "ions": {
-                    "na": {"e": 60},
-                    "k": {"e": -84},
-                    "ca": {"e": 137.5},
-                    "h": {"e": -34},
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -84},
+                    "ca": {"rev_pot": 137.5},
+                    "h": {"rev_pot": -34},
                 },
                 "mechanisms": {
                     "Leak": {"e": -52, "gmax": 3e-05},
@@ -53,7 +53,7 @@ StellateCellModel = define_model(
             },
             "proximal_dendrites": {
                 "cable": {"Ra": 110, "cm": 1.5},
-                "ions": {"k": {"e": -84}, "ca": {"e": 137.5}},
+                "ions": {"k": {"rev_pot": -84}, "ca": {"rev_pot": 137.5}},
                 "mechanisms": {
                     "Leak": {"e": -48, "gmax": 8e-06},
                     "Cav3_2": {"gcabar": 0.00070661092763},
@@ -68,7 +68,7 @@ StellateCellModel = define_model(
             },
             "distal_dendrites": {
                 "cable": {"Ra": 110, "cm": 1.5},
-                "ions": {"k": {"e": -84}, "ca": {"e": 137.5}},
+                "ions": {"k": {"rev_pot": -84}, "ca": {"rev_pot": 137.5}},
                 "mechanisms": {
                     "Leak": {"e": -48, "gmax": 8e-06},
                     "Kv1_1": {"gbar": 0.00237825442906},
@@ -83,7 +83,11 @@ StellateCellModel = define_model(
                     "Ra": 110,
                     "cm": 1,
                 },
-                "ions": {"na": {"e": 60}, "k": {"e": -84}, "h": {"e": -34}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -84},
+                    "h": {"rev_pot": -34},
+                },
                 "mechanisms": {
                     "Leak": {"e": -48, "gmax": 0.000008},
                     "Kv1_1": {"gbar": 0.00271359229578},
@@ -95,7 +99,11 @@ StellateCellModel = define_model(
             },
             "axon_initial_segment": {
                 "cable": {"Ra": 110, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -84}, "h": {"e": -34}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -84},
+                    "h": {"rev_pot": -34},
+                },
                 "mechanisms": {
                     "Leak": {"e": -48, "gmax": 8e-06},
                     "HCN1": {"gbar": 0.00099184971498},

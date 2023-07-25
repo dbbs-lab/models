@@ -23,10 +23,10 @@ PurkinjeCellModel = define_model(
             "soma": {
                 "cable": {"Ra": 122, "cm": 1},
                 "ions": {
-                    "na": {"e": 60},
-                    "k": {"e": -88},
-                    "h": {"e": -34.4},
-                    "ca": {"e": 137.52625},
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -88},
+                    "h": {"rev_pot": -34.4},
+                    "ca": {"rev_pot": 137.52625},
                 },
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.001},
@@ -53,10 +53,10 @@ PurkinjeCellModel = define_model(
                     "Ra": 122,
                 },
                 "ions": {
-                    "na": {"e": 60},
-                    "k": {"e": -88},
-                    "h": {"e": -34.4},
-                    "ca": {"e": 137.52625},
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -88},
+                    "h": {"rev_pot": -34.4},
+                    "ca": {"rev_pot": 137.52625},
                 },
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
@@ -73,7 +73,11 @@ PurkinjeCellModel = define_model(
             },
             "basal_dendrites": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -88},
+                    "ca": {"rev_pot": 137.52625},
+                },
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
                     "Kir2_3": {"gkbar": 1.135399111e-05},
@@ -85,7 +89,11 @@ PurkinjeCellModel = define_model(
             },
             "sodium_dendrites": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -88},
+                    "ca": {"rev_pot": 137.52625},
+                },
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
                     "Kir2_3": {"gkbar": 1.135399111e-05},
@@ -98,7 +106,11 @@ PurkinjeCellModel = define_model(
             },
             "AIS": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -88},
+                    "ca": {"rev_pot": 137.52625},
+                },
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
                     "Nav1_6": {"gbar": 0.76520432560779},
@@ -110,7 +122,7 @@ PurkinjeCellModel = define_model(
             },
             "AIS_K": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"k": {"e": -88}},
+                "ions": {"k": {"rev_pot": -88}},
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
                     "Kv1_1": {"gbar": 0.01011038066089},
@@ -123,7 +135,11 @@ PurkinjeCellModel = define_model(
             },
             "nodes": {
                 "cable": {"Ra": 122, "cm": 1},
-                "ions": {"na": {"e": 60}, "k": {"e": -88}, "ca": {"e": 137.52625}},
+                "ions": {
+                    "na": {"rev_pot": 60},
+                    "k": {"rev_pot": -88},
+                    "ca": {"rev_pot": 137.52625},
+                },
                 "mechanisms": {
                     "Leak": {"e": -61, "gmax": 0.0003},
                     "Nav1_6": {"gbar": 0.02749309338198},

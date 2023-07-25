@@ -34,6 +34,7 @@ setuptools.setup(
     install_requires=[
         "arborize[neuron]==4.0.0a1",
         "dbbs-mod-collection==4.0.0a0",
+        "morphio>=3.3.6",
     ],
     extras_require={
         "dev": ["efel", "ndsb>=2.0.0", "plotly>=4.11.0", "kaleido", "pygithub", "h5py"]

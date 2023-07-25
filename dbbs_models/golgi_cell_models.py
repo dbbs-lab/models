@@ -126,3 +126,9 @@ GolgiCellModel = define_model(
     },
     use_defaults=True,
 )
+
+GolgiCellModel.swc_tags = {
+    6: ["dendrites", "basal_dendrites"],
+    7: ["dendrites", "apical_dendrites"],
+    8: ["axon", "axon_initial_segment"],
+}

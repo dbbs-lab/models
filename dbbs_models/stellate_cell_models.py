@@ -118,3 +118,9 @@ StellateCellModel = define_model(
     },
     use_defaults=True,
 )
+
+StellateCellModel.swc_tags = {
+    6: ["dendrites", "proximal_dendrites"],
+    7: ["dendrites", "distal_dendrites"],
+    8: ["axon", "axon_initial_segment"],
+}

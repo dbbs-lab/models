@@ -153,3 +153,13 @@ PurkinjeCellModel = define_model(
     },
     use_defaults=True,
 )
+
+PurkinjeCellModel.swc_tags = {
+    6: ["axon", "AIS"],
+    7: ["axon", "AIS_K"],
+    8: ["axon", "axonmyelin"],
+    9: ["axon", "nodes"],
+    10: ["dendrites", "basal_dendrites"],
+    11: ["dendrites", "pf_targets", "sc_targets"],
+    12: ["dendrites", "aa_targets", "sc_targets"],
+}

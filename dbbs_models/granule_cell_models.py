@@ -113,3 +113,10 @@ GranuleCellModel = define_model(
     },
     use_defaults=True,
 )
+
+GranuleCellModel.swc_tags = {
+    6: ["axon", "axon_hillock"],
+    7: ["axon", "axon_initial_segment"],
+    8: ["axon", "ascending_axon"],
+    9: ["axon", "parallel_fiber"],
+}

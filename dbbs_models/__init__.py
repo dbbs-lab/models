@@ -32,7 +32,10 @@ def build_stellate_cell():
 def _build(definition, morphology_file):
     from pathlib import Path
     from arborize import neuron_build, bsb_schematic
-    from bsb.morphologies import Morphology
+    try:
+        from bsb.morphologies import Morphology
+    except ImportError:
+        raise RuntimeError("To use the `build_*` factories, please `pip install bsb`.")
 
     return neuron_build(
         bsb_schematic(

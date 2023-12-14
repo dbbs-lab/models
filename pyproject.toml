@@ -1,0 +1,22 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "dbbs-models"
+authors = [{name = "Robin De Schepper", email = "robingilbert.deschepper@unipv.it"}]
+readme = "README.md"
+license = {file = "LICENSE"}
+classifiers = ["License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"]
+dynamic = ["version", "description"]
+dependencies = [
+    "arborize[neuron]==4.0.0b1",
+    "dbbs-mod-collection==4.0.0b1",
+    "morphio>=3.3.6"
+]
+
+[project.urls]
+Home = "https://github.com/dbbs-lab/models"
+
+[tool.flit.module]
+name = "dbbs_models"

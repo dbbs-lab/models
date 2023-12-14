@@ -1,4 +1,9 @@
-__version__ = "4.0.0a0"
+"""
+Collection of single cell models for the Arbor and NEURON simulators of the cerebellar
+cortex. Maintained by the Department of Brain and Behavioral Sciences of Pavia.
+"""
+
+__version__ = "4.0.0b0"
 
 from .granule_cell_models import GranuleCellModel
 from .stellate_cell_models import StellateCellModel
@@ -35,6 +40,9 @@ def _build(definition, morphology_file):
     try:
         from bsb.morphologies import Morphology
     except ImportError:
+        # The builders use the BSB's morphology parser because of
+        # https://github.com/BlueBrain/MorphIO/issues/469
+        # Once this is fixed we can switch to MorphIO
         raise RuntimeError("To use the `build_*` factories, please `pip install bsb`.")
 
     return neuron_build(

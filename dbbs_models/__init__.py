@@ -38,7 +38,7 @@ def _build(definition, morphology_file):
     from pathlib import Path
     from arborize import neuron_build, bsb_schematic
     try:
-        from bsb.morphologies import Morphology
+        from bsb.morphologies import parse_morphology_file
     except ImportError:
         # The builders use the BSB's morphology parser because of
         # https://github.com/BlueBrain/MorphIO/issues/469
@@ -47,7 +47,7 @@ def _build(definition, morphology_file):
 
     return neuron_build(
         bsb_schematic(
-            Morphology.from_swc(
+            parse_morphology_file(
                 Path(__file__).parent / "morphologies" / morphology_file,
                 tags=getattr(definition, "swc_tags", None),
             ),

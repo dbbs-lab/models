@@ -10,9 +10,8 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"]
 dynamic = ["version", "description"]
 dependencies = [
-    "arborize[neuron]==4.0.0b1",
-    "dbbs-mod-collection==4.0.0b1",
-    "morphio>=3.3.6"
+    "arborize[neuron]==4.0.0b4",
+    "dbbs-catalogue==0.1.1",
 ]
 
 [project.urls]

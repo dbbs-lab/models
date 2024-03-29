@@ -5,13 +5,12 @@ cortex. Maintained by the Department of Brain and Behavioral Sciences of Pavia.
 
 __version__ = "4.0.0"
 
-from .granule_cell_models import GranuleCellModel
-from .stellate_cell_models import StellateCellModel
 from .basket_cell_models import BasketCellModel
 from .golgi_cell_models import GolgiCellModel
+from .granule_cell_models import GranuleCellModel
 from .purkinje_cell_models import PurkinjeCellModel
-
-from .test import quick_test, quick_plot
+from .stellate_cell_models import StellateCellModel
+from .test import quick_plot, quick_test
 
 
 def build_granule_cell():
@@ -36,7 +35,9 @@ def build_stellate_cell():
 
 def _build(definition, morphology_file):
     from pathlib import Path
-    from arborize import neuron_build, bsb_schematic
+
+    from arborize import bsb_schematic, neuron_build
+
     try:
         from bsb import parse_morphology_file
     except ImportError:

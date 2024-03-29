@@ -33,8 +33,5 @@ jobs:
     - name: Run tests & coverage
       run: |
         coverage run -p -m unittest discover -v -s ./tests
-        # mpiexec -n 4 coverage run -p -m unittest discover -v -s ./tests
+        mpiexec -n 4 coverage run -p -m unittest discover -v -s ./tests
         bash <(curl -s https://codecov.io/bash)
-    - name: Beam ndsv artifacts
-      run: |
-        python devops/travis/upload_artifacts.py

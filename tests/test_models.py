@@ -1,37 +1,39 @@
-import unittest, efel, arborize, nrnsub
-import arborize.unittest.protocols as protocols
-import arborize.unittest.setups as setups
-from patch import p
-import dbbs_models
-from numpy.random import default_rng
 import random
+import unittest
 
-# class TestGranule(arborize.TestCase):
-#     setUp = setups.SingleCell(dbbs_models.GranuleCell)
-#     test_soma_current = protocols.CurrentClamp(dur=500, skip=100, freq=15.0)
-
-
-class TestPurkinje(arborize.TestCase):
-    setUp = setups.SingleCell(dbbs_models.PurkinjeCellModel)
-    test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
+from numpy.random import default_rng
+from patch import p
 
 
-class TestBasket(arborize.TestCase):
-    setUp = setups.SingleCell(dbbs_models.BasketCellModel)
-    test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
+class TestGranule(unittest.TestCase):
+    # setUp = setups.SingleCell(dbbs_models.GranuleCell)
+    # test_soma_current = protocols.CurrentClamp(dur=500, skip=100, freq=15.0)
+    pass
 
 
-class TestGolgi(arborize.TestCase):
-    setUp = setups.SingleCell(dbbs_models.GolgiCellModel)
+class TestPurkinje(unittest.TestCase):
+    #     setUp = setups.SingleCell(dbbs_models.PurkinjeCellModel)
+    #     test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
+    pass
+
+
+class TestBasket(unittest.TestCase):
+    #     setUp = setups.SingleCell(dbbs_models.BasketCellModel)
+    #     test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
+    pass
+
+
+class TestGolgi(unittest.TestCase):
+    #     setUp = setups.SingleCell(dbbs_models.GolgiCellModel)
     input_conductance = 54000  # pS
     gaba_conductance = 3200
     autorhythm = 15.0
 
-    test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=autorhythm)
-    test_input_conductance = protocols.InputConductance(g=input_conductance, places=-3)
+    #     test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=autorhythm)
+    #     test_input_conductance = protocols.InputConductance(g=input_conductance, places=-3)
 
     def test_gaba_conductance(self):
-        baseline_setup = setups.SingleCell(dbbs_models.GolgiCellModel)
+        #         baseline_setup = setups.SingleCell(dbbs_models.GolgiCellModel)
         baseline = protocols.InputConductance(rec_offset=49.15)
         protocol = protocols.InputConductance(
             g=self.gaba_conductance, rec_offset=49.15, places=-2

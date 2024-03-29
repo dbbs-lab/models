@@ -14,6 +14,9 @@ dependencies = [
     "dbbs-catalogue~=4.0",
 ]
 
+[project.optional-dependencies]
+test = ["coverage~=7.0"]
+
 [project.urls]
 Home = "https://github.com/dbbs-lab/models"
 

@@ -5,24 +5,28 @@ from numpy.random import default_rng
 from patch import p
 
 
+@unittest.skip("No test suite")
 class TestGranule(unittest.TestCase):
     # setUp = setups.SingleCell(dbbs_models.GranuleCell)
     # test_soma_current = protocols.CurrentClamp(dur=500, skip=100, freq=15.0)
     pass
 
 
+@unittest.skip("No test suite")
 class TestPurkinje(unittest.TestCase):
     #     setUp = setups.SingleCell(dbbs_models.PurkinjeCellModel)
     #     test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
     pass
 
 
+@unittest.skip("No test suite")
 class TestBasket(unittest.TestCase):
     #     setUp = setups.SingleCell(dbbs_models.BasketCellModel)
     #     test_autorhythm = protocols.Autorhythm(dur=500, skip=100, freq=15.0)
     pass
 
 
+@unittest.skip("No test suite")
 class TestGolgi(unittest.TestCase):
     #     setUp = setups.SingleCell(dbbs_models.GolgiCellModel)
     input_conductance = 54000  # pS

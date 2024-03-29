@@ -10,8 +10,8 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"]
 dynamic = ["version", "description"]
 dependencies = [
-    "arborize[neuron]==4.0.0b4",
-    "dbbs-catalogue==0.1.1",
+    "arborize[neuron]~=4.0",
+    "dbbs-catalogue~=4.0",
 ]
 
 [project.urls]
@@ -19,3 +19,23 @@ Home = "https://github.com/dbbs-lab/models"
 
 [tool.flit.module]
 name = "dbbs_models"
+
+[tool.bumpversion]
+current_version = "4.0.0"
+parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
+serialize = ["{major}.{minor}.{patch}"]
+search = "{current_version}"
+replace = "{new_version}"
+regex = false
+ignore_missing_version = false
+tag = true
+sign_tags = false
+tag_name = "v{new_version}"
+tag_message = "Bump version: {current_version} → {new_version}"
+allow_dirty = false
+commit = true
+message = "Bump version: {current_version} → {new_version}"
+commit_args = "--no-verify"
+
+[[tool.bumpversion.files]]
+filename = "dbbs_models/__init__.py"

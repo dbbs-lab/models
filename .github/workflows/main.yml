@@ -1,19 +1,20 @@
-name: Build and test DBBS Models
+name: Build and test Arborize
 
-on: [pull_request]
+on: [push]
 
 jobs:
   build:
-
+    name: test py${{ matrix.py }}
     runs-on: ubuntu-latest
-    env:
-      GH_PR: ${{github.event.number}}
+    strategy:
+      matrix:
+        py: ["3.9", "3.10", "3.11"]
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python 3.11
+    - name: Set up Python ${{ matrix.py }}
       uses: actions/setup-python@v5
       with:
-        python-version: 3.11
+        python-version: ${{ matrix.py }}
     - name: Install apt dependencies
       run: |
         sudo apt-get update
@@ -32,6 +33,6 @@ jobs:
         pip install .[test]
     - name: Run tests & coverage
       run: |
-        coverage run -p -m unittest discover -v -s ./tests
-        mpiexec -n 4 coverage run -p -m unittest discover -v -s ./tests
+        coverage run --parallel-mode -m unittest
+        mpiexec -n 2 coverage run --parallel-mode -m unittest
         bash <(curl -s https://codecov.io/bash)

@@ -4,26 +4,35 @@ BasketCellModel = define_model(
     {
         "synapse_types": {
             "AMPA": {
-                "tau_facil": 54,
-                "tau_rec": 35.1,
-                "tau_1": 6,
-                "gmax": 1200,
-                "U": 0.4,
+                "mechanism": "AMPA",
+                "parameters": {
+                    "tau_facil": 54,
+                    "tau_rec": 35.1,
+                    "tau_1": 6,
+                    "gmax": 1200,
+                    "U": 0.4,
+                },
             },
-            ("NMDA", "stellate"): {
-                "tau_facil": 5,
-                "tau_rec": 8,
-                "tau_1": 1,
-                "gmax": 5000,
-                "U": 0.15,
+            "NMDA": {
+                "mechanism": ("NMDA", "stellate"),
+                "parameters": {
+                    "tau_facil": 5,
+                    "tau_rec": 8,
+                    "tau_1": 1,
+                    "gmax": 5000,
+                    "U": 0.15,
+                },
             },
             "GABA": {
-                "tau_facil": 0,
-                "tau_rec": 38.7,
-                "tau_1": 1,
-                "gmax": 3200,
-                "U": 0.42,
-                "Erev": -65,
+                "mechanism": "GABA",
+                "paremeters": {
+                    "tau_facil": 0,
+                    "tau_rec": 38.7,
+                    "tau_1": 1,
+                    "gmax": 3200,
+                    "U": 0.42,
+                    "Erev": -65,
+                },
             },
         },
         "cable_types": {

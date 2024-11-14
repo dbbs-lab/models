@@ -4,26 +4,35 @@ StellateCellModel = define_model(
     {
         "synapse_types": {
             "AMPA": {
-                "tau_facil": 10.8,
-                "tau_rec": 35.1,
-                "tau_1": 10,
-                "gmax": 2300,
-                "U": 0.15,
+                "mechanism": "AMPA",
+                "parameters": {
+                    "tau_facil": 10.8,
+                    "tau_rec": 35.1,
+                    "tau_1": 10,
+                    "gmax": 2300,
+                    "U": 0.15,
+                },
             },
-            ("NMDA", "stellate"): {
-                "tau_facil": 5,
-                "tau_rec": 8,
-                "tau_1": 1,
-                "gmax": 10000,
-                "U": 0.15,
+            "NMDA": {
+                "mechanism": ("NMDA", "stellate"),
+                "parameters": {
+                    "tau_facil": 5,
+                    "tau_rec": 8,
+                    "tau_1": 1,
+                    "gmax": 10000,
+                    "U": 0.15,
+                },
             },
             "GABA": {
-                "tau_facil": 0,
-                "tau_rec": 38.7,
-                "tau_1": 1,
-                "gmax": 3230,
-                "U": 0.42,
-                "Erev": -65,
+                "mechanism": ("GABA"),
+                "parameters": {
+                    "tau_facil": 0,
+                    "tau_rec": 38.7,
+                    "tau_1": 1,
+                    "gmax": 3230,
+                    "U": 0.42,
+                    "Erev": -65,
+                },
             },
         },
         "cable_types": {

@@ -63,7 +63,7 @@ BasketCellModel = define_model(
                 "ions": {"k": {"rev_pot": -80}},
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 1e-05},
-                    "Cav3_2":{"gcabar": 0.00005},
+                    "Cav3_2": {"gcabar": 0.00005},
                     "Cav1_2": {"gbar": 0.0002},
                     "Cav1_3": {"gbar": 5e-06},
                     "Kv4_3": {"gkbar": 0.00987201764943},
@@ -99,11 +99,11 @@ BasketCellModel = define_model(
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 1e-05},
                     "HCN1": {"gbar": 0.001},
-                    "Nav1_6": {"gbar": 0.2}, 
+                    "Nav1_6": {"gbar": 0.2},
                     "Kv1_1": {"gbar": 0.02333516534870},
                     "Kv3_4": {"gkbar": 0.002},
-                    "Kca1_1": {"gbar": 0.01}, 
-                    "Cav2_1": {"pcabar": 2.2e-4 }, 
+                    "Kca1_1": {"gbar": 0.01},
+                    "Cav2_1": {"pcabar": 2.2e-4},
                     "cdp5": {"TotalPump": 1e-09},
                 },
             },

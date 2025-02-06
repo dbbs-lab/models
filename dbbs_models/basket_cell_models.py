@@ -29,7 +29,7 @@ BasketCellModel = define_model(
                     "tau_facil": 0,
                     "tau_rec": 38.7,
                     "tau_1": 1,
-                    "gmax": 3200,
+                    "gmaxA1": 3200,
                     "U": 0.42,
                     "Erev": -65,
                 },
@@ -99,7 +99,7 @@ BasketCellModel = define_model(
                 "mechanisms": {
                     "Leak": {"e": -55, "gmax": 1e-05},
                     "HCN1": {"gbar": 0.001},
-                    "Nav1_6": {"gbar": 0.2},
+                    "Nav1_6": {"gbar": 0.25},
                     "Kv1_1": {"gbar": 0.02333516534870},
                     "Kv3_4": {"gkbar": 0.002},
                     "Kca1_1": {"gbar": 0.01},

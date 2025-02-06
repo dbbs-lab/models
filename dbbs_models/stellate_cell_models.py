@@ -29,7 +29,7 @@ StellateCellModel = define_model(
                     "tau_facil": 0,
                     "tau_rec": 38.7,
                     "tau_1": 1,
-                    "gmax": 3230,
+                    "gmaxA1": 3230,
                     "U": 0.42,
                     "Erev": -65,
                 },

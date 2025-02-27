@@ -47,6 +47,8 @@ GolgiCellModel = define_model(
                     "Erev": -65,
                 },
             },
+            "gap_s": {"mechanism": "gap_junction", "source": "vgap"},
+            "gap": {"mechanism": ("gap_junction", "parallel"), "source": "vgap"},
         },
         "cable_types": {
             "soma": {

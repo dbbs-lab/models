@@ -25,6 +25,13 @@ GolgiCellModel = define_model(
             },
             "AMPA_MF": {
                 "mechanism": ("AMPA", "granule"),
+                "parameters": {
+                    "tau_facil": 8,
+                    "tau_rec": 5,
+                    "tau_1": 1,
+                    "gmax": 1200,
+                    "U": 0.43,
+                },
             },
             "NMDA": {
                 "mechanism": ("NMDA", "stellate"),

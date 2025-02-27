@@ -6,21 +6,21 @@ BasketCellModel = define_model(
             "AMPA": {
                 "mechanism": "AMPA",
                 "parameters": {
-                    "tau_facil": 54,
+                    "tau_facil": 10.8,
                     "tau_rec": 35.1,
-                    "tau_1": 6,
+                    "tau_1": 10,
                     "gmax": 1200,
-                    "U": 0.4,
+                    "U": 0.13,
                 },
             },
             "NMDA": {
                 "mechanism": ("NMDA", "stellate"),
                 "parameters": {
-                    "tau_facil": 5,
-                    "tau_rec": 8,
-                    "tau_1": 1,
+                    "tau_facil": 10.8,
+                    "tau_rec": 35.1,
+                    "tau_1": 10,
                     "gmax": 5000,
-                    "U": 0.15,
+                    "U": 0.13,
                 },
             },
             "GABA": {

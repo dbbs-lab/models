@@ -16,9 +16,9 @@ StellateCellModel = define_model(
             "NMDA": {
                 "mechanism": ("NMDA", "stellate"),
                 "parameters": {
-                    "tau_facil": 5,
-                    "tau_rec": 8,
-                    "tau_1": 1,
+                    "tau_facil": 10.8,
+                    "tau_rec": 35.1,
+                    "tau_1": 10,
                     "gmax": 10000,
                     "U": 0.15,
                 },

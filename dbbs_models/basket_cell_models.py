@@ -25,7 +25,7 @@ BasketCellModel = define_model(
             },
             "GABA": {
                 "mechanism": "GABA",
-                "paremeters": {
+                "parameters": {
                     "tau_facil": 0,
                     "tau_rec": 38.7,
                     "tau_1": 1,

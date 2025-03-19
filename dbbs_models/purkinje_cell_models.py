@@ -24,6 +24,7 @@ PurkinjeCellModel = define_model(
                     "U": 0.35,
                 },
             },
+            "Iext": {"mechanism": "Iext", "parameters": {"amp": 0.00}},
         },
         "cable_types": {
             "soma": {

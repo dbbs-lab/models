@@ -3,37 +3,59 @@ from arborize import define_model
 GolgiCellModel = define_model(
     {
         "synapse_types": {
-            "AMPA": {
-                "tau_facil": 54,
-                "tau_rec": 35.1,
-                "tau_1": 30,
-                "gmax": 1200,
-                "U": 0.4,
+            "AMPA_PF": {
+                "mechanism": "AMPA",
+                "parameters": {
+                    "tau_facil": 54,
+                    "tau_rec": 35.1,
+                    "tau_1": 30,
+                    "gmax": 1200,
+                    "U": 0.4,
+                },
             },
-            "AMPA": {
-                "tau_facil": 54,
-                "tau_rec": 35.1,
-                "tau_1": 30,
-                "gmax": 1200,
-                "U": 0.4,
+            "AMPA_AA": {
+                "mechanism": "AMPA",
+                "parameters": {
+                    "tau_facil": 54,
+                    "tau_rec": 35.1,
+                    "tau_1": 30,
+                    "gmax": 1200,
+                    "U": 0.4,
+                },
             },
-            ("NMDA", "stellate"): {
-                "tau_facil": 5,
-                "tau_rec": 8,
-                "tau_1": 1,
-                "gmax": 10000,
-                "U": 0.43,
+            "AMPA_MF": {
+                "mechanism": ("AMPA", "granule"),
+                "parameters": {
+                    "tau_facil": 8,
+                    "tau_rec": 5,
+                    "tau_1": 1,
+                    "gmax": 1200,
+                    "U": 0.43,
+                },
+            },
+            "NMDA": {
+                "mechanism": ("NMDA", "stellate"),
+                "parameters": {
+                    "tau_facil": 5,
+                    "tau_rec": 8,
+                    "tau_1": 1,
+                    "gmax": 10000,
+                    "U": 0.43,
+                },
             },
             "GABA": {
-                "tau_facil": 0,
-                "tau_rec": 38.7,
-                "tau_1": 1,
-                "gmax": 3200,
-                "U": 0.42,
-                "Erev": -65,
+                "mechanism": "GABA",
+                "parameters": {
+                    "tau_facil": 0,
+                    "tau_rec": 38.7,
+                    "tau_1": 1,
+                    "gmaxA1": 3200,
+                    "U": 0.42,
+                    "Erev": -65,
+                },
             },
-            # "gap_s": {"point_process": "gap_junction", "source": "vgap"},
-            # "gap": {"point_process": ("gap_junction", "parallel"), "source": "vgap"},
+            "gap_s": {"mechanism": "gap_junction", "source": "vgap"},
+            "gap": {"mechanism": ("gap_junction", "parallel"), "source": "vgap"},
         },
         "cable_types": {
             "soma": {
@@ -72,6 +94,52 @@ GolgiCellModel = define_model(
                     "Ca": {"gcabar": 0.00139885617712},
                     ("cdp5", "CAM_GoC"): {"TotalPump": 2e-09},
                 },
+                "synapses": {
+                    "AMPA_PF": {
+                        "mechanism": "AMPA",
+                        "parameters": {
+                            "tau_facil": 54,
+                            "tau_rec": 35.1,
+                            "tau_1": 30,
+                            "gmax": 1200,
+                            "U": 0.4,
+                        },
+                    },
+                    "AMPA_AA": {
+                        "mechanism": "AMPA",
+                        "parameters": {
+                            "tau_facil": 54,
+                            "tau_rec": 35.1,
+                            "tau_1": 30,
+                            "gmax": 1200,
+                            "U": 0.4,
+                        },
+                    },
+                    "AMPA_MF": {
+                        "mechanism": ("AMPA", "granule"),
+                    },
+                    "NMDA": {
+                        "mechanism": ("NMDA", "stellate"),
+                        "parameters": {
+                            "tau_facil": 5,
+                            "tau_rec": 8,
+                            "tau_1": 1,
+                            "gmax": 10000,
+                            "U": 0.43,
+                        },
+                    },
+                    "GABA": {
+                        "mechanism": "GABA",
+                        "parameters": {
+                            "tau_facil": 0,
+                            "tau_rec": 38.7,
+                            "tau_1": 1,
+                            "gmaxA1": 3200,
+                            "U": 0.42,
+                            "Erev": -65,
+                        },
+                    },
+                },
             },
             "apical_dendrites": {
                 "cable": {"Ra": 122, "cm": 2.5},
@@ -88,6 +156,18 @@ GolgiCellModel = define_model(
                     "Cav2_3": {"gcabar": 0.00128859564935},
                     "Cav3_1": {"pcabar": 3.690771983e-05},
                     ("cdp5", "CAM_GoC"): {"TotalPump": 5e-09},
+                },
+                "synapses": {
+                    "AMPA_PF": {
+                        "mechanism": "AMPA",
+                        "parameters": {
+                            "tau_facil": 54,
+                            "tau_rec": 35.1,
+                            "tau_1": 30,
+                            "gmax": 1200,
+                            "U": 0.4,
+                        },
+                    },
                 },
             },
             "axon": {

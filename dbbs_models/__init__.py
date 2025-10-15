@@ -3,7 +3,7 @@ Collection of single cell models for the Arbor and NEURON simulators of the cere
 cortex. Maintained by the Department of Brain and Behavioral Sciences of Pavia.
 """
 
-__version__ = "4.0.0"
+__version__ = "6.0.0"
 
 from .basket_cell_models import BasketCellModel
 from .golgi_cell_models import GolgiCellModel

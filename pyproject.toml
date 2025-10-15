@@ -10,12 +10,12 @@ license = {file = "LICENSE"}
 classifiers = ["License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"]
 dynamic = ["version", "description"]
 dependencies = [
-    "arborize[neuron]~=4.0",
-    "dbbs-catalogue~=4.0",
+    "arborize[neuron]~=6.0",
+    "dbbs-catalogue~=6.0",
 ]
 
 [project.optional-dependencies]
-test = ["coverage~=7.0"]
+test = ["coverage~=7.3"]
 
 [project.urls]
 Home = "https://github.com/dbbs-lab/models"
@@ -24,7 +24,7 @@ Home = "https://github.com/dbbs-lab/models"
 name = "dbbs_models"
 
 [tool.bumpversion]
-current_version = "4.0.0"
+current_version = "6.0.0"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"

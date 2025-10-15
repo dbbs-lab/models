@@ -5,7 +5,6 @@ from numpy.random import default_rng
 from patch import p
 
 
-@unittest.skip("No test suite")
 class TestGranule(unittest.TestCase):
     # setUp = setups.SingleCell(dbbs_models.GranuleCell)
     # test_soma_current = protocols.CurrentClamp(dur=500, skip=100, freq=15.0)
